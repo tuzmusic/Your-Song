@@ -27,10 +27,6 @@
 		768235EA1E856FF7006186D7 /* Realm Object Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235E71E856FF7006186D7 /* Realm Object Classes.swift */; };
 		768235EC1E85701C006186D7 /* SongsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235EB1E85701C006186D7 /* SongsTableViewController.swift */; };
 		768235EE1E857044006186D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235ED1E857044006186D7 /* Main.storyboard */; };
-		768235F01E857104006186D7 /* SongImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235EF1E857104006186D7 /* SongImporter.swift */; };
-		768235F31E85E6BD006186D7 /* Artist old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235F21E85E6BD006186D7 /* Artist old.swift */; };
-		768235F51E85E99B006186D7 /* Genre old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235F41E85E99B006186D7 /* Genre old.swift */; };
-		768235F71E85E9F0006186D7 /* Song old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235F61E85E9F0006186D7 /* Song old.swift */; };
 		76ACB9B41E9A556B00923D6F /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ACB9B11E9A556B00923D6F /* Song.swift */; };
 		76ACB9B51E9A556B00923D6F /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ACB9B21E9A556B00923D6F /* Genre.swift */; };
 		76ACB9B61E9A556B00923D6F /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ACB9B31E9A556B00923D6F /* Artist.swift */; };
@@ -84,10 +80,6 @@
 		768235E71E856FF7006186D7 /* Realm Object Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm Object Classes.swift"; sourceTree = "<group>"; };
 		768235EB1E85701C006186D7 /* SongsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongsTableViewController.swift; sourceTree = "<group>"; };
 		768235ED1E857044006186D7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		768235EF1E857104006186D7 /* SongImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongImporter.swift; sourceTree = "<group>"; };
-		768235F21E85E6BD006186D7 /* Artist old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Artist old.swift"; sourceTree = "<group>"; };
-		768235F41E85E99B006186D7 /* Genre old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Genre old.swift"; sourceTree = "<group>"; };
-		768235F61E85E9F0006186D7 /* Song old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Song old.swift"; sourceTree = "<group>"; };
 		76ACB9A61E95465300923D6F /* BebasNeue Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Bold.ttf"; sourceTree = "<group>"; };
 		76ACB9A71E95465300923D6F /* BebasNeue Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Book.ttf"; sourceTree = "<group>"; };
 		76ACB9A81E95465300923D6F /* BebasNeue Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Light.ttf"; sourceTree = "<group>"; };
@@ -144,10 +136,9 @@
 			isa = PBXGroup;
 			children = (
 				768235DA1E856FAA006186D7 /* Browser */,
-				768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */,
+				76ACB9B71E9A561A00923D6F /* Requests */,
 				768235ED1E857044006186D7 /* Main.storyboard */,
 				768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */,
-				768235F11E85E6A9006186D7 /* Realm Object Classes */,
 			);
 			path = "Your Song";
 			sourceTree = "<group>";
@@ -179,13 +170,7 @@
 		768235DA1E856FAA006186D7 /* Browser */ = {
 			isa = PBXGroup;
 			children = (
-				768235EF1E857104006186D7 /* SongImporter.swift */,
-				768235DF1E856FBD006186D7 /* MasterTabBarController.swift */,
-				768235DC1E856FBD006186D7 /* BrowserTableViewController.swift */,
-				768235DD1E856FBD006186D7 /* CategoriesTableViewController.swift */,
-				768235EB1E85701C006186D7 /* SongsTableViewController.swift */,
-				768235DB1E856FBD006186D7 /* ArtistsTableViewController.swift */,
-				768235DE1E856FBD006186D7 /* GenresTableViewController.swift */,
+				76ACB9B81E9A563200923D6F /* View Controllers */,
 				76ACB9AF1E9A552400923D6F /* Realm Object Classes */,
 			);
 			name = Browser;
@@ -194,7 +179,7 @@
 		768235F11E85E6A9006186D7 /* Realm Object Classes */ = {
 			isa = PBXGroup;
 			children = (
-				76ACB9AE1E9A551600923D6F /* Requests */,
+				768235E71E856FF7006186D7 /* Realm Object Classes.swift */,
 			);
 			name = "Realm Object Classes";
 			sourceTree = "<group>";
@@ -212,14 +197,6 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
-		76ACB9AE1E9A551600923D6F /* Requests */ = {
-			isa = PBXGroup;
-			children = (
-				768235E71E856FF7006186D7 /* Realm Object Classes.swift */,
-			);
-			name = Requests;
-			sourceTree = "<group>";
-		};
 		76ACB9AF1E9A552400923D6F /* Realm Object Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,11 +211,30 @@
 		76ACB9B01E9A554F00923D6F /* old */ = {
 			isa = PBXGroup;
 			children = (
-				768235F61E85E9F0006186D7 /* Song old.swift */,
-				768235F21E85E6BD006186D7 /* Artist old.swift */,
-				768235F41E85E99B006186D7 /* Genre old.swift */,
 			);
 			name = old;
+			sourceTree = "<group>";
+		};
+		76ACB9B71E9A561A00923D6F /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				768235F11E85E6A9006186D7 /* Realm Object Classes */,
+				768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */,
+			);
+			name = Requests;
+			sourceTree = "<group>";
+		};
+		76ACB9B81E9A563200923D6F /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				768235DF1E856FBD006186D7 /* MasterTabBarController.swift */,
+				768235DC1E856FBD006186D7 /* BrowserTableViewController.swift */,
+				768235DD1E856FBD006186D7 /* CategoriesTableViewController.swift */,
+				768235EB1E85701C006186D7 /* SongsTableViewController.swift */,
+				768235DB1E856FBD006186D7 /* ArtistsTableViewController.swift */,
+				768235DE1E856FBD006186D7 /* GenresTableViewController.swift */,
+			);
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -349,19 +345,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				768235F71E85E9F0006186D7 /* Song old.swift in Sources */,
-				768235F01E857104006186D7 /* SongImporter.swift in Sources */,
 				768235EA1E856FF7006186D7 /* Realm Object Classes.swift in Sources */,
 				768235E11E856FBD006186D7 /* BrowserTableViewController.swift in Sources */,
 				768235E91E856FF7006186D7 /* Globals, Extensions, Etc.swift in Sources */,
 				768235E81E856FF7006186D7 /* CreateRequestTableViewController.swift in Sources */,
 				768235E01E856FBD006186D7 /* ArtistsTableViewController.swift in Sources */,
 				76ACB9B51E9A556B00923D6F /* Genre.swift in Sources */,
-				768235F31E85E6BD006186D7 /* Artist old.swift in Sources */,
 				768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */,
 				76ACB9B41E9A556B00923D6F /* Song.swift in Sources */,
 				768235E21E856FBD006186D7 /* CategoriesTableViewController.swift in Sources */,
-				768235F51E85E99B006186D7 /* Genre old.swift in Sources */,
 				768235E31E856FBD006186D7 /* GenresTableViewController.swift in Sources */,
 				76ACB9B61E9A556B00923D6F /* Artist.swift in Sources */,
 				768235EC1E85701C006186D7 /* SongsTableViewController.swift in Sources */,

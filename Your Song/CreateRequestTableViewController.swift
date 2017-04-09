@@ -139,7 +139,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		setupOnlineRequestRealm()
+		// setupOnlineRequestRealm()
 		// The problem appears to be here. Leaving the song picker resets request to nil
 		if request == nil {
 			request = Request()
