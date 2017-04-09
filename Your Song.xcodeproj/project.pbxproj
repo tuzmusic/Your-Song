@@ -7,12 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		761927EF1E8EBFC900F03E23 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761927ED1E8EBFC900F03E23 /* Realm.framework */; };
+		761927F01E8EBFC900F03E23 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 761927ED1E8EBFC900F03E23 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		761927F11E8EBFC900F03E23 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761927EE1E8EBFC900F03E23 /* RealmSwift.framework */; };
+		761927F21E8EBFC900F03E23 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 761927EE1E8EBFC900F03E23 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235AE1E856ECF006186D7 /* AppDelegate.swift */; };
-		768235B11E856ECF006186D7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235B01E856ECF006186D7 /* ViewController.swift */; };
-		768235B41E856ED0006186D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235B21E856ED0006186D7 /* Main.storyboard */; };
 		768235B61E856ED0006186D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 768235B51E856ED0006186D7 /* Assets.xcassets */; };
 		768235B91E856ED0006186D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235B71E856ED0006186D7 /* LaunchScreen.storyboard */; };
 		768235C41E856ED0006186D7 /* Your_SongTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235C31E856ED0006186D7 /* Your_SongTests.swift */; };
+		768235D71E856F57006186D7 /* song list 1.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 768235D61E856F57006186D7 /* song list 1.tsv */; };
+		768235D91E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png in Resources */ = {isa = PBXBuildFile; fileRef = 768235D81E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png */; };
+		768235E01E856FBD006186D7 /* ArtistsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235DB1E856FBD006186D7 /* ArtistsTableViewController.swift */; };
+		768235E11E856FBD006186D7 /* BrowserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235DC1E856FBD006186D7 /* BrowserTableViewController.swift */; };
+		768235E21E856FBD006186D7 /* CategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235DD1E856FBD006186D7 /* CategoriesTableViewController.swift */; };
+		768235E31E856FBD006186D7 /* GenresTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235DE1E856FBD006186D7 /* GenresTableViewController.swift */; };
+		768235E41E856FBD006186D7 /* MasterTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235DF1E856FBD006186D7 /* MasterTabBarController.swift */; };
+		768235E81E856FF7006186D7 /* CreateRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */; };
+		768235E91E856FF7006186D7 /* Globals, Extensions, Etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */; };
+		768235EA1E856FF7006186D7 /* Realm Object Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235E71E856FF7006186D7 /* Realm Object Classes.swift */; };
+		768235EC1E85701C006186D7 /* SongsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235EB1E85701C006186D7 /* SongsTableViewController.swift */; };
+		768235EE1E857044006186D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235ED1E857044006186D7 /* Main.storyboard */; };
+		768235F01E857104006186D7 /* SongImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235EF1E857104006186D7 /* SongImporter.swift */; };
+		768235F31E85E6BD006186D7 /* Artist old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235F21E85E6BD006186D7 /* Artist old.swift */; };
+		768235F51E85E99B006186D7 /* Genre old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235F41E85E99B006186D7 /* Genre old.swift */; };
+		768235F71E85E9F0006186D7 /* Song old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235F61E85E9F0006186D7 /* Song old.swift */; };
+		76ACB9B41E9A556B00923D6F /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ACB9B11E9A556B00923D6F /* Song.swift */; };
+		76ACB9B51E9A556B00923D6F /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ACB9B21E9A556B00923D6F /* Genre.swift */; };
+		76ACB9B61E9A556B00923D6F /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ACB9B31E9A556B00923D6F /* Artist.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,17 +46,57 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		768235D41E856F0B006186D7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				761927F21E8EBFC900F03E23 /* RealmSwift.framework in Embed Frameworks */,
+				761927F01E8EBFC900F03E23 /* Realm.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		761927ED1E8EBFC900F03E23 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		761927EE1E8EBFC900F03E23 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		768235AB1E856ECF006186D7 /* Your Song.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Your Song.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		768235AE1E856ECF006186D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		768235B01E856ECF006186D7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		768235B31E856ED0006186D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		768235B51E856ED0006186D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		768235B81E856ED0006186D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		768235BA1E856ED0006186D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		768235BF1E856ED0006186D7 /* Your SongTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Your SongTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		768235C31E856ED0006186D7 /* Your_SongTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Your_SongTests.swift; sourceTree = "<group>"; };
 		768235C51E856ED0006186D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		768235D61E856F57006186D7 /* song list 1.tsv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "song list 1.tsv"; sourceTree = "<group>"; };
+		768235D81E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "your-piano-bar-blank piano only tab bar item size.png"; sourceTree = "<group>"; };
+		768235DB1E856FBD006186D7 /* ArtistsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistsTableViewController.swift; sourceTree = "<group>"; };
+		768235DC1E856FBD006186D7 /* BrowserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserTableViewController.swift; sourceTree = "<group>"; };
+		768235DD1E856FBD006186D7 /* CategoriesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewController.swift; sourceTree = "<group>"; };
+		768235DE1E856FBD006186D7 /* GenresTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenresTableViewController.swift; sourceTree = "<group>"; };
+		768235DF1E856FBD006186D7 /* MasterTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterTabBarController.swift; sourceTree = "<group>"; };
+		768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateRequestTableViewController.swift; sourceTree = "<group>"; };
+		768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Globals, Extensions, Etc.swift"; sourceTree = "<group>"; };
+		768235E71E856FF7006186D7 /* Realm Object Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm Object Classes.swift"; sourceTree = "<group>"; };
+		768235EB1E85701C006186D7 /* SongsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongsTableViewController.swift; sourceTree = "<group>"; };
+		768235ED1E857044006186D7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		768235EF1E857104006186D7 /* SongImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongImporter.swift; sourceTree = "<group>"; };
+		768235F21E85E6BD006186D7 /* Artist old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Artist old.swift"; sourceTree = "<group>"; };
+		768235F41E85E99B006186D7 /* Genre old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Genre old.swift"; sourceTree = "<group>"; };
+		768235F61E85E9F0006186D7 /* Song old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Song old.swift"; sourceTree = "<group>"; };
+		76ACB9A61E95465300923D6F /* BebasNeue Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Bold.ttf"; sourceTree = "<group>"; };
+		76ACB9A71E95465300923D6F /* BebasNeue Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Book.ttf"; sourceTree = "<group>"; };
+		76ACB9A81E95465300923D6F /* BebasNeue Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Light.ttf"; sourceTree = "<group>"; };
+		76ACB9A91E95465300923D6F /* BebasNeue Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Regular.ttf"; sourceTree = "<group>"; };
+		76ACB9AA1E95465300923D6F /* BebasNeue Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Thin.ttf"; sourceTree = "<group>"; };
+		76ACB9AB1E95982A00923D6F /* Bebas.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bebas.TTF; sourceTree = "<group>"; };
+		76ACB9B11E9A556B00923D6F /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		76ACB9B21E9A556B00923D6F /* Genre.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
+		76ACB9B31E9A556B00923D6F /* Artist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +104,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				761927F11E8EBFC900F03E23 /* RealmSwift.framework in Frameworks */,
+				761927EF1E8EBFC900F03E23 /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +122,10 @@
 		768235A21E856ECF006186D7 = {
 			isa = PBXGroup;
 			children = (
+				761927ED1E8EBFC900F03E23 /* Realm.framework */,
+				761927EE1E8EBFC900F03E23 /* RealmSwift.framework */,
 				768235AD1E856ECF006186D7 /* Your Song */,
+				768235D51E856F2F006186D7 /* Supporting Files */,
 				768235C21E856ED0006186D7 /* Your SongTests */,
 				768235AC1E856ECF006186D7 /* Products */,
 			);
@@ -77,12 +143,11 @@
 		768235AD1E856ECF006186D7 /* Your Song */ = {
 			isa = PBXGroup;
 			children = (
-				768235AE1E856ECF006186D7 /* AppDelegate.swift */,
-				768235B01E856ECF006186D7 /* ViewController.swift */,
-				768235B21E856ED0006186D7 /* Main.storyboard */,
-				768235B51E856ED0006186D7 /* Assets.xcassets */,
-				768235B71E856ED0006186D7 /* LaunchScreen.storyboard */,
-				768235BA1E856ED0006186D7 /* Info.plist */,
+				768235DA1E856FAA006186D7 /* Browser */,
+				768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */,
+				768235ED1E857044006186D7 /* Main.storyboard */,
+				768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */,
+				768235F11E85E6A9006186D7 /* Realm Object Classes */,
 			);
 			path = "Your Song";
 			sourceTree = "<group>";
@@ -96,6 +161,86 @@
 			path = "Your SongTests";
 			sourceTree = "<group>";
 		};
+		768235D51E856F2F006186D7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				76ACB9A51E95464700923D6F /* Fonts */,
+				768235D61E856F57006186D7 /* song list 1.tsv */,
+				768235AE1E856ECF006186D7 /* AppDelegate.swift */,
+				768235D81E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png */,
+				768235B51E856ED0006186D7 /* Assets.xcassets */,
+				768235B71E856ED0006186D7 /* LaunchScreen.storyboard */,
+				768235BA1E856ED0006186D7 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			path = "Your Song";
+			sourceTree = "<group>";
+		};
+		768235DA1E856FAA006186D7 /* Browser */ = {
+			isa = PBXGroup;
+			children = (
+				768235EF1E857104006186D7 /* SongImporter.swift */,
+				768235DF1E856FBD006186D7 /* MasterTabBarController.swift */,
+				768235DC1E856FBD006186D7 /* BrowserTableViewController.swift */,
+				768235DD1E856FBD006186D7 /* CategoriesTableViewController.swift */,
+				768235EB1E85701C006186D7 /* SongsTableViewController.swift */,
+				768235DB1E856FBD006186D7 /* ArtistsTableViewController.swift */,
+				768235DE1E856FBD006186D7 /* GenresTableViewController.swift */,
+				76ACB9AF1E9A552400923D6F /* Realm Object Classes */,
+			);
+			name = Browser;
+			sourceTree = "<group>";
+		};
+		768235F11E85E6A9006186D7 /* Realm Object Classes */ = {
+			isa = PBXGroup;
+			children = (
+				76ACB9AE1E9A551600923D6F /* Requests */,
+			);
+			name = "Realm Object Classes";
+			sourceTree = "<group>";
+		};
+		76ACB9A51E95464700923D6F /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				76ACB9AB1E95982A00923D6F /* Bebas.TTF */,
+				76ACB9A61E95465300923D6F /* BebasNeue Bold.ttf */,
+				76ACB9A71E95465300923D6F /* BebasNeue Book.ttf */,
+				76ACB9A81E95465300923D6F /* BebasNeue Light.ttf */,
+				76ACB9A91E95465300923D6F /* BebasNeue Regular.ttf */,
+				76ACB9AA1E95465300923D6F /* BebasNeue Thin.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		76ACB9AE1E9A551600923D6F /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				768235E71E856FF7006186D7 /* Realm Object Classes.swift */,
+			);
+			name = Requests;
+			sourceTree = "<group>";
+		};
+		76ACB9AF1E9A552400923D6F /* Realm Object Classes */ = {
+			isa = PBXGroup;
+			children = (
+				76ACB9B11E9A556B00923D6F /* Song.swift */,
+				76ACB9B21E9A556B00923D6F /* Genre.swift */,
+				76ACB9B31E9A556B00923D6F /* Artist.swift */,
+				76ACB9B01E9A554F00923D6F /* old */,
+			);
+			name = "Realm Object Classes";
+			sourceTree = "<group>";
+		};
+		76ACB9B01E9A554F00923D6F /* old */ = {
+			isa = PBXGroup;
+			children = (
+				768235F61E85E9F0006186D7 /* Song old.swift */,
+				768235F21E85E6BD006186D7 /* Artist old.swift */,
+				768235F41E85E99B006186D7 /* Genre old.swift */,
+			);
+			name = old;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -106,6 +251,7 @@
 				768235A71E856ECF006186D7 /* Sources */,
 				768235A81E856ECF006186D7 /* Frameworks */,
 				768235A91E856ECF006186D7 /* Resources */,
+				768235D41E856F0B006186D7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -182,8 +328,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				768235B91E856ED0006186D7 /* LaunchScreen.storyboard in Resources */,
+				768235EE1E857044006186D7 /* Main.storyboard in Resources */,
 				768235B61E856ED0006186D7 /* Assets.xcassets in Resources */,
-				768235B41E856ED0006186D7 /* Main.storyboard in Resources */,
+				768235D91E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png in Resources */,
+				768235D71E856F57006186D7 /* song list 1.tsv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,8 +349,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				768235B11E856ECF006186D7 /* ViewController.swift in Sources */,
+				768235F71E85E9F0006186D7 /* Song old.swift in Sources */,
+				768235F01E857104006186D7 /* SongImporter.swift in Sources */,
+				768235EA1E856FF7006186D7 /* Realm Object Classes.swift in Sources */,
+				768235E11E856FBD006186D7 /* BrowserTableViewController.swift in Sources */,
+				768235E91E856FF7006186D7 /* Globals, Extensions, Etc.swift in Sources */,
+				768235E81E856FF7006186D7 /* CreateRequestTableViewController.swift in Sources */,
+				768235E01E856FBD006186D7 /* ArtistsTableViewController.swift in Sources */,
+				76ACB9B51E9A556B00923D6F /* Genre.swift in Sources */,
+				768235F31E85E6BD006186D7 /* Artist old.swift in Sources */,
 				768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */,
+				76ACB9B41E9A556B00923D6F /* Song.swift in Sources */,
+				768235E21E856FBD006186D7 /* CategoriesTableViewController.swift in Sources */,
+				768235F51E85E99B006186D7 /* Genre old.swift in Sources */,
+				768235E31E856FBD006186D7 /* GenresTableViewController.swift in Sources */,
+				76ACB9B61E9A556B00923D6F /* Artist.swift in Sources */,
+				768235EC1E85701C006186D7 /* SongsTableViewController.swift in Sources */,
+				768235E41E856FBD006186D7 /* MasterTabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,14 +388,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		768235B21E856ED0006186D7 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				768235B31E856ED0006186D7 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		768235B71E856ED0006186D7 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -340,6 +495,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MS76ZC84AE;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Your Song/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "TuzMusic.Your-Song";
@@ -353,6 +512,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MS76ZC84AE;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Your Song/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "TuzMusic.Your-Song";
@@ -410,6 +573,7 @@
 				768235CA1E856ED0006186D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		768235CB1E856ED0006186D7 /* Build configuration list for PBXNativeTarget "Your SongTests" */ = {
 			isa = XCConfigurationList;
@@ -418,6 +582,7 @@
 				768235CD1E856ED0006186D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
