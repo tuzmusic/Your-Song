@@ -10,7 +10,11 @@ import UIKit
 
 class BrowserTableViewController: UITableViewController, UISearchResultsUpdating {
 	
-	var songs = [Song]()
+	var songs = [Song]() {
+		didSet {
+			tableView.reloadData()
+		}
+	}
 	var category = String()
 	
 	func orderedSet(for tag: String, in songs: [Song]) -> [String] {
