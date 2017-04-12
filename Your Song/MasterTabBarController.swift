@@ -11,15 +11,8 @@ import RealmSwift
 
 class MasterTabBarController: UITabBarController {
 	
-	//var importer = SongImporter()
-	var fileName: String! = "song list 1"
-	var songs = [Song]()
-	var headers = [String]()
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		//songs = importer.getSongsFromFile(named: fileName)
-		if let songs = getSongsFromOnlineRealm() {
+	var songs = [Song]() {
+		didSet {
 			for vc in self.viewControllers! {
 				if let browser = vc as? BrowserTableViewController {
 					browser.songs = songs
@@ -28,9 +21,58 @@ class MasterTabBarController: UITabBarController {
 		}
 	}
 	
+	var songsOnlineRealm: Realm? {
+		didSet {
+			if let onlineSongs = songsOnlineRealm?.objects(Song.self).sorted(byKeyPath: "title") {
+				songs = Array(onlineSongs)
+			}
+		}
+	}
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		//songs = importer.getSongsFromFile(named: fileName)
+		setupOnlineRealm()
+		if let onlineSongs = getSongsFromOnlineRealm() {
+			songs = onlineSongs
+			for vc in self.viewControllers! {
+				if let browser = vc as? BrowserTableViewController {
+					browser.songs = songs
+				}
+			}
+		}
+	}	
+
+	func setupOnlineRealm() {
+		let username = "tuzmusic@gmail.com"
+		let password = "***REMOVED***"
+		let localHTTP = URL(string:"http://54.208.237.32:9080")!
+		
+		SyncUser.logIn(with: .usernamePassword(username: username, password: password), server: localHTTP) {
+			
+			// Log in the user
+			user, error in
+			guard let user = user else {
+				print(String(describing: error!)); return }
+			print("Initial login successful")
+			
+			DispatchQueue.main.async {
+				// Open the online Realm
+				let realmAddress = URL(string:"realm://54.208.237.32:9080/~/YourPianoBar/JonathanTuzman/")!
+				let syncConfig = SyncConfiguration (user: user, realmURL: realmAddress)
+				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
+				
+				do {
+					self.songsOnlineRealm = try Realm(configuration: configuration)
+				} catch {
+					print(error)
+				}
+			}
+		}
+	}
+	
 	func getSongsFromOnlineRealm() -> [Song]? {
 		
-		var songsOnlineRealm: Realm?
 		func setupOnlineRealm() {
 			let username = "tuzmusic@gmail.com"
 			let password = "***REMOVED***"
@@ -46,12 +88,13 @@ class MasterTabBarController: UITabBarController {
 				
 				DispatchQueue.main.async {
 					// Open the online Realm
-					let realmAddress = URL(string:"realm://54.208.237.32:9080/~/yourPianoBarSongs/JonathanTuzman/")!
+					// let realmAddress = URL(string:"realm://54.208.237.32:9080/~/yourPianoBarSongs/JonathanTuzman/")!
+					let realmAddress = URL(string:"realm://54.208.237.32:9080/~/YourPianoBar/JonathanTuzman/")!
 					let syncConfig = SyncConfiguration (user: user, realmURL: realmAddress)
 					let configuration = Realm.Configuration(syncConfiguration: syncConfig)
 					
 					do {
-						songsOnlineRealm = try Realm(configuration: configuration)
+						self.songsOnlineRealm = try Realm(configuration: configuration)
 					} catch {
 						print(error)
 					}

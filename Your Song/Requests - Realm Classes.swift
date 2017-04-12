@@ -9,15 +9,11 @@
 import Foundation
 import RealmSwift
 
-// Request objects
-
-
 final class Request: Object {
 	dynamic var user: YpbUser?
 	dynamic var userString: String = ""
 	dynamic var songString: String = ""
-//	dynamic var songObject: Request?
-		dynamic var songObject: Song?
+	dynamic var songObject: Request?
 	dynamic var notes: String = ""
 	dynamic var date = Date()
 	var tip: Double?
