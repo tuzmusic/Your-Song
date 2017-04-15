@@ -45,7 +45,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	}
 	
 	override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
+		return nil
 		// Set text for section header
 		var string = ""
 		switch section {

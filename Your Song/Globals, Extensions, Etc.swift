@@ -11,6 +11,8 @@ import UIKit
 
 //typealias Song = [String:String]
 
+let defaultsKey = "Your Piano Bar - Jonathan Tuzman - Songs"
+
 struct Storyboard {
 	static let CategorySegue = "Category Segue"
 	static let SongSegue = "Songs Segue"

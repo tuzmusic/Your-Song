@@ -12,16 +12,6 @@ import RealmSwift
 final class Artist: Object {
 	dynamic var name = ""
 	let songs = LinkingObjects(fromType: Song.self, property: "artist")
-
-	override static func primaryKey() -> String? {
-		return "name"
-	}
-	
-	static func newArtist(named name: String) -> Artist {
-		let newArtist = Artist()
-		newArtist.name = name
-		return newArtist
-	}
 }
 
 
