@@ -62,7 +62,7 @@ class MasterTabBarController: UITabBarController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		setupOnlineRealm()
+		//setupOnlineRealm()
 	}
 	
 	func setupOnlineRealm() {

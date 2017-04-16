@@ -33,6 +33,7 @@
 		76F638311EA102B4001BBFB1 /* SongImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638301EA102B4001BBFB1 /* SongImporter.swift */; };
 		76F638331EA102BA001BBFB1 /* song list 2.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 76F638321EA102BA001BBFB1 /* song list 2.tsv */; };
 		76F638381EA221AA001BBFB1 /* SongsTableViewController-NEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638371EA221AA001BBFB1 /* SongsTableViewController-NEW.swift */; };
+		76F6383A1EA223EC001BBFB1 /* RealmSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638391EA223EC001BBFB1 /* RealmSetup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		76F638301EA102B4001BBFB1 /* SongImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongImporter.swift; sourceTree = "<group>"; };
 		76F638321EA102BA001BBFB1 /* song list 2.tsv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "song list 2.tsv"; sourceTree = "<group>"; };
 		76F638371EA221AA001BBFB1 /* SongsTableViewController-NEW.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongsTableViewController-NEW.swift"; sourceTree = "<group>"; };
+		76F638391EA223EC001BBFB1 /* RealmSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSetup.swift; sourceTree = "<group>"; };
 		83DF17F54E8055D173B70A1D /* Pods-Your SongTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Your SongTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Your SongTests/Pods-Your SongTests.release.xcconfig"; sourceTree = "<group>"; };
 		87D87E3028E95717BDF05199 /* Pods-Your SongTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Your SongTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Your SongTests/Pods-Your SongTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8ED8B60A8FAE82ADC3497484 /* Pods-Your Song.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Your Song.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Your Song/Pods-Your Song.debug.xcconfig"; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 			children = (
 				76F638341EA102DF001BBFB1 /* Importer */,
 				76ACB9B81E9A563200923D6F /* View Controllers */,
+				76F638391EA223EC001BBFB1 /* RealmSetup.swift */,
 			);
 			name = Browser;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 				76F638311EA102B4001BBFB1 /* SongImporter.swift in Sources */,
 				768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */,
 				76F6382D1E9FD476001BBFB1 /* GenresTableViewController-NEW.swift in Sources */,
+				76F6383A1EA223EC001BBFB1 /* RealmSetup.swift in Sources */,
 				768235E21E856FBD006186D7 /* CategoriesTableViewController.swift in Sources */,
 				768235E31E856FBD006186D7 /* GenresTableViewController.swift in Sources */,
 				768235EC1E85701C006186D7 /* SongsTableViewController.swift in Sources */,
