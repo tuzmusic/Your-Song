@@ -8,10 +8,15 @@
 
 import Foundation
 import UIKit
-
-//typealias Song = [String:String]
+import RealmSwift
 
 let defaultsKey = "Your Piano Bar - Jonathan Tuzman - Songs"
+var globalRealm: Realm!
+var globalConfig: Realm.Configuration!
+
+func pr(_ thing: Any) {
+	print("\n***\n\(String(describing: thing))\n***\n")
+}
 
 struct Storyboard {
 	static let CategorySegue = "Category Segue"

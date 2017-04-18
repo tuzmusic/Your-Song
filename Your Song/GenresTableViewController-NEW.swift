@@ -13,47 +13,7 @@ import RealmSwift
 class GenresTableViewController_NEW: RealmSearchViewController {
 	
 	var selectedGenre: Genre!
-	var genreName: String?
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		//realmConfiguration = RealmSetup().setupConfig
-		
-		// Set the realm configuration
-		
-		let username = "tuzmusic@gmail.com"
-		let password = "***REMOVED***"
-		let localHTTP = URL(string:"http://54.208.237.32:9080")!
-		
-		func importSongs() {
-			let importer = SongImporter()
-			let fileName = "song list 2"
-			if let songData = importer.getSongDataFromTSVFile(named: fileName) {
-				importer.writeSongsToLocalRealm(songData: songData)
-			}
-		}
-		
-		SyncUser.logIn(with: .usernamePassword(username: username, password: password), server: localHTTP) {
-			
-			// Log in the user. If not, use local Realm config. If unable, return nil.
-			user, error in
-			guard let user = user else {
-				print("Could not access server. Using local Realm.")
-				importSongs()
-				self.realmConfiguration = Realm.Configuration.defaultConfiguration
-				return
-			}
-			
-			DispatchQueue.main.async {
-				// Open the online Realm
-				let realmAddress = URL(string:"realm://54.208.237.32:9080/YourPianoBar/JonathanTuzman/")!
-				let syncConfig = SyncConfiguration (user: user, realmURL: realmAddress)
-				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
-				self.realmConfiguration = configuration
-			}
-		}
-		
-	}
+	var genreName: String?		
 	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 		
@@ -71,9 +31,11 @@ class GenresTableViewController_NEW: RealmSearchViewController {
 			let genreName = (sender as? UITableViewCell)?.textLabel?.text
 		{
 			selectedGenre = realm.objects(Genre.self).filter("name = %@", genreName).first
+			pr(selectedGenre)
 			// How to pass artist.songs instead of the destination VC having to look it up itself?
-			artistsVC.basePredicate = NSPredicate(format: "name =  %@", selectedGenre.name)
-			artistsVC.genreForArtists = selectedGenre			
+			artistsVC.genreForArtists = selectedGenre
+			//artistsVC.basePredicate = NSPredicate(format: "self in %@", artistsVC.artistsInGenre)
+			artistsVC.basePredicate = NSPredicate(format: "name in %@", artistsVC.allArtistsArray)
 		}
 	}
 }
