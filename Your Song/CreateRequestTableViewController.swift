@@ -146,6 +146,12 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		}
 	}
 	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let songsVC = segue.destination as? SongsTableViewController_NEW {
+			songsVC.currentRequest = request
+		}
+	}
+	
 	func setupOnlineRequestRealm() {
 		let username = "tuzmusic@gmail.com"
 		let password = "***REMOVED***"

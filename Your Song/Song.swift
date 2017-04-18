@@ -42,13 +42,15 @@ final class Song: Object {
 		newSong.title = song.title
 		if let artistName = song.artist?.name {
 			let results = realm.objects(Artist.self).filter("name like[c] %@", artistName)
-			newSong.artist = results.isEmpty ? Artist(value: artistName) : results.first
+			
+			//This is where it crashes
+			newSong.artist = results.isEmpty ? Artist(value: [artistName]) : results.first
 			newSong.songDescription = "\(song.title) - \(artistName)"
 		}
 		
 		if let genreName = song.genre?.name {
 			let results = realm.objects(Genre.self).filter("name =[c] %@", genreName)
-			newSong.genre = results.isEmpty ? Genre(value: genreName) : results.first
+			newSong.genre = results.isEmpty ? Genre(value: [genreName]) : results.first
 		}
 		
 		newSong.decade = song.decade

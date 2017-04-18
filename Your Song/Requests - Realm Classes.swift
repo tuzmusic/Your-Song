@@ -13,7 +13,7 @@ final class Request: Object {
 	dynamic var user: YpbUser?
 	dynamic var userString: String = ""
 	dynamic var songString: String = ""
-	dynamic var songObject: Request?
+	dynamic var songObject: Song?
 	dynamic var notes: String = ""
 	dynamic var date = Date()
 	var tip: Double?

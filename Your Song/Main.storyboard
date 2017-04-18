@@ -169,7 +169,7 @@
         <!--Artists-->
         <scene sceneID="lML-Ne-WSC">
             <objects>
-                <tableViewController title="Artists" id="udO-rw-oGg" customClass="ArtistsTableViewController" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Artists" id="udO-rw-oGg" customClass="ArtistsTableViewController_NEW" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="P4a-21-x0m">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -209,6 +209,12 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Artists" image="your-piano-bar-blank piano only tab bar item size.png" id="HtK-IR-cC2" userLabel="Artists"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="entityName" value="Artist"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="searchPropertyKeyPath" value="name"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="sortPropertyKey" value="name"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="useContainsSearch" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Bg-fC-p2X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -217,7 +223,7 @@
         <!--Genres-->
         <scene sceneID="9If-PV-QPU">
             <objects>
-                <tableViewController title="Genres" id="mRE-aL-cSJ" customClass="GenresTableViewController" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Genres" id="mRE-aL-cSJ" customClass="GenresTableViewController_NEW" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="fR7-QW-dGV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -257,6 +263,15 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Genres" image="your-piano-bar-blank piano only tab bar item size.png" id="eQB-87-9M9" userLabel="Genres"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="entityName" value="Genre"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="searchPropertyKeyPath" value="name"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="sortAscending" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="searchBarInTableView" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="caseInsensitiveSearch" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="useContainsSearch" value="YES"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="sortPropertyKey" value="name"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2rF-fO-v5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -320,7 +335,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KuP-g6-YzW" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Bnl-yr-0bj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bnl-yr-0bj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -338,7 +353,7 @@
         <image name="your-piano-bar-blank piano only tab bar item size.png" width="24" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yXb-cc-y7v"/>
-        <segue reference="JVt-ag-feB"/>
+        <segue reference="d5F-mJ-YPr"/>
+        <segue reference="wby-gZ-O8E"/>
     </inferredMetricsTieBreakers>
 </document>
