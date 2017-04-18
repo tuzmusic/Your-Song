@@ -19,6 +19,7 @@ class ArtistsTableViewController_NEW: RealmSearchViewController {
 	
 	var artistsInGenre = [Artist]()
 	var allArtistsArray: [String] { return artistsInGenre.map { $0.name } }
+	
 	var genreForArtists: Genre? {
 		didSet {
 			genreForArtists?.songs.forEach {
@@ -57,9 +58,13 @@ class ArtistsTableViewController_NEW: RealmSearchViewController {
 			let artistName = (sender as? UITableViewCell)?.textLabel?.text
 		{
 			// How to pass artist.songs instead of the destination VC having to look it up itself?
-			//	Note: selectedArtist has to be set here (using a text-based query) rather than in searchViewController(didSelectObject:atIndexPath:) because this gets called first.
 			selectedArtist = realm.objects(Artist.self).filter("name = %@", artistName).first
 			songsVC.basePredicate = NSPredicate(format: "artist.name =  %@", selectedArtist.name)
+			if let genre = genreForArtists {
+				songsVC.basePredicate = NSCompoundPredicate(
+					andPredicateWithSubpredicates: [songsVC.basePredicate!,
+					                                NSPredicate(format: "genre =  %@", genre)])
+			}
 		}
 	}
 }

@@ -39,7 +39,7 @@ class GenresTableViewController_NEW: RealmSearchViewController {
 			let genreName = (sender as? UITableViewCell)?.textLabel?.text
 		{
 			selectedGenre = realm.objects(Genre.self).filter("name = %@", genreName).first
-			pr(selectedGenre)
+
 			// How to pass artist.songs instead of the destination VC having to look it up itself?
 			artistsVC.genreForArtists = selectedGenre
 			artistsVC.basePredicate = NSPredicate(format: "name in %@", artistsVC.allArtistsArray)
