@@ -15,7 +15,8 @@ var globalRealm: Realm!
 var globalConfig: Realm.Configuration!
 
 func pr(_ thing: Any) {
-	print("\n***\n\(String(describing: thing))\n***\n")
+	//print("\n***\n\(String(describing: thing))\n***\n")
+	print("\n\(String(describing: thing))\n")
 }
 
 struct Storyboard {

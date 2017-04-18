@@ -16,69 +16,40 @@ class ArtistsTableViewController_NEW: RealmSearchViewController {
 	
 	var selectedArtist: Artist!
 	var songs = [Song]()
-
+	
+	var artistsInGenre = [Artist]()
+	var allArtistsArray: [String] { return artistsInGenre.map { $0.name } }
 	var genreForArtists: Genre? {
 		didSet {
-			if genreForArtists != nil {
-				var artists = Set<Artist>()
-				for song in realm.objects(Song.self).filter("genre = %@", genreForArtists!) {
-					if song.genre == genreForArtists! {
-						artists.insert(song.artist!)
-					}
+			genreForArtists?.songs.forEach {
+				if !artistsInGenre.contains($0.artist!) {
+					artistsInGenre.append($0.artist!)
 				}
-				pr(artists)
-				artistsInGenre = Array(artists)
-				pr(artistsInGenre)
 			}
 		}
 	}
 	
-	var artistsInGenre = [Artist]()
-	var allArtistsArray: [String] { return artistsInGenre.map { $0.name } }
-	var allArtistsString: String { return (artistsInGenre.map { $0.name + " " }).joined() }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 	}
-	/*
-	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)		
-		
-		if !artistsInGenre.isEmpty {
-			let item = artistsInGenre[indexPath.row]
-			cell.textLabel?.text = item.name
-			cell.detailTextLabel?.text = "\(item.songs.count) songs"
-		}
-		else {
-			_ = super.tableView(tableView, cellForRowAt: indexPath)
-		}
-		return cell
-	}
-	*/
 	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
 		if !artistsInGenre.isEmpty {
-			let item = artistsInGenre[indexPath.row]
-			cell.textLabel?.text = item.name
-			cell.detailTextLabel?.text = "\(item.songs.count) songs"
-		}
-		else {
-			let item = object as! Artist
-			cell.textLabel?.text = item.name
-			cell.detailTextLabel?.text = "\(item.songs.count) songs"
+			let artist = artistsInGenre[indexPath.row]
+			let songsByArtistInGenre = artist.songs.filter("genre = %@", genreForArtists!)
+			
+			cell.textLabel?.text = artist.name
+			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genreForArtists!.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
+		} else {
+			let artist = object as! Artist
+			cell.textLabel?.text = artist.name
+			cell.detailTextLabel?.text = "\(artist.songs.count) songs"
 		}
 		return cell
-	}
-	
-//	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//		selectedArtist = Array(results)[indexPath.row]
-//	}
-	
-	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
-//		selectedArtist = anObject as! Artist
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
