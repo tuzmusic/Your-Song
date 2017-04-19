@@ -81,15 +81,5 @@ class ArtistsTableViewController: RealmSearchViewController {
 				}
 			}
 		}
-		/* if let songsVC = segue.destination as? SongsTableViewController,
-		let artistName = (sender as? UITableViewCell)?.textLabel?.text
-		{
-		selectedArtist = realm.objects(Artist.self).filter("name = %@", artistName).first
-		if let genre = genreForArtists {
-		songsVC.basePredicate = NSPredicate(format: "artist = %@ AND genre = %@", selectedArtist, genre)
-		} else {
-		songsVC.basePredicate = NSPredicate(format: "artist = %@", selectedArtist)
-		}
-		} */
 	}
 }
