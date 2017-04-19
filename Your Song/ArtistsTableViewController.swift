@@ -10,8 +10,6 @@ import UIKit
 import RealmSearchViewController
 import RealmSwift
 
-var hasLoaded = false
-
 class ArtistsTableViewController: RealmSearchViewController {
 	
 	var selectedArtist: Artist!
@@ -19,18 +17,42 @@ class ArtistsTableViewController: RealmSearchViewController {
 	
 	var genreForArtists: Genre?
 	
+	override func numberOfSections(in tableView: UITableView) -> Int {
+		return 2
+	}
+	
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return section == 0 ? 1 : super.tableView(tableView, numberOfRowsInSection: section)
+	}
+	
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		if indexPath.section == 0 {
+			let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+			if let genre = genreForArtists {
+				cell.textLabel?.text = "All \(genre.name) songs"
+				cell.detailTextLabel?.text = "\(genre.songs.count) songs"
+			} else {
+				cell.textLabel?.text = "All songs"
+				cell.detailTextLabel?.text = "\(realm.objects(Song.self).count) songs"
+			}
+		} else {
+			return super.tableView(tableView, cellForRowAt: indexPath)
+		}
+		return UITableViewCell()
+	}
+	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
 		if let genre = genreForArtists {
-			self.title = genre.name + " (\(genre.artists.count) artists)"
+			//self.title = genre.name + " (\(genre.artists.count) artists)"
 			let artist = genre.artists[indexPath.row]
-			pr(artist.name)
 			let songsByArtistInGenre = artist.songs.filter("genre = %@", genre)
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genre.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
 		} else {
+			self.title = "All Artists (\(realm.objects(Artist.self).count) artists)"
 			let artist = object as! Artist
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(artist.songs.count) songs"

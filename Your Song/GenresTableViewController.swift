@@ -17,6 +17,7 @@ class GenresTableViewController: RealmSearchViewController {
 	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 		
+		//self.title = "All Genres (\(realm.objects(Genre.self).count) genres)"
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
 		let genre = object as! Genre

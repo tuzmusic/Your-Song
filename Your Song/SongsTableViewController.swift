@@ -18,7 +18,9 @@ class SongsTableViewController: RealmSearchViewController {
 	var currentRequest = Request()
 
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
-		
+
+		//self.title = "All Songs (\(realm.objects(Song.self).count) songs)"
+
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
 		selectedSong = object as! Song
