@@ -14,6 +14,13 @@ let defaultsKey = "Your Piano Bar - Jonathan Tuzman - Songs"
 var globalRealm: Realm!
 var globalConfig: Realm.Configuration!
 
+extension UITableViewController {
+	open override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		tableView.contentInset = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
+	}
+}
+
 func pr(_ thing: Any) {
 	//print("\n***\n\(String(describing: thing))\n***\n")
 	print("\n\(String(describing: thing))\n")

@@ -24,7 +24,9 @@ class ArtistsTableViewController: RealmSearchViewController {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
 		if let genre = genreForArtists {
+			self.title = genre.name + " (\(genre.artists.count) artists)"
 			let artist = genre.artists[indexPath.row]
+			pr(artist.name)
 			let songsByArtistInGenre = artist.songs.filter("genre = %@", genre)
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genre.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")

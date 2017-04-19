@@ -16,7 +16,7 @@ class SongsTableViewController: RealmSearchViewController {
 	
 	// This, or a global request
 	var currentRequest = Request()
-	
+
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)

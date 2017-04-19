@@ -11,8 +11,8 @@ import RealmSwift
 
 final class Song: Object {
 	dynamic var title = ""
-	dynamic var artist: Artist?
-	dynamic var genre: Genre?
+	dynamic var artist: Artist!
+	dynamic var genre: Genre!
 	dynamic var year = Int()
 	var decade: Int?  // Can't be dynamic. Fix?
 	dynamic var decadeString: String {
@@ -33,25 +33,23 @@ final class Song: Object {
 	class func createSong (from song: Song, in realm: Realm) -> Song? {
 
 		if let existingSong = realm.objects(Song.self)
-			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist!.name)
+			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist.name)
 			.first {
 			return existingSong
 		}
 		
 		let newSong = Song()
 		newSong.title = song.title
-		if let artistName = song.artist?.name {
-			let results = realm.objects(Artist.self).filter("name like[c] %@", artistName)
-			
-			//This is where it crashes
-			newSong.artist = results.isEmpty ? Artist(value: [artistName]) : results.first
-			newSong.songDescription = "\(song.title) - \(artistName)"
-		}
+		let artistName = song.artist.name
+		let artistResults = realm.objects(Artist.self).filter("name like[c] %@", artistName)
+		newSong.artist = artistResults.isEmpty ? Artist(value: [artistName]) : artistResults.first
+		newSong.songDescription = "\(song.title) - \(artistName)"
 		
-		if let genreName = song.genre?.name {
-			let results = realm.objects(Genre.self).filter("name =[c] %@", genreName)
-			newSong.genre = results.isEmpty ? Genre(value: [genreName]) : results.first
-		}
+		
+		let genreName = song.genre.name
+		let genreResults = realm.objects(Genre.self).filter("name =[c] %@", genreName)
+		newSong.genre = genreResults.isEmpty ? Genre(value: [genreName]) : genreResults.first
+		
 		
 		newSong.decade = song.decade
 		newSong.dateModified = song.dateModified

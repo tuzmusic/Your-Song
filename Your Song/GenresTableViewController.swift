@@ -10,6 +10,7 @@ import UIKit
 import RealmSearchViewController
 import RealmSwift
 
+
 class GenresTableViewController: RealmSearchViewController {
 	
 	var selectedGenre: Genre!
