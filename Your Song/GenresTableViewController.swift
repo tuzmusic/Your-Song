@@ -21,15 +21,7 @@ class GenresTableViewController: RealmSearchViewController {
 		let genre = object as! Genre
 		cell.textLabel?.text = genre.name
 		
-		let songs = Array(genre.songs)
-		var artists = [Artist]()
-		songs.forEach {
-			if !artists.contains($0.artist!) {
-				artists.append(($0.artist!))
-			}
-		}
-		
-		cell.detailTextLabel?.text = "\(genre.songs.count) " + (genre.songs.count == 1 ? "song" : "song") + " by " + "\(artists.count) " + (artists.count == 1 ? "artist" : "artists")
+		cell.detailTextLabel?.text = "\(genre.songs.count) " + (genre.songs.count == 1 ? "song" : "song") + " by " + "\(genre.artists.count) " + (genre.artists.count == 1 ? "artist" : "artists")
 		
 		return cell
 	}
@@ -39,10 +31,8 @@ class GenresTableViewController: RealmSearchViewController {
 			let genreName = (sender as? UITableViewCell)?.textLabel?.text
 		{
 			selectedGenre = realm.objects(Genre.self).filter("name = %@", genreName).first
-
-			// How to pass artist.songs instead of the destination VC having to look it up itself?
 			artistsVC.genreForArtists = selectedGenre
-			artistsVC.basePredicate = NSPredicate(format: "name in %@", artistsVC.allArtistsArray)
+			artistsVC.basePredicate = NSPredicate(format: "name in %@", selectedGenre.artists.map { $0.name })
 		}
 	}
 }

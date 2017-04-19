@@ -12,5 +12,15 @@ import RealmSwift
 final class Genre: Object {
 	dynamic var name = ""
 	let songs = LinkingObjects(fromType: Song.self, property: "genre")
-	//var artists: [Artist]? { return Array(songs.map {$0.artist!}) }
+	
+	var artists: [Artist] {
+		let songs = Array(self.songs)
+		var artists = [Artist]()
+		songs.forEach {
+			if !artists.contains($0.artist!) {
+				artists.append(($0.artist!))
+			}
+		}
+		return artists
+	}
 }

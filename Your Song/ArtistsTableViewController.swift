@@ -17,29 +17,17 @@ class ArtistsTableViewController: RealmSearchViewController {
 	var selectedArtist: Artist!
 	var songs = [Song]()
 	
-	var artistsInGenre = [Artist]()
-	var allArtistsArray: [String] { return artistsInGenre.map { $0.name } }
-	
-	var genreForArtists: Genre? {
-		didSet {
-			genreForArtists?.songs.forEach {
-				if !artistsInGenre.contains($0.artist!) {
-					artistsInGenre.append($0.artist!)
-				}
-			}
-		}
-	}
+	var genreForArtists: Genre?
 	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
-		if !artistsInGenre.isEmpty {
-			let artist = artistsInGenre[indexPath.row]
-			let songsByArtistInGenre = artist.songs.filter("genre = %@", genreForArtists!)
-			
+		if let genre = genreForArtists {
+			let artist = genre.artists[indexPath.row]
+			let songsByArtistInGenre = artist.songs.filter("genre = %@", genre)
 			cell.textLabel?.text = artist.name
-			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genreForArtists!.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
+			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genre.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
 		} else {
 			let artist = object as! Artist
 			cell.textLabel?.text = artist.name
@@ -52,12 +40,11 @@ class ArtistsTableViewController: RealmSearchViewController {
 		if let songsVC = segue.destination as? SongsTableViewController,
 			let artistName = (sender as? UITableViewCell)?.textLabel?.text
 		{
-			// How to pass artist.songs instead of the destination VC having to look it up itself?
 			selectedArtist = realm.objects(Artist.self).filter("name = %@", artistName).first
-			songsVC.basePredicate = NSPredicate(format: "artist.name =  %@", selectedArtist.name)
 			if let genre = genreForArtists {
-				songsVC.basePredicate = NSCompoundPredicate(
-					andPredicateWithSubpredicates: [songsVC.basePredicate!, NSPredicate(format: "genre =  %@", genre)])
+				songsVC.basePredicate = NSPredicate(format: "artist = %@ AND genre = %@", selectedArtist, genre)
+			} else {
+				songsVC.basePredicate = NSPredicate(format: "artist = %@", selectedArtist)
 			}
 		}
 	}
