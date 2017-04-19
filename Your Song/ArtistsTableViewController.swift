@@ -60,16 +60,36 @@ class ArtistsTableViewController: RealmSearchViewController {
 		return cell
 	}
 	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if indexPath.section == 0 {
+			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
+		}
+	}
+	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let songsVC = segue.destination as? SongsTableViewController,
-			let artistName = (sender as? UITableViewCell)?.textLabel?.text
-		{
-			selectedArtist = realm.objects(Artist.self).filter("name = %@", artistName).first
-			if let genre = genreForArtists {
-				songsVC.basePredicate = NSPredicate(format: "artist = %@ AND genre = %@", selectedArtist, genre)
-			} else {
-				songsVC.basePredicate = NSPredicate(format: "artist = %@", selectedArtist)
+		if let songsVC = segue.destination as? SongsTableViewController {
+			if segue.identifier == Storyboard.AllSongsSegue, let genre = genreForArtists {
+				songsVC.basePredicate = NSPredicate(format: "genre = %@", genre)
+			} else if segue.identifier == Storyboard.ArtistsSongsSegue,
+				let artistName = (sender as? UITableViewCell)?.textLabel?.text
+			{
+				selectedArtist = realm.objects(Artist.self).filter("name = %@", artistName).first
+				if let genre = genreForArtists {
+					songsVC.basePredicate = NSPredicate(format: "artist = %@ AND genre = %@", selectedArtist, genre)
+				} else {
+					songsVC.basePredicate = NSPredicate(format: "artist = %@", selectedArtist)
+				}
 			}
 		}
+		/* if let songsVC = segue.destination as? SongsTableViewController,
+		let artistName = (sender as? UITableViewCell)?.textLabel?.text
+		{
+		selectedArtist = realm.objects(Artist.self).filter("name = %@", artistName).first
+		if let genre = genreForArtists {
+		songsVC.basePredicate = NSPredicate(format: "artist = %@ AND genre = %@", selectedArtist, genre)
+		} else {
+		songsVC.basePredicate = NSPredicate(format: "artist = %@", selectedArtist)
+		}
+		} */
 	}
 }

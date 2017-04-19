@@ -15,6 +15,12 @@ class GenresTableViewController: RealmSearchViewController {
 	
 	var selectedGenre: Genre!
 	
+//	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//		if indexPath.section == 0 {
+//			UIStoryboardSegue(identifier: nil, source: self, destination: SongsTableViewController()).perform()
+//		}
+//	}
+	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 		
 		//self.title = "All Genres (\(realm.objects(Genre.self).count) genres)"

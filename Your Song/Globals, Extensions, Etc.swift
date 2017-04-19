@@ -32,7 +32,8 @@ struct Storyboard {
 	static let ArtistsSongsSegue = "Artist's Songs Segue"
 	static let GenresArtistsSegue = "Genre's Artists Segue"
 	static let BrowseSongsSegue = "Browse Songs Segue"
-	static let SelectSongSegue = "Select Song Segue" 
+	static let SelectSongSegue = "Select Song Segue"
+	static let AllSongsSegue = "All Songs Segue"
 }
 
 struct Info {

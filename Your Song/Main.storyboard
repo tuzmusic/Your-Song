@@ -216,6 +216,9 @@
                         <userDefinedRuntimeAttribute type="boolean" keyPath="useContainsSearch" value="YES"/>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="sortAscending" value="YES"/>
                     </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="KG6-mh-sKK" kind="show" identifier="All Songs Segue" id="WZe-v0-hGM"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Bg-fC-p2X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -273,6 +276,9 @@
                         <userDefinedRuntimeAttribute type="boolean" keyPath="useContainsSearch" value="YES"/>
                         <userDefinedRuntimeAttribute type="string" keyPath="sortPropertyKey" value="name"/>
                     </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="KG6-mh-sKK" kind="show" identifier="All Songs Segue" id="B9Z-3S-UZQ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2rF-fO-v5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -329,14 +335,14 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HD9-7N-LAK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-772" y="823"/>
+            <point key="canvasLocation" x="-670" y="823"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lxE-8e-xlO">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KuP-g6-YzW" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Bnl-yr-0bj">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bnl-yr-0bj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -354,7 +360,7 @@
         <image name="your-piano-bar-blank piano only tab bar item size.png" width="24" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="B9Z-3S-UZQ"/>
         <segue reference="d5F-mJ-YPr"/>
-        <segue reference="wby-gZ-O8E"/>
     </inferredMetricsTieBreakers>
 </document>
