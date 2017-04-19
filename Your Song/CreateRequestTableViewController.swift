@@ -20,7 +20,6 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	}
 	
 	var realm: Realm?
-	var notificationToken: NotificationToken!
 	
 	var request: Request!
 	
@@ -44,8 +43,9 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		request.notes = textView.text
 	}
 	
+	// Design for headers
+	/*
 	override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		return nil
 		// Set text for section header
 		var string = ""
 		switch section {
@@ -75,6 +75,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		label.attributedText = header
 		return label
 	}
+	*/
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
@@ -139,7 +140,6 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		// setupOnlineRequestRealm()
 		// The problem appears to be here. Leaving the song picker resets request to nil
 		if request == nil {
 			request = Request()
@@ -147,55 +147,8 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let songsVC = segue.destination as? SongsTableViewController_NEW {
+		if let songsVC = segue.destination as? SongsTableViewController {
 			songsVC.currentRequest = request
 		}
-	}
-	
-	func setupOnlineRequestRealm() {
-		let username = "tuzmusic@gmail.com"
-		let password = "***REMOVED***"
-		
-		let localHTTP = URL(string:"http://54.208.237.32:9080")!
-		let realmAddress = URL(string:"realm://54.208.237.32:9080/~/yourPianoBarRequests")!
-		
-		/* to SSH in via terminal:
-		cd /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff
-		ssh -i "YourPianoBarKeyPair.pem" ubuntu@ec2-54-208-237-32.compute-1.amazonaws.com
-		
-		sudo systemctl start realm-object-server
-
-		*/
-		
-		SyncUser.logIn(with: .usernamePassword(username: username, password: password), server: localHTTP) {
-			user, error in
-			guard let user = user else {
-				let alert = UIAlertController(title: "Error",
-				                              //message: String(describing: error),
-					message: "Could not log in",
-					preferredStyle: .alert)
-				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-				self.present(alert, animated: true, completion: nil)
-				print(String(describing: error!))
-				return
-			}
-			
-			DispatchQueue.main.async {
-				
-				// Open Realm
-				var configuration = Realm.Configuration()
-				configuration.syncConfiguration = SyncConfiguration(user: user, realmURL: realmAddress)
-				
-				do {
-					self.realm = try Realm(configuration: configuration)
-				} catch {
-					print(error)
-				}
-			}
-		}
-	}
-
-	deinit {
-		notificationToken.stop()
-	}
+	}	
 }

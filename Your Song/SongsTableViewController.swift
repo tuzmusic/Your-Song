@@ -1,64 +1,37 @@
 //
-//  SongsTableViewController.swift
-//  Song Importer
+//  SongsTableViewController-NEW.swift
+//  Your Song
 //
-//  Created by Jonathan Tuzman on 3/16/17.
+//  Created by Jonathan Tuzman on 4/15/17.
 //  Copyright © 2017 Jonathan Tuzman. All rights reserved.
 //
 
 import UIKit
+import RealmSearchViewController
+import RealmSwift
 
-class SongsTableViewController: BrowserTableViewController  {
+class SongsTableViewController: RealmSearchViewController {
 	
-	var shouldShowArtistSubtitle = true
+	var selectedSong: Song!
 	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		category = Info.Song
-	}
+	// This, or a global request
+	var currentRequest = Request()
 	
-	// MARK: - Table view data source
-	
-	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 		
-		if searchController.isActive && !searchController.searchBar.text!.isEmpty {
-			return filteredSongs.count
-		}
-		return songs.count
-	}
-	
-	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
-		var song = Song()
-		if searchController.isActive && !searchController.searchBar.text!.isEmpty {
-			song = filteredSongs[indexPath.row]
-		} else {
-			song = songs[indexPath.row]
-		}
+		selectedSong = object as! Song
+		cell.textLabel?.text = selectedSong.title
+		cell.detailTextLabel?.text = selectedSong.artist!.name
 		
-		cell.textLabel?.text = song.title
-		cell.detailTextLabel?.text = shouldShowArtistSubtitle ? song.artist?.name : ""
 		return cell
 	}
 	
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let song = searchController.isActive && !searchController.searchBar.text!.isEmpty
-			? filteredSongs[indexPath.row] : songs[indexPath.row]
-		
-		if let requestForm = self.navigationController?.viewControllers.first(where: {$0 is CreateRequestTableViewController})
-				as? CreateRequestTableViewController {
-			//requestForm.request.songObject = song
-			requestForm.request.songString = "\"\(song.title)\""
-			if let artistName = song.artist?.name {
-				requestForm.request.songString += " by \(artistName)"
-			}
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let requestVC = segue.destination as? CreateRequestTableViewController {
+			currentRequest.songObject = selectedSong
+			requestVC.request = currentRequest
 		}
-		_ = navigationController?.popToRootViewController(animated: true)
-	}
-	
-	override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-		return false
 	}
 }
-
