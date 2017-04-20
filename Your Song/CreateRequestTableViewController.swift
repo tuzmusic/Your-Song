@@ -129,7 +129,6 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 			}
 		} catch {
 			let alert = UIAlertController(title: "Error",
-			                              //message: String(describing: error),
 				message: "Could not write to the Realm.",
 				preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -147,7 +146,9 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let songsVC = segue.destination as? SongsTableViewController {
+		// Problem is
+		if let songsVC = segue.destination.childViewControllers.first as? SongsTableViewController {
+			songsVC.realmConfiguration = globalConfig
 			songsVC.currentRequest = request
 		}
 	}	
