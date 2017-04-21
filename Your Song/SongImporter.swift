@@ -13,6 +13,14 @@ class SongImporter {
 	
 	typealias SongData = [String]
 	
+	func importSongs() {
+		let fileName = "song list 2"
+		if let songData = getSongDataFromTSVFile(named: fileName) {
+			writeSongsToLocalRealm(songData: songData)
+		}
+	}
+	
+	
 	func getSongDataFromTSVFile (named fileName: String) -> [SongData]? {
 		
 		var songData = [[String]]()
@@ -40,7 +48,6 @@ class SongImporter {
 			return
 		}
 		
-		//let configURL = Realm.Configuration().fileURL!.deletingLastPathComponent().appendingPathComponent("songsLocal.realm")
 		do {
 			let songsLocalRealm = try Realm()
 			for songComponents in songData where songComponents.map({$0.lowercased()}) != headers {

@@ -309,9 +309,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="mjM-pz-9YD" kind="show" id="5wP-3e-OR8"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -356,8 +353,7 @@
         <image name="your-piano-bar-blank piano only tab bar item size.png" width="24" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5wP-3e-OR8"/>
-        <segue reference="B9Z-3S-UZQ"/>
         <segue reference="d5F-mJ-YPr"/>
+        <segue reference="B9Z-3S-UZQ"/>
     </inferredMetricsTieBreakers>
 </document>

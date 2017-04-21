@@ -19,9 +19,15 @@ extension UITextView {
 class CreateRequestTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
 	
 	// MARK: Request model
-	var realm: Realm? { return globalRealm }
+	var realm: Realm? {
+		get { return YpbApp.ypbRealm }
+		set { YpbApp.ypbRealm = newValue }
+	}
 	
-	var request: Request!
+	var request: Request! {
+		get { return YpbApp.currentRequest }
+		set { YpbApp.currentRequest = newValue }
+	}
 	
 	// MARK: Text field/view outlets and delegate methods
 	
@@ -95,15 +101,13 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	}
 	*/
 	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		// The problem appears to be here. Leaving the song picker resets request to nil
+	override func viewWillAppear(_ animated: Bool) {
+		// This can probably be moved to somewhere in the optional binding below.
 		if request == nil {
 			request = Request()
 		}
 		
 		nameTextField.placeholder = namePlaceholder
-		songTextView.reset(with: songPlaceholder)
 		notesTextView.reset(with: notesPlaceHolder)
 		
 		// If a song has been selected from browser, put it in the text field.
@@ -111,6 +115,8 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 			pr(song)
 			songTextView.text = song.title + "\nby " + song.artist.name
 			songTextView.textColor = UIColor.black
+		} else {
+			songTextView.reset(with: songPlaceholder)
 		}
 	}
 	
@@ -172,10 +178,13 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		// Problem is
-		if let songsVC = segue.destination.childViewControllers.first as? SongsTableViewController {
-			songsVC.realmConfiguration = globalConfig
-			songsVC.currentRequest = request
+		for view in [nameTextField, songTextView, notesTextView] as [UIView] {
+			view.resignFirstResponder()
 		}
-	}	
+//		if let songsVC = segue.destination.childViewControllers.first as? SongsTableViewController,
+//			let config = realm?.configuration
+//		{
+//			songsVC.realmConfiguration = config
+//		}
+	}
 }

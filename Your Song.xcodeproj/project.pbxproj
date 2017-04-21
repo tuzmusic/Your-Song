@@ -19,6 +19,7 @@
 		768235E81E856FF7006186D7 /* CreateRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */; };
 		768235E91E856FF7006186D7 /* Globals, Extensions, Etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */; };
 		768235EE1E857044006186D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235ED1E857044006186D7 /* Main.storyboard */; };
+		769FFBF21EAA1AB800F5EB37 /* YpbApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769FFBF11EAA1AB800F5EB37 /* YpbApp.swift */; };
 		76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638231E9E99E8001BBFB1 /* Artist.swift */; };
 		76F638281E9E99E8001BBFB1 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638241E9E99E8001BBFB1 /* Genre.swift */; };
 		76F638291E9E99E8001BBFB1 /* Requests - Realm Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638251E9E99E8001BBFB1 /* Requests - Realm Classes.swift */; };
@@ -57,6 +58,7 @@
 		768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateRequestTableViewController.swift; sourceTree = "<group>"; };
 		768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Globals, Extensions, Etc.swift"; sourceTree = "<group>"; };
 		768235ED1E857044006186D7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		769FFBF11EAA1AB800F5EB37 /* YpbApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YpbApp.swift; sourceTree = "<group>"; };
 		76ACB9A61E95465300923D6F /* BebasNeue Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Bold.ttf"; sourceTree = "<group>"; };
 		76ACB9A71E95465300923D6F /* BebasNeue Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Book.ttf"; sourceTree = "<group>"; };
 		76ACB9A81E95465300923D6F /* BebasNeue Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Light.ttf"; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				76ACB9B71E9A561A00923D6F /* Requests */,
 				768235ED1E857044006186D7 /* Main.storyboard */,
 				768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */,
+				769FFBF11EAA1AB800F5EB37 /* YpbApp.swift */,
 			);
 			path = "Your Song";
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				7607666B1EA3920F00348171 /* ArtistsTableViewController.swift in Sources */,
 				76F638381EA221AA001BBFB1 /* SongsTableViewController.swift in Sources */,
 				76F638291E9E99E8001BBFB1 /* Requests - Realm Classes.swift in Sources */,
+				769FFBF21EAA1AB800F5EB37 /* YpbApp.swift in Sources */,
 				76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */,
 				76F6382A1E9E99E8001BBFB1 /* Song.swift in Sources */,
 			);
