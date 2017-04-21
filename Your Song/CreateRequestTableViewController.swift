@@ -37,45 +37,26 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		        notesTextView : (notesPlaceHolder, "notes")]
 	}
 	
-	@IBOutlet weak var nameTextView: UITextView!
 	
 	let namePlaceholder = "Enter your name"
 	let songPlaceholder = "Enter your song, or look for your favorite song in our catalog"
 	let notesPlaceHolder = "Got a dedication? Want to come up and sing? Put any extra notes here"
 	
-	@IBOutlet weak var nameTextField: UITextField!
-	
-	func textFieldDidBeginEditing(_ textField: UITextField) {
-		textField.placeholder = ""
-	}
-
-	func textFieldDidEndEditing(_ textField: UITextField) {
-		if textField == nameTextField, let text = textField.text {
-			if text == "" {
-				textField.placeholder = namePlaceholder
-			} else {
-				request.userString = text
-			}
-		}
-	}
-	
+	@IBOutlet weak var nameTextView: UITextView!
 	@IBOutlet weak var songTextView: UITextView!
 	@IBOutlet weak var notesTextView: UITextView!
 	
 	func textViewDidBeginEditing(_ textView: UITextView) {
-		textView.text = ""
+		if textView.textColor == UIColor.lightGray { textView.text = "" }
 		textView.textColor = UIColor.black
 	}
 	
 	func textViewDidEndEditing(_ textView: UITextView) {
 		if textView.text == "" {
 			textView.reset(with: textViewInfo[textView]!.placeholder)
-			//textView.reset(with: textView == songTextView ? songPlaceholder : notesPlaceHolder)
 		} else {
 			request.setValue(textView.text, forKey: textViewInfo[textView]!.keyPath)
-			//request.setValue(textView.text, forKey: textView == songTextView ? "songString" : "notes")
 		}
-		pr(YpbApp.currentRequest!)
 	}
 	
 	// Design for headers
@@ -118,7 +99,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 			request = Request()
 		}
 		
-		nameTextField.placeholder = namePlaceholder
+		nameTextView.reset(with: namePlaceholder)
 		notesTextView.reset(with: notesPlaceHolder)
 		
 		// If a song has been selected from browser, put it in the text field.
@@ -135,7 +116,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	
 	@IBAction func submitButtonPressed(_ sender: UIButton) {
 		
-		nameTextField.endEditing(true)
+		nameTextView.endEditing(true)
 		songTextView.endEditing(true)
 		notesTextView.endEditing(true)
 		
@@ -181,15 +162,14 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	}
 	
 	func clearRequest () {
-		nameTextField.text = nil
-		nameTextField.placeholder = namePlaceholder
+		nameTextView.reset(with: namePlaceholder)
 		songTextView.reset(with: songPlaceholder)
 		notesTextView.reset(with: notesPlaceHolder)
 		request = Request()
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		for view in [nameTextField, songTextView, notesTextView] as [UIView] {
+		for view in [nameTextView, songTextView, notesTextView] as [UIView] {
 			view.resignFirstResponder()
 		}
 		if let songsVC = segue.destination.childViewControllers.first as? SongsTableViewController

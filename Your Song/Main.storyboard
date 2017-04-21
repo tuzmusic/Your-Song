@@ -28,30 +28,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DSx-U1-brL" userLabel="nameField">
-                                                    <rect key="frame" x="8" y="8" width="359" height="26"/>
-                                                    <nil key="textColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="mjM-pz-9YD" id="3lF-7k-XKG"/>
-                                                    </connections>
-                                                </textField>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="d5S-49-Vop">
                                                     <rect key="frame" x="8" y="0.0" width="359" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="mjM-pz-9YD" id="gg4-mz-THx"/>
+                                                    </connections>
                                                 </textView>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="DSx-U1-brL" firstAttribute="centerY" secondItem="S3w-z5-Ajn" secondAttribute="centerY" id="Mck-Gl-aoP"/>
-                                                <constraint firstItem="DSx-U1-brL" firstAttribute="trailing" secondItem="S3w-z5-Ajn" secondAttribute="trailingMargin" id="WDp-Yl-R9F"/>
-                                                <constraint firstItem="DSx-U1-brL" firstAttribute="leading" secondItem="S3w-z5-Ajn" secondAttribute="leadingMargin" id="r0m-Y1-il9"/>
-                                                <constraint firstItem="DSx-U1-brL" firstAttribute="top" secondItem="S3w-z5-Ajn" secondAttribute="topMargin" id="uQo-vU-nYC"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -137,7 +124,6 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="8aW-0r-3Yu"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="nameTextField" destination="DSx-U1-brL" id="HXC-5g-2Nb"/>
                         <outlet property="nameTextView" destination="d5S-49-Vop" id="tSD-IC-mdf"/>
                         <outlet property="notesTextView" destination="AbD-h9-UNN" id="1mu-kk-A3N"/>
                         <outlet property="songTextView" destination="yuw-SQ-tbR" id="LiJ-Jf-nSy"/>
