@@ -31,6 +31,14 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	
 	// MARK: Text field/view outlets and delegate methods
 	
+	var textViewInfo: [UITextView : (placeholder: String, keyPath: String)] {
+		return [nameTextView : (namePlaceholder, "userString"),
+		        songTextView : (songPlaceholder, "songString"),
+		        notesTextView : (notesPlaceHolder, "notes")]
+	}
+	
+	@IBOutlet weak var nameTextView: UITextView!
+	
 	let namePlaceholder = "Enter your name"
 	let songPlaceholder = "Enter your song, or look for your favorite song in our catalog"
 	let notesPlaceHolder = "Got a dedication? Want to come up and sing? Put any extra notes here"
@@ -61,10 +69,13 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	
 	func textViewDidEndEditing(_ textView: UITextView) {
 		if textView.text == "" {
-			textView.reset(with: textView == songTextView ? songPlaceholder : notesPlaceHolder)
+			textView.reset(with: textViewInfo[textView]!.placeholder)
+			//textView.reset(with: textView == songTextView ? songPlaceholder : notesPlaceHolder)
 		} else {
-			request.setValue(textView.text, forKey: textView == songTextView ? "songString" : "notes")
+			request.setValue(textView.text, forKey: textViewInfo[textView]!.keyPath)
+			//request.setValue(textView.text, forKey: textView == songTextView ? "songString" : "notes")
 		}
+		pr(YpbApp.currentRequest!)
 	}
 	
 	// Design for headers
@@ -181,10 +192,10 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		for view in [nameTextField, songTextView, notesTextView] as [UIView] {
 			view.resignFirstResponder()
 		}
-//		if let songsVC = segue.destination.childViewControllers.first as? SongsTableViewController,
-//			let config = realm?.configuration
-//		{
-//			songsVC.realmConfiguration = config
-//		}
+		if let songsVC = segue.destination.childViewControllers.first as? SongsTableViewController
+		{
+			//songsVC.realmConfiguration = YpbApp.ypbRealm.configuration
+			songsVC.realmConfiguration = Realm.Configuration.defaultConfiguration
+		}
 	}
 }

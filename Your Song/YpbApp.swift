@@ -39,7 +39,7 @@ class YpbApp {
 				if try! Realm().objects(Song.self).isEmpty {
 					SongImporter().importSongs()
 				}
-				globalConfig = Realm.Configuration.defaultConfiguration
+				//globalConfig = Realm.Configuration.defaultConfiguration
 				return
 			}
 			
@@ -51,8 +51,8 @@ class YpbApp {
 				
 				let syncConfig = SyncConfiguration (user: user, realmURL: realmAddress)
 				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
-				globalConfig = configuration
-				YpbApp.ypbRealm = try! Realm(configuration: globalConfig) // No, this is not asynchronous. It finishes before the next count is printed.
+				//globalConfig = configuration
+				YpbApp.ypbRealm = try! Realm(configuration: configuration) // No, this is not asynchronous. It finishes before the next count is printed.
 				
 				// Even though this shows that the online realm is populated, this error shows up and closes the realm:
 				// Bad changeset received: Assertion failed: left().link_target_table_ndx == right().link_target_table_ndx

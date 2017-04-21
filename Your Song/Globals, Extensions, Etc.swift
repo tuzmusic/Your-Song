@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 import RealmSwift
 
-let defaultsKey = "Your Piano Bar - Jonathan Tuzman - Songs"
-var globalRealm: Realm!
 var globalConfig: Realm.Configuration!
 
 extension UITableViewController {

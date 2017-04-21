@@ -14,9 +14,13 @@ class SongsTableViewController: RealmSearchViewController {
 	
 	var selectedSong: Song!
 	
+	override func viewDidLoad() {
+//		realmConfiguration = YpbApp.ypbRealm.configuration
+	}
+	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 
-		//self.title = "All Songs (\(realm.objects(Song.self).count) songs)"		
+		//self.title = "All Songs (\(realm.objects(Song.self).count) songs)"
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
