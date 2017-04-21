@@ -23,16 +23,26 @@ class SongsTableViewController: RealmSearchViewController {
 
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
-		selectedSong = object as! Song
-		cell.textLabel?.text = selectedSong.title
-		cell.detailTextLabel?.text = selectedSong.artist!.name
+		let song = object as! Song
+		cell.textLabel?.text = song.title
+		cell.detailTextLabel?.text = song.artist!.name
 		
 		return cell
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let requestVC = segue.destination as? CreateRequestTableViewController {
-			currentRequest.songObject = selectedSong
+		var songs = [Song]()
+		if let predicate = basePredicate {
+			songs = Array(realm.objects(Song.self).filter(predicate))
+		} else {
+			songs = Array(realm.objects(Song.self))
+		}
+		
+		if let requestVC = segue.destination as? CreateRequestTableViewController,
+			let row = tableView.indexPathForSelectedRow?.row
+		{
+			currentRequest.songObject = songs[row]
+			pr(currentRequest.songObject!.title)
 			requestVC.request = currentRequest
 		}
 	}
