@@ -31,15 +31,18 @@ class SongsTableViewController: RealmSearchViewController {
 		return cell
 	}
 	
+	override func viewWillDisappear(_ animated: Bool) {
+		if let form = navigationController?.viewControllers.first as? CreateRequestTableViewController {
+			if form.songObject == nil {
+				form.songObject = Song(value: ["Vienna", Artist(value: ["Billy Joel"])])
+			}
+		}
+	}
+	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
 		let song = anObject as! Song
-		//YpbApp.currentRequest?.songObject = song
 		if let form = navigationController?.viewControllers.first as? CreateRequestTableViewController {
-			if let request = form.request {
-				request.songObject = song
-			} else {
-				form.request = Request()
-			}			
+			form.songObject = song
 		}
 		navigationController?.popToRootViewController(animated: true)
 	}

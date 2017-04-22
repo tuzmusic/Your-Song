@@ -19,17 +19,101 @@ extension UITextView {
 class CreateRequestTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
 	
 	var placeholderColor: UIColor = ypbOrange
+	var fieldTextColor: UIColor = UIColor.black
 	
-	// MARK: Request model
+	// MARK: MODEL
+	
 	var realm: Realm? {
 		get { return YpbApp.ypbRealm }
 		set { YpbApp.ypbRealm = newValue }
 	}
 	
-	var request: Request? {
-		didSet {
-			pr("request set")
+	var request: Request!
+	
+	var userString: String {
+		get {
+			return request.userString
+		} set {
+			request.userString = newValue
 		}
+	}
+	
+	var songObject: Song? {
+		get {
+			return request.songObject
+		} set {
+			if let song = newValue {
+				songTextView.textColor = fieldTextColor
+				songString = song.title + "\n" + "by " + song.artist.name
+				request.songObject = song
+			}
+		}
+	}
+	
+	var songString: String {
+		get {
+			return request.songString
+		} set {
+			request.songString = newValue
+		}
+	}
+	
+	var notes: String {
+		get {
+			return request.notes
+		} set {
+			request.notes = newValue
+		}
+	}
+	
+	// MARK: Controller - loading the request/populating textViews
+	
+	override func viewWillAppear(_ animated: Bool) {
+		
+		if let request = self.request {
+			textViewInfo.keys.forEach {
+				$0.text = request.value(forKey: textViewInfo[$0]!.keyPath) as! String
+				if $0.text.isEmpty {
+					$0.reset(with: textViewInfo[$0]!.placeholder, color: placeholderColor)
+				}
+			}
+		} else {
+			request = Request()
+			textViewInfo.keys.forEach {
+				$0.reset(with: textViewInfo[$0]!.placeholder, color: placeholderColor)
+			}
+		}
+		
+		// second implementation
+		/*
+		if let currentRequest = request {
+			if let song = currentRequest.songObject {
+				songTextView.text = song.title + "\n" + "by " + song.artist.name
+				songTextView.textColor = fieldTextColor
+			}
+		} else {
+			clearRequest()
+		}
+		*/
+		// Clearing of the request (unless there's already a request) (or something) - previous implementation
+		/*
+		// This can probably be moved to somewhere in the optional binding.
+		if request == nil {
+		request = Request()
+		}
+		
+		for view in textViewInfo.keys where view != songTextView {
+		view.reset(with: textViewInfo[view]!.placeholder, color: placeholderColor)
+		}
+		
+		// If a song has been selected from browser, put it in the text field.
+		if let song = request?.songObject {
+		pr(song)
+		songTextView.text = song.title + "\nby " + song.artist.name
+		songTextView.textColor = fieldTextColor
+		} else {
+		songTextView.reset(with: TextViewStrings.placeholders.song, color: placeholderColor)
+		} */
 	}
 	
 	// MARK: Text field/view outlets and delegate methods
@@ -59,7 +143,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	
 	func textViewDidBeginEditing(_ textView: UITextView) {
 		if textView.textColor == placeholderColor { textView.text = "" }
-		textView.textColor = UIColor.black
+		textView.textColor = fieldTextColor
 	}
 	
 	func textViewDidEndEditing(_ textView: UITextView) {
@@ -103,38 +187,6 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	return label
 	}
 	*/
-	
-	override func viewWillAppear(_ animated: Bool) {
-		
-		if let currentRequest = request {
-			if let song = currentRequest.songObject {
-				songTextView.text = song.title + "\n" + "by " + song.artist.name
-				songTextView.textColor = UIColor.black
-			}
-		} else {
-			clearRequest()
-		}
-		
-		// Clearing of the request (unless there's already a request) (or something) - previous implementation 
-		/*
-		// This can probably be moved to somewhere in the optional binding.
-		if request == nil {
-			request = Request()
-		}
-		
-		for view in textViewInfo.keys where view != songTextView {
-			view.reset(with: textViewInfo[view]!.placeholder, color: placeholderColor)
-		}
-		
-		// If a song has been selected from browser, put it in the text field.
-		if let song = request?.songObject {
-			pr(song)
-			songTextView.text = song.title + "\nby " + song.artist.name
-			songTextView.textColor = UIColor.black
-		} else {
-			songTextView.reset(with: TextViewStrings.placeholders.song, color: placeholderColor)
-		} */
-	}
 	
 	// MARK: Submitting the request
 	
