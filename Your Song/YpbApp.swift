@@ -49,17 +49,14 @@ class YpbApp {
 			}
 		}
 		
-		let username = "tuzmusic@gmail.com"
-		let password = "***REMOVED***"
 		let localHTTP = URL(string:"http://54.208.237.32:9080")!
+		let publicDNS = URL(string:"ec2-54-208-237-32.compute-1.amazonaws.com:9080")!
 		
-		let tokenString = "ewoJImlkZW50aXR5IjogIl9fYXV0aCIsCgkiYWNjZXNzIjogWyJ1cGxvYWQiLCAiZG93bmxvYWQiLCAibWFuYWdlIl0KfQo=:H1qgzZHbRSYdBs0YoJON7ehUZdVDQ8wGKwgYWsQUoupYPycq1cC4PlGZlDZ++Q+gB2ouYcw4bRRri2Z3F5dlWALLWvARgEwB2bDmuOQRcH30IKkdhFp11PnE3StiMn30TDZWWzX31QAyPDvaUyES7/VK/y8CDHmJ8L/UJ/y8w422bmIFTlectnuXBzMRboBZ8JD/PSrXciaPhm9hd/jEEfgYTwB7oyuuch9XrWvPbSrcpWXEr/6j526nuoips1+KTA/h25LzAgCs1+ZeO63RFKi/K3q7y/HkRBB8OWgK9kBQZGIx8eiH4zu7ut4mLGBcs38JnJr4OEvSTSfdZdhGxw=="
+		func tokenString() -> String { return "ewoJImlkZW50aXR5IjogIl9fYXV0aCIsCgkiYWNjZXNzIjogWyJ1cGxvYWQiLCAiZG93bmxvYWQiLCAibWFuYWdlIl0KfQo=:H1qgzZHbRSYdBs0YoJON7ehUZdVDQ8wGKwgYWsQUoupYPycq1cC4PlGZlDZ++Q+gB2ouYcw4bRRri2Z3F5dlWALLWvARgEwB2bDmuOQRcH30IKkdhFp11PnE3StiMn30TDZWWzX31QAyPDvaUyES7/VK/y8CDHmJ8L/UJ/y8w422bmIFTlectnuXBzMRboBZ8JD/PSrXciaPhm9hd/jEEfgYTwB7oyuuch9XrWvPbSrcpWXEr/6j526nuoips1+KTA/h25LzAgCs1+ZeO63RFKi/K3q7y/HkRBB8OWgK9kBQZGIx8eiH4zu7ut4mLGBcs38JnJr4OEvSTSfdZdhGxw==" }
 		
-		let tokenCred = SyncCredentials.accessToken(tokenString, identity: "admin")
+		let tokenCred = SyncCredentials.accessToken(tokenString(), identity: "admin")
 		
-		//SyncUser.logIn(with: .usernamePassword(username: username, password: password), server: localHTTP) {
-		SyncUser.logIn(with: tokenCred, server: localHTTP) {
-	
+		SyncUser.logIn(with: tokenCred, server: publicDNS) {
 			
 			// Log in the user. If not, use local Realm config. If unable, return nil.
 			user, error in
@@ -74,23 +71,24 @@ class YpbApp {
 			
 			DispatchQueue.main.async {
 				// Open the online Realm
-				let realmAddress = URL(string:"realm://54.208.237.32:9080/YourPianoBar/~/JonathanTuzman/")!  // THE ~ IS NECESSARY!
-				
-				// From zero online realms, when everything is run, ~ and no ~ both get populated but never get counted.
-				
+				let realmAddress = URL(string:"realm://ec2-54-208-237-32.compute-1.amazonaws.com:9080/YourPianoBar/JonathanTuzman/")!
 				let syncConfig = SyncConfiguration (user: user, realmURL: realmAddress)
 				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
-				//globalConfig = configuration
+
 				YpbApp.ypbRealm = try! Realm(configuration: configuration) // No, this is not asynchronous. It finishes before the next count is printed.
 				
+				/*
 				// Even though this shows that the online realm is populated, this error shows up and closes the realm:
 				// Bad changeset received: Assertion failed: left().link_target_table_ndx == right().link_target_table_ndx
 				// NOTE: This changeset error only happens without the ~ in the realm address.
+				*/ // Changeset error info
 				
-				pr("\(YpbApp.ypbRealm.objects(Song.self).count) songs in online Realm (not from didSet)")
+				pr("\(YpbApp.ypbRealm.objects(Song.self).count) songs in current Realm")
 				
 				// If no songs in online realm, import songs offline realm TO THE ONLINE REALM (shouldn't ever happen once app is released)
+				
 				if YpbApp.ypbRealm.objects(Song.self).isEmpty {
+				
 					let offlineSongs = try! Realm().objects(Song.self)
 					
 					// If there are no songs in the offline realm, import songs from TSV.

@@ -10,13 +10,15 @@ import UIKit
 import RealmSwift
 
 extension UITextView {
-	func reset(with placeholder: String) {
+	func reset(with placeholder: String, color: UIColor) {
 		self.text = placeholder
-		self.textColor = UIColor.lightGray
+		self.textColor = color
 	}
 }
 
 class CreateRequestTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
+	
+	var placeholderColor: UIColor = ypbOrange
 	
 	// MARK: Request model
 	var realm: Realm? {
@@ -24,38 +26,47 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		set { YpbApp.ypbRealm = newValue }
 	}
 	
-	var request: Request! {
-		get { return YpbApp.currentRequest }
-		set { YpbApp.currentRequest = newValue }
+	var request: Request? {
+		didSet {
+			pr("request set")
+		}
 	}
 	
 	// MARK: Text field/view outlets and delegate methods
 	
 	var textViewInfo: [UITextView : (placeholder: String, keyPath: String)] {
-		return [nameTextView : (namePlaceholder, "userString"),
-		        songTextView : (songPlaceholder, "songString"),
-		        notesTextView : (notesPlaceHolder, "notes")]
+		return [nameTextView : (TextViewStrings.placeholders.user, TextViewStrings.keypaths.user),
+		        songTextView : (TextViewStrings.placeholders.song, TextViewStrings.keypaths.song),
+		        notesTextView : (TextViewStrings.placeholders.notes, TextViewStrings.keypaths.notes)]
 	}
 	
-	
-	let namePlaceholder = "Enter your name"
-	let songPlaceholder = "Enter your song, or look for your favorite song in our catalog"
-	let notesPlaceHolder = "Got a dedication? Want to come up and sing? Put any extra notes here"
+	struct TextViewStrings {
+		struct keypaths {
+			static let user = "userString"
+			static let song = "songString"
+			static let notes = "notes"
+		}
+		struct placeholders {
+			static let user = "Enter your name"
+			static let song = "Enter your song, or look for your favorite song in our catalog"
+			static let notes = "Got a dedication? Want to come up and sing? Put any extra notes here"
+		}
+	}
 	
 	@IBOutlet weak var nameTextView: UITextView!
 	@IBOutlet weak var songTextView: UITextView!
 	@IBOutlet weak var notesTextView: UITextView!
 	
 	func textViewDidBeginEditing(_ textView: UITextView) {
-		if textView.textColor == UIColor.lightGray { textView.text = "" }
+		if textView.textColor == placeholderColor { textView.text = "" }
 		textView.textColor = UIColor.black
 	}
 	
 	func textViewDidEndEditing(_ textView: UITextView) {
 		if textView.text == "" {
-			textView.reset(with: textViewInfo[textView]!.placeholder)
+			textView.reset(with: textViewInfo[textView]!.placeholder, color: placeholderColor)
 		} else {
-			request.setValue(textView.text, forKey: textViewInfo[textView]!.keyPath)
+			request?.setValue(textView.text, forKey: textViewInfo[textView]!.keyPath)
 		}
 	}
 	
@@ -94,13 +105,26 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	*/
 	
 	override func viewWillAppear(_ animated: Bool) {
-		// This can probably be moved to somewhere in the optional binding below.
+		
+		if let currentRequest = request {
+			if let song = currentRequest.songObject {
+				songTextView.text = song.title + "\n" + "by " + song.artist.name
+				songTextView.textColor = UIColor.black
+			}
+		} else {
+			clearRequest()
+		}
+		
+		// Clearing of the request (unless there's already a request) (or something) - previous implementation 
+		/*
+		// This can probably be moved to somewhere in the optional binding.
 		if request == nil {
 			request = Request()
 		}
 		
-		nameTextView.reset(with: namePlaceholder)
-		notesTextView.reset(with: notesPlaceHolder)
+		for view in textViewInfo.keys where view != songTextView {
+			view.reset(with: textViewInfo[view]!.placeholder, color: placeholderColor)
+		}
 		
 		// If a song has been selected from browser, put it in the text field.
 		if let song = request?.songObject {
@@ -108,19 +132,20 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 			songTextView.text = song.title + "\nby " + song.artist.name
 			songTextView.textColor = UIColor.black
 		} else {
-			songTextView.reset(with: songPlaceholder)
-		}
+			songTextView.reset(with: TextViewStrings.placeholders.song, color: placeholderColor)
+		} */
 	}
 	
 	// MARK: Submitting the request
 	
 	@IBAction func submitButtonPressed(_ sender: UIButton) {
 		
-		nameTextView.endEditing(true)
-		songTextView.endEditing(true)
-		notesTextView.endEditing(true)
+		textViewInfo.keys.forEach { $0.endEditing(true) }
+//		nameTextView.endEditing(true)
+//		songTextView.endEditing(true)
+//		notesTextView.endEditing(true)
 		
-		guard request != nil && !request.userString.isEmpty && !request.songString.isEmpty else {
+		guard let request = request, !request.userString.isEmpty && !request.songString.isEmpty else {
 			let alert = UIAlertController(title: "Incomplete Request",
 			                              message: "Please enter your name and a song.",
 			                              preferredStyle: .alert)
@@ -140,7 +165,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 				func confirmSubmittedRequest() {
 					var infoString = "Your Name: \(request.userString)" + "\r"
 					infoString += "Your Song: \(request.songString)" + "\r"
-					infoString += "Your Notes: \(request.notes)"
+					if !request.notes.isEmpty { infoString += "Your Notes: \(request.notes)" }
 					let alert = UIAlertController(title: "Request Sent!", message: infoString, preferredStyle: .alert)
 					alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in self.clearRequest() })
 					present(alert, animated: true, completion: nil)
@@ -162,9 +187,9 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	}
 	
 	func clearRequest () {
-		nameTextView.reset(with: namePlaceholder)
-		songTextView.reset(with: songPlaceholder)
-		notesTextView.reset(with: notesPlaceHolder)
+		for view in textViewInfo.keys {
+			view.reset(with: textViewInfo[view]!.placeholder, color: placeholderColor)
+		}
 		request = Request()
 	}
 	

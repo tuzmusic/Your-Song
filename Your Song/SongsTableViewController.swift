@@ -33,7 +33,14 @@ class SongsTableViewController: RealmSearchViewController {
 	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
 		let song = anObject as! Song
-		YpbApp.currentRequest?.songObject = song
+		//YpbApp.currentRequest?.songObject = song
+		if let form = navigationController?.viewControllers.first as? CreateRequestTableViewController {
+			if let request = form.request {
+				request.songObject = song
+			} else {
+				form.request = Request()
+			}			
+		}
 		navigationController?.popToRootViewController(animated: true)
 	}
 }
