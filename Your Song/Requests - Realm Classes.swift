@@ -28,7 +28,8 @@ final class YpbUser: Object {
 	dynamic var firstName: String = ""
 	dynamic var lastName: String = ""
 	dynamic var registeredDate = Date()
-	var requests = List<Request>()
+	dynamic var email: String = ""
+	let requests = LinkingObjects(fromType: Request.self, property: "user")
 	
 	func averageTip() -> Double {
 		let average = 0.0

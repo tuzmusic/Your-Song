@@ -15,6 +15,8 @@ class YpbApp {
 	
 	static var ypbRealm: Realm!
 	
+	static var ypbUser: YpbUser!
+	
 	class func setupRealm() {
 		/*
 		

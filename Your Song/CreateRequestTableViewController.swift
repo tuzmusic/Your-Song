@@ -79,8 +79,16 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 			}
 		} else {
 			request = Request()
+			if let user = YpbApp.ypbUser {
+				request.user = user
+				request.userString = "\(user.firstName) \(user.lastName)"
+			}
 			textViewInfo.keys.forEach {
-				$0.reset(with: textViewInfo[$0]!.placeholder, color: placeholderColor)
+				if request.value(forKey: textViewInfo[$0]!.keyPath) as! String == "" {
+					$0.reset(with: textViewInfo[$0]!.placeholder, color: placeholderColor)
+				} else {
+					$0.text = request.value(forKey: textViewInfo[$0]!.keyPath) as! String
+				}
 			}
 		}
 	}

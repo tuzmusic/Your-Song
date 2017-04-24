@@ -19,6 +19,10 @@
 		768235E81E856FF7006186D7 /* CreateRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */; };
 		768235E91E856FF7006186D7 /* Globals, Extensions, Etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */; };
 		768235EE1E857044006186D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235ED1E857044006186D7 /* Main.storyboard */; };
+		769D2E151EACE6510069FB30 /* SignInTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769D2E141EACE6510069FB30 /* SignInTableViewController.swift */; };
+		769D2E171EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E161EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png */; };
+		769D2E191EAE20BC0069FB30 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E181EAE20BC0069FB30 /* GoogleService-Info.plist */; };
+		769D2E1B1EAE20CC0069FB30 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E1A1EAE20CC0069FB30 /* GoogleService-Info.plist */; };
 		769FFBF21EAA1AB800F5EB37 /* YpbApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769FFBF11EAA1AB800F5EB37 /* YpbApp.swift */; };
 		76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638231E9E99E8001BBFB1 /* Artist.swift */; };
 		76F638281E9E99E8001BBFB1 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638241E9E99E8001BBFB1 /* Genre.swift */; };
@@ -58,6 +62,11 @@
 		768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateRequestTableViewController.swift; sourceTree = "<group>"; };
 		768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Globals, Extensions, Etc.swift"; sourceTree = "<group>"; };
 		768235ED1E857044006186D7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		769D2E141EACE6510069FB30 /* SignInTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInTableViewController.swift; sourceTree = "<group>"; };
+		769D2E161EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "!your-piano-bar-logo-tagline-final.png"; sourceTree = "<group>"; };
+		769D2E181EAE20BC0069FB30 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		769D2E1A1EAE20CC0069FB30 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		769D2E1D1EAE226C0069FB30 /* Your-Song-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Your-Song-Bridging-Header.h"; sourceTree = "<group>"; };
 		769FFBF11EAA1AB800F5EB37 /* YpbApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YpbApp.swift; sourceTree = "<group>"; };
 		76ACB9A61E95465300923D6F /* BebasNeue Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Bold.ttf"; sourceTree = "<group>"; };
 		76ACB9A71E95465300923D6F /* BebasNeue Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Book.ttf"; sourceTree = "<group>"; };
@@ -137,6 +146,7 @@
 				768235DA1E856FAA006186D7 /* Browser */,
 				76ACB9B71E9A561A00923D6F /* Requests */,
 				768235ED1E857044006186D7 /* Main.storyboard */,
+				769D2E141EACE6510069FB30 /* SignInTableViewController.swift */,
 				768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */,
 				769FFBF11EAA1AB800F5EB37 /* YpbApp.swift */,
 			);
@@ -146,6 +156,7 @@
 		768235C21E856ED0006186D7 /* Your SongTests */ = {
 			isa = PBXGroup;
 			children = (
+				769D2E1A1EAE20CC0069FB30 /* GoogleService-Info.plist */,
 				768235C31E856ED0006186D7 /* Your_SongTests.swift */,
 				768235C51E856ED0006186D7 /* Info.plist */,
 			);
@@ -155,12 +166,13 @@
 		768235D51E856F2F006186D7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				76ACB9A51E95464700923D6F /* Fonts */,
 				768235AE1E856ECF006186D7 /* AppDelegate.swift */,
-				768235D81E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png */,
+				769D2E181EAE20BC0069FB30 /* GoogleService-Info.plist */,
+				768235BA1E856ED0006186D7 /* Info.plist */,
+				769D2E1D1EAE226C0069FB30 /* Your-Song-Bridging-Header.h */,
+				769D2E1C1EAE22530069FB30 /* Assets */,
 				768235B51E856ED0006186D7 /* Assets.xcassets */,
 				768235B71E856ED0006186D7 /* LaunchScreen.storyboard */,
-				768235BA1E856ED0006186D7 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			path = "Your Song";
@@ -174,6 +186,16 @@
 				76F638391EA223EC001BBFB1 /* RealmSetup.swift */,
 			);
 			name = Browser;
+			sourceTree = "<group>";
+		};
+		769D2E1C1EAE22530069FB30 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				76ACB9A51E95464700923D6F /* Fonts */,
+				769D2E161EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png */,
+				768235D81E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png */,
+			);
+			name = Assets;
 			sourceTree = "<group>";
 		};
 		76ACB9A51E95464700923D6F /* Fonts */ = {
@@ -330,6 +352,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				769D2E171EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png in Resources */,
+				769D2E191EAE20BC0069FB30 /* GoogleService-Info.plist in Resources */,
 				768235B91E856ED0006186D7 /* LaunchScreen.storyboard in Resources */,
 				76F638331EA102BA001BBFB1 /* song list 2.tsv in Resources */,
 				768235EE1E857044006186D7 /* Main.storyboard in Resources */,
@@ -343,6 +367,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				769D2E1B1EAE20CC0069FB30 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +482,7 @@
 				76F638381EA221AA001BBFB1 /* SongsTableViewController.swift in Sources */,
 				76F638291E9E99E8001BBFB1 /* Requests - Realm Classes.swift in Sources */,
 				769FFBF21EAA1AB800F5EB37 /* YpbApp.swift in Sources */,
+				769D2E151EACE6510069FB30 /* SignInTableViewController.swift in Sources */,
 				76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */,
 				76F6382A1E9E99E8001BBFB1 /* Song.swift in Sources */,
 			);
