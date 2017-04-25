@@ -11,6 +11,19 @@ import GoogleSignIn
 
 class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	
+	func addNewSpinner() -> UIActivityIndicatorView {
+		let spinner = UIActivityIndicatorView()
+		spinner.frame.origin.x = view.frame.midX - 20
+		spinner.frame.origin.y = view.frame.midY - 20
+		spinner.frame.size = CGSize(width: 40, height: 40)
+		spinner.hidesWhenStopped = true
+		spinner.activityIndicatorViewStyle = .whiteLarge
+		spinner.color = .lightGray
+		spinner.startAnimating()
+		view.addSubview(spinner)
+		return spinner
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		GIDSignIn.sharedInstance().uiDelegate = self
@@ -22,23 +35,27 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
   // ...
 		
 	}
-
-	@IBAction func googleSignOut(_ sender: Any) {
-		GIDSignIn.sharedInstance().signOut()
+	
+	var spinner: UIActivityIndicatorView!
+	
+	func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
+		if let user = GIDSignIn.sharedInstance().currentUser {
+			// GIDSignInDelegate (AppDelegate) assigns the GoogleUser info to the YpbUser
+			self.spinner.stopAnimating()
+			performSegue(withIdentifier: Storyboard.LoginSegue, sender: nil)
+		} else {
+			let alert = UIAlertController(title: "Google Login Failed", message: "Not signed in", preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil ))
+			pr("sign in from VC failure")
+			present(alert, animated: true, completion: { _ in self.spinner.stopAnimating() })
+		}
 	}
 	
-	var googleUser: GIDGoogleUser?
-	
 	@IBAction func signIn(_ sender: Any) {
-		if sender is GIDSignInButton {
-		googleUser = GIDSignIn.sharedInstance().currentUser
-			if let user = googleUser {
-				pr("Google User Info: \(user.profile.name!), \(user.profile.email!)")
-			} else {
-				print("Not signed in yet")
-				return
-			}
-		}
-		performSegue(withIdentifier: Storyboard.LoginSegue, sender: nil)
+		spinner = addNewSpinner()
+	}
+	
+	@IBAction func googleSignOut(_ sender: Any) {
+		GIDSignIn.sharedInstance().signOut()
 	}
 }
