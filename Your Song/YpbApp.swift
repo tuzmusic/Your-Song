@@ -17,6 +17,12 @@ class YpbApp {
 	
 	static var ypbUser: YpbUser!
 	
+	struct UserInfo {
+		var firstName = ""
+		var lastName = ""
+		var email = ""
+	}
+	
 	class func setupRealm() {
 		/*
 		
@@ -56,7 +62,10 @@ class YpbApp {
 		
 		func tokenString() -> String { return "ewoJImlkZW50aXR5IjogIl9fYXV0aCIsCgkiYWNjZXNzIjogWyJ1cGxvYWQiLCAiZG93bmxvYWQiLCAibWFuYWdlIl0KfQo=:H1qgzZHbRSYdBs0YoJON7ehUZdVDQ8wGKwgYWsQUoupYPycq1cC4PlGZlDZ++Q+gB2ouYcw4bRRri2Z3F5dlWALLWvARgEwB2bDmuOQRcH30IKkdhFp11PnE3StiMn30TDZWWzX31QAyPDvaUyES7/VK/y8CDHmJ8L/UJ/y8w422bmIFTlectnuXBzMRboBZ8JD/PSrXciaPhm9hd/jEEfgYTwB7oyuuch9XrWvPbSrcpWXEr/6j526nuoips1+KTA/h25LzAgCs1+ZeO63RFKi/K3q7y/HkRBB8OWgK9kBQZGIx8eiH4zu7ut4mLGBcs38JnJr4OEvSTSfdZdhGxw==" }
 		
-		let tokenCred = SyncCredentials.accessToken(tokenString(), identity: "admin")
+		// let tokenCred = SyncCredentials.accessToken(tokenString(), identity: "admin")
+		let tokenCred = SyncCredentials.accessToken("wrong string", identity: "admin")
+		
+		// Currently, I'm not actually using a SyncUser. I'm using authentication (Google, FB, YPB, whatever) to create a YpbUser and to allow entry into the next scene of the app.
 		
 		SyncUser.logIn(with: tokenCred, server: publicDNS) {
 			

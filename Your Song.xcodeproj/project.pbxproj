@@ -10,6 +10,7 @@
 		45B48EC4F1858BA01659C249 /* Pods_Your_SongTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C990F1270EECBB4AFC421D90 /* Pods_Your_SongTests.framework */; };
 		6F1E83521AE714DADB07E778 /* Pods_Your_Song.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C8A1FF9076DA76C81486B /* Pods_Your_Song.framework */; };
 		7607666B1EA3920F00348171 /* ArtistsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7607666A1EA3920F00348171 /* ArtistsTableViewController.swift */; };
+		762F59531EAFCA3A000FE032 /* YpbUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762F59521EAFCA3A000FE032 /* YpbUser.swift */; };
 		768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235AE1E856ECF006186D7 /* AppDelegate.swift */; };
 		768235B61E856ED0006186D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 768235B51E856ED0006186D7 /* Assets.xcassets */; };
 		768235B91E856ED0006186D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235B71E856ED0006186D7 /* LaunchScreen.storyboard */; };
@@ -49,6 +50,7 @@
 		404C8A1FF9076DA76C81486B /* Pods_Your_Song.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Your_Song.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A2CDB364308A3385C0EB798 /* Pods-Your Song.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Your Song.release.xcconfig"; path = "Pods/Target Support Files/Pods-Your Song/Pods-Your Song.release.xcconfig"; sourceTree = "<group>"; };
 		7607666A1EA3920F00348171 /* ArtistsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistsTableViewController.swift; sourceTree = "<group>"; };
+		762F59521EAFCA3A000FE032 /* YpbUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YpbUser.swift; sourceTree = "<group>"; };
 		76321C641EAEB101001C860C /* Your Song-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Your Song-Bridging-Header.h"; sourceTree = "<group>"; };
 		768235AB1E856ECF006186D7 /* Your Song.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Your Song.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		768235AE1E856ECF006186D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -144,11 +146,12 @@
 			children = (
 				76ACB9AF1E9A552400923D6F /* Realm Object Classes */,
 				768235DA1E856FAA006186D7 /* Browser */,
-				76ACB9B71E9A561A00923D6F /* Requests */,
 				768235ED1E857044006186D7 /* Main.storyboard */,
 				769D2E141EACE6510069FB30 /* SignInTableViewController.swift */,
+				768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */,
 				768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */,
 				769FFBF11EAA1AB800F5EB37 /* YpbApp.swift */,
+				768235AE1E856ECF006186D7 /* AppDelegate.swift */,
 			);
 			path = "Your Song";
 			sourceTree = "<group>";
@@ -166,7 +169,6 @@
 		768235D51E856F2F006186D7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				768235AE1E856ECF006186D7 /* AppDelegate.swift */,
 				769D2E181EAE20BC0069FB30 /* GoogleService-Info.plist */,
 				768235BA1E856ED0006186D7 /* Info.plist */,
 				769D2E1C1EAE22530069FB30 /* Assets */,
@@ -218,16 +220,9 @@
 				76F638231E9E99E8001BBFB1 /* Artist.swift */,
 				76F638241E9E99E8001BBFB1 /* Genre.swift */,
 				76F638251E9E99E8001BBFB1 /* Requests - Realm Classes.swift */,
+				762F59521EAFCA3A000FE032 /* YpbUser.swift */,
 			);
 			name = "Realm Object Classes";
-			sourceTree = "<group>";
-		};
-		76ACB9B71E9A561A00923D6F /* Requests */ = {
-			isa = PBXGroup;
-			children = (
-				768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */,
-			);
-			name = Requests;
 			sourceTree = "<group>";
 		};
 		76ACB9B81E9A563200923D6F /* View Controllers */ = {
@@ -486,6 +481,7 @@
 				769D2E151EACE6510069FB30 /* SignInTableViewController.swift in Sources */,
 				76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */,
 				76F6382A1E9E99E8001BBFB1 /* Song.swift in Sources */,
+				762F59531EAFCA3A000FE032 /* YpbUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

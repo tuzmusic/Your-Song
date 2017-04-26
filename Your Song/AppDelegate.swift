@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		
-		//print("Documents folder: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])")
+		// print("Documents folder: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])")
 		
 		// Initialize Google sign-in
 		var configureError: NSError?
@@ -30,10 +30,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 		// GIDSignIn.sharedInstance().signInSilently() {
 		
 		//YpbApp.setupRealm()
-		
+		YpbApp.ypbRealm = try! Realm()
+		print("\(YpbApp.ypbRealm!.objects(Song.self).count) songs in realm")
+
 		return true
 	}
-	
 	
 	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 		
@@ -49,10 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 			return
 		}
 
-		YpbApp.ypbUser = YpbUser()
-		YpbApp.ypbUser.firstName = user.profile.givenName
-		YpbApp.ypbUser.lastName = user.profile.familyName
-		YpbApp.ypbUser.email = user.profile.email
+		YpbApp.ypbUser = YpbUser.user(firstName: user.profile.givenName, lastName: user.profile.familyName, email: user.profile.email, in: YpbApp.ypbRealm)
 
 		// Some more google user info
 		/*

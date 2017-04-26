@@ -39,19 +39,26 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	var spinner: UIActivityIndicatorView!
 	
 	func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
-		if let user = GIDSignIn.sharedInstance().currentUser {
-			// GIDSignInDelegate (AppDelegate) assigns the GoogleUser info to the YpbUser
-			self.spinner.stopAnimating()
-			performSegue(withIdentifier: Storyboard.LoginSegue, sender: nil)
-		} else {
+		pr("GIDSignInUIDelegate signed-in method")
+
+		guard GIDSignIn.sharedInstance().currentUser != nil else {
 			let alert = UIAlertController(title: "Google Login Failed", message: "Not signed in", preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil ))
-			pr("sign in from VC failure")
-			present(alert, animated: true, completion: { _ in self.spinner.stopAnimating() })
+			//present(alert, animated: true, completion: nil)
+			spinner.stopAnimating()
+			return
 		}
+		
+		performSegue(withIdentifier: Storyboard.LoginSegue, sender: nil)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		pr("prepare for segue")
+		spinner.stopAnimating()
 	}
 	
 	@IBAction func signIn(_ sender: Any) {
+		pr("signIn")
 		spinner = addNewSpinner()
 	}
 	

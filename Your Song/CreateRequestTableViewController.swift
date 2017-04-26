@@ -18,7 +18,7 @@ extension UITextView {
 
 class CreateRequestTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
 	
-	var placeholderColor: UIColor = ypbOrange
+	var placeholderColor: UIColor = UIColor.lightGray
 	var fieldTextColor: UIColor = UIColor.black
 	
 	// MARK: MODEL
@@ -69,7 +69,6 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	// MARK: Controller - loading the request/populating textViews
 	
 	override func viewWillAppear(_ animated: Bool) {
-		
 		if let request = self.request {
 			textViewInfo.keys.forEach {
 				$0.text = request.value(forKey: textViewInfo[$0]!.keyPath) as! String
@@ -96,17 +95,12 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	// MARK: Text field/view outlets and delegate methods
 	
 	var textViewInfo: [UITextView : (placeholder: String, keyPath: String)] {
-		return [nameTextView : (TextViewStrings.placeholders.user, TextViewStrings.keypaths.user),
-		        songTextView : (TextViewStrings.placeholders.song, TextViewStrings.keypaths.song),
-		        notesTextView : (TextViewStrings.placeholders.notes, TextViewStrings.keypaths.notes)]
+		return [nameTextView : (TextViewStrings.placeholders.user, "userString"),
+		        songTextView : (TextViewStrings.placeholders.song, "songString"),
+		        notesTextView : (TextViewStrings.placeholders.notes, "notes")]
 	}
 	
 	struct TextViewStrings {
-		struct keypaths {
-			static let user = "userString"
-			static let song = "songString"
-			static let notes = "notes"
-		}
 		struct placeholders {
 			static let user = "Enter your name"
 			static let song = "Enter your song, or look for your favorite song in our catalog"
@@ -169,69 +163,67 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	
 	// MARK: Submitting the request
 	
-		@IBAction func submitButtonPressed(_ sender: UIButton) {
-			
-			textViewInfo.keys.forEach { $0.endEditing(true) }
-			//		nameTextView.endEditing(true)
-			//		songTextView.endEditing(true)
-			//		notesTextView.endEditing(true)
-			
-			guard let request = request, !request.userString.isEmpty && !request.songString.isEmpty else {
-				let alert = UIAlertController(title: "Incomplete Request",
-				                              message: "Please enter your name and a song.",
-				                              preferredStyle: .alert)
-				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-				present(alert, animated: true, completion: nil)
-				return
-			}
-			
-			// Store non-user-accessible request info
-			request.date = Date()
-			
-			do {
-				if let realm = realm {
-					try realm.write {
-						realm.add(request)
-					}
-					func confirmSubmittedRequest() {
-						var infoString = "Your Name: \(request.userString)" + "\r"
-						infoString += "Your Song: \(request.songString.replacingOccurrences(of: "\n", with: " "))" + "\r"
-						if !request.notes.isEmpty { infoString += "Your Notes: \(request.notes)" }
-						let alert = UIAlertController(title: "Request Sent!", message: infoString, preferredStyle: .alert)
-						alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in self.clearRequest() })
-						present(alert, animated: true, completion: nil)
-					}
-					confirmSubmittedRequest()
-				} else {
-					let alert = UIAlertController(title: "Request Not Sent", message: "realm = nil", preferredStyle: .alert)
-					alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+	@IBAction func submitButtonPressed(_ sender: UIButton) {
+		
+		textViewInfo.keys.forEach { $0.endEditing(true) }
+		//		nameTextView.endEditing(true)
+		//		songTextView.endEditing(true)
+		//		notesTextView.endEditing(true)
+		
+		guard let request = request, !request.userString.isEmpty && !request.songString.isEmpty else {
+			let alert = UIAlertController(title: "Incomplete Request",
+			                              message: "Please enter your name and a song.",
+			                              preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+			present(alert, animated: true, completion: nil)
+			return
+		}
+		
+		// Store non-user-accessible request info
+		request.date = Date()
+		
+		do {
+			if let realm = realm {
+				try realm.write {
+					realm.add(request)
+				}
+				func confirmSubmittedRequest() {
+					var infoString = "Your Name: \(request.userString)" + "\r"
+					infoString += "Your Song: \(request.songString.replacingOccurrences(of: "\n", with: " "))" + "\r"
+					if !request.notes.isEmpty { infoString += "Your Notes: \(request.notes)" }
+					let alert = UIAlertController(title: "Request Sent!", message: infoString, preferredStyle: .alert)
+					alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in self.clearRequest() })
 					present(alert, animated: true, completion: nil)
 				}
-			} catch {
-				let alert = UIAlertController(title: "Error",
-				                              message: "Could not write to the Realm.",
-				                              preferredStyle: .alert)
+				confirmSubmittedRequest()
+			} else {
+				let alert = UIAlertController(title: "Request Not Sent", message: "realm = nil", preferredStyle: .alert)
 				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-				self.present(alert, animated: true, completion: nil)
-				return
+				present(alert, animated: true, completion: nil)
 			}
+		} catch {
+			let alert = UIAlertController(title: "Error",
+			                              message: "Could not write to the Realm.",
+			                              preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+			self.present(alert, animated: true, completion: nil)
+			return
 		}
-		
-		func clearRequest () {
-			for view in textViewInfo.keys {
-				view.reset(with: textViewInfo[view]!.placeholder, color: placeholderColor)
-			}
-			request = Request()
+	}
+	
+	func clearRequest () {
+		for view in textViewInfo.keys {
+			view.reset(with: textViewInfo[view]!.placeholder, color: placeholderColor)
 		}
-		
-		override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-			for view in [nameTextView, songTextView, notesTextView] as [UIView] {
-				view.resignFirstResponder()
-			}
-			if let songsVC = segue.destination.childViewControllers.first as? SongsTableViewController
-			{
-				//songsVC.realmConfiguration = YpbApp.ypbRealm.configuration
-				songsVC.realmConfiguration = Realm.Configuration.defaultConfiguration
-			}
+		request = Request()
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		for view in [nameTextView, songTextView, notesTextView] as [UIView] {
+			view.resignFirstResponder()
 		}
+		if let songsVC = segue.destination.childViewControllers.first as? SongsTableViewController
+		{
+		}
+	}
 }

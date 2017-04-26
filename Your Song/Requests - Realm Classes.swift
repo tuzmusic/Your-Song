@@ -23,22 +23,6 @@ final class Request: Object {
 	
 }
 
-final class YpbUser: Object {
-	dynamic var id: String = ""
-	dynamic var firstName: String = ""
-	dynamic var lastName: String = ""
-	dynamic var registeredDate = Date()
-	dynamic var email: String = ""
-	let requests = LinkingObjects(fromType: Request.self, property: "user")
-	
-	func averageTip() -> Double {
-		let average = 0.0
-		
-		
-		
-		return average
-	}
-}
 
 final class Event: Object {
 	dynamic var name: String = "General"

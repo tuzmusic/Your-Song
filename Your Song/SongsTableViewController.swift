@@ -12,10 +12,10 @@ import RealmSwift
 
 class SongsTableViewController: RealmSearchViewController {
 	
-	var selectedSong: Song!
-	
 	override func viewDidLoad() {
-//		realmConfiguration = YpbApp.ypbRealm.configuration
+		//		realmConfiguration = YpbApp.ypbRealm.configuration
+		//		entityName = "Song"
+		pr("STVC.viewDidLoad says: entityName: \(entityName ?? "none"), \(results?.count) results")
 	}
 	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
