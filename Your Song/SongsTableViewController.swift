@@ -12,16 +12,7 @@ import RealmSwift
 
 class SongsTableViewController: RealmSearchViewController {
 	
-	override func viewDidLoad() {
-		//		realmConfiguration = YpbApp.ypbRealm.configuration
-		//		entityName = "Song"
-		pr("STVC.viewDidLoad says: entityName: \(entityName ?? "none"), \(results?.count) results")
-	}
-	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
-
-		//self.title = "All Songs (\(realm.objects(Song.self).count) songs)"
-		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
 		let song = object as! Song
@@ -29,16 +20,8 @@ class SongsTableViewController: RealmSearchViewController {
 		cell.detailTextLabel?.text = song.artist!.name
 		
 		return cell
+		
 	}
-	
-	override func viewWillDisappear(_ animated: Bool) {
-		if let form = navigationController?.viewControllers.first as? CreateRequestTableViewController {
-			if form.songObject == nil {
-				form.songObject = Song(value: ["Vienna", Artist(value: ["Billy Joel"])])
-			}
-		}
-	}
-	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
 		let song = anObject as! Song
 		if let form = navigationController?.viewControllers.first as? CreateRequestTableViewController {
