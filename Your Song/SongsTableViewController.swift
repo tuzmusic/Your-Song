@@ -12,16 +12,20 @@ import RealmSwift
 
 class SongsTableViewController: RealmSearchViewController {
 	
+	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+		return indexTitles(type: Song.self)
+	}
+	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-		
+
 		let song = object as! Song
 		cell.textLabel?.text = song.title
 		cell.detailTextLabel?.text = song.artist!.name
 		
-		return cell
-		
+		return cell	
 	}
+	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
 		let song = anObject as! Song
 		if let form = navigationController?.viewControllers.first as? CreateRequestTableViewController {

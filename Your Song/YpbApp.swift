@@ -62,8 +62,13 @@ class YpbApp {
 		
 		func tokenString() -> String { return "ewoJImlkZW50aXR5IjogIl9fYXV0aCIsCgkiYWNjZXNzIjogWyJ1cGxvYWQiLCAiZG93bmxvYWQiLCAibWFuYWdlIl0KfQo=:H1qgzZHbRSYdBs0YoJON7ehUZdVDQ8wGKwgYWsQUoupYPycq1cC4PlGZlDZ++Q+gB2ouYcw4bRRri2Z3F5dlWALLWvARgEwB2bDmuOQRcH30IKkdhFp11PnE3StiMn30TDZWWzX31QAyPDvaUyES7/VK/y8CDHmJ8L/UJ/y8w422bmIFTlectnuXBzMRboBZ8JD/PSrXciaPhm9hd/jEEfgYTwB7oyuuch9XrWvPbSrcpWXEr/6j526nuoips1+KTA/h25LzAgCs1+ZeO63RFKi/K3q7y/HkRBB8OWgK9kBQZGIx8eiH4zu7ut4mLGBcs38JnJr4OEvSTSfdZdhGxw==" }
 		
-		// let tokenCred = SyncCredentials.accessToken(tokenString(), identity: "admin")
-		let tokenCred = SyncCredentials.accessToken("wrong string", identity: "admin")
+		// Paste into terminal to SSH into EC2: 
+		/*
+		ssh -i /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff/KeyPairs/YourPianoBarKeyPair.pem ubuntu@ec2-54-208-237-32.compute-1.amazonaws.com
+		*/
+		
+		let tokenCred = SyncCredentials.accessToken(tokenString(), identity: "admin")
+		//let tokenCred = SyncCredentials.accessToken("wrong string", identity: "admin")
 		
 		// Currently, I'm not actually using a SyncUser. I'm using authentication (Google, FB, YPB, whatever) to create a YpbUser and to allow entry into the next scene of the app.
 		
@@ -94,7 +99,7 @@ class YpbApp {
 				// NOTE: This changeset error only happens without the ~ in the realm address.
 				*/ // Changeset error info
 				
-				pr("\(YpbApp.ypbRealm.objects(Song.self).count) songs in current Realm")
+				// pr("\(YpbApp.ypbRealm.objects(Song.self).count) songs in current Realm")
 				
 				// If no songs in online realm, import songs offline realm TO THE ONLINE REALM (shouldn't ever happen once app is released)
 				

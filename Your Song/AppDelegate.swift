@@ -30,8 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 		// GIDSignIn.sharedInstance().signInSilently() {
 		
 		//YpbApp.setupRealm()
-		YpbApp.ypbRealm = try! Realm()
-		print("\(YpbApp.ypbRealm!.objects(Song.self).count) songs in realm")
+		//YpbApp.ypbRealm = try! Realm()
+		//print("\(YpbApp.ypbRealm?.objects(Song.self).count) songs in realm")
 
 		return true
 	}
