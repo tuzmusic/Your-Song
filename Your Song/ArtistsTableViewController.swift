@@ -10,7 +10,7 @@ import UIKit
 import RealmSearchViewController
 import RealmSwift
 
-class ArtistsTableViewController: RealmSearchViewController {
+class ArtistsTableViewController: BrowserViewController {
 	
 	var selectedArtist: Artist!
 	var songs = [Song]()
@@ -24,7 +24,8 @@ class ArtistsTableViewController: RealmSearchViewController {
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return section == 0 ? 1 : super.tableView(tableView, numberOfRowsInSection: section)
 	}
-	
+
+	// This is just for the "All songs" row. Has nothing to do with whether there's a genre.
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.section == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
@@ -46,13 +47,11 @@ class ArtistsTableViewController: RealmSearchViewController {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		
 		if let genre = genreForArtists {
-			// self.title = genre.name + " (\(genre.artists.count) artists)"
 			let artist = genre.artists[indexPath.row]
 			let songsByArtistInGenre = artist.songs.filter("genre = %@", genre)
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genre.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
 		} else {
-			// self.title = "All Artists (\(realm.objects(Artist.self).count) artists)"
 			let artist = object as! Artist
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(artist.songs.count) songs"
@@ -65,6 +64,18 @@ class ArtistsTableViewController: RealmSearchViewController {
 			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
 		}
 	}
+	
+//	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+//		var titles = [String]()
+//		if let genre = genreForArtists {
+//			// NOTE! Can't a check for basePredicate replace genreForArtists?
+//			
+//			titles = indexTitles(type: Artist.self, predicate: NSPredicate(format: "name in %@", genre.artists.map { $0.name }))
+//		} else {
+//			titles = indexTitles(type: Artist.self)
+//		}
+//		return titles
+//	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let songsVC = segue.destination as? SongsTableViewController {
