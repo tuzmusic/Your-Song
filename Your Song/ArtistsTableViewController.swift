@@ -64,19 +64,7 @@ class ArtistsTableViewController: BrowserViewController {
 			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
 		}
 	}
-	
-//	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-//		var titles = [String]()
-//		if let genre = genreForArtists {
-//			// NOTE! Can't a check for basePredicate replace genreForArtists?
-//			
-//			titles = indexTitles(type: Artist.self, predicate: NSPredicate(format: "name in %@", genre.artists.map { $0.name }))
-//		} else {
-//			titles = indexTitles(type: Artist.self)
-//		}
-//		return titles
-//	}
-	
+		
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let songsVC = segue.destination as? SongsTableViewController {
 			if segue.identifier == Storyboard.AllSongsSegue, let genre = genreForArtists {

@@ -53,10 +53,6 @@ class GenresTableViewController: BrowserViewController {
 		}
 	}
 	
-//	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-//		return indexTitles(type: Genre.self)
-//	}
-//	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let artistsVC = segue.destination as? ArtistsTableViewController,
 			let genreName = (sender as? UITableViewCell)?.textLabel?.text
