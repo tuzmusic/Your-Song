@@ -20,7 +20,7 @@ class BrowserViewController: RealmSearchViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		getActiveKeys()
+		// Called after 1 call to numberOfSections
 	}
 	
 	func getActiveKeys() {
@@ -32,7 +32,6 @@ class BrowserViewController: RealmSearchViewController {
 			for key in allKeys {
 				if results.objects(with: NSPredicate(format: "\(titleName) BEGINSWITH %@", key)).count > 0 {
 					activeKeys.append(key)
-					
 				}
 			}
 		}
@@ -54,40 +53,32 @@ extension BrowserViewController {
 			return super.tableView(tableView, cellForRowAt: IndexPath(row: adjustedRow, section: 0))
 		}
 		
-		return UITableViewCell()
+		return super.tableView(tableView, cellForRowAt: indexPath)
 	}
 	
 	override func numberOfSections(in tableView: UITableView) -> Int {
+		
+		getActiveKeys()
+		
 		return activeKeys.isEmpty ? 1 : activeKeys.count
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		
+
 		if let results = results, let titleName = titleName, !activeKeys.isEmpty {
 			let startingLetter = activeKeys[section]
 			let items = results.objects(with: NSPredicate(format: "\(titleName) BEGINSWITH %@", startingLetter))
 			return Int(items.count)
 		}
 		
-		return 0
+		return Int(results?.count ?? 0)
 	}
 	
-	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		return activeKeys.isEmpty ? nil : activeKeys[section]
-	}
+//	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//		return activeKeys.isEmpty ? nil : activeKeys[section]
+//	}
 	
-	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-		
-		// TO-DO: Doesn't deal with numbers or parentheses yet. Which means that all the other section header stuff doesn't either.
-		let allKeys = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-		
-		if let results = results, let titleName = titleName {
-			for key in allKeys {
-				if results.objects(with: NSPredicate(format: "\(titleName) BEGINSWITH %@", key)).count > 0 {
-					activeKeys.append(key)
-				}
-			}
-		}
+	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {				
 		return activeKeys
 	}
 	
