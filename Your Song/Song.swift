@@ -11,6 +11,7 @@ import RealmSwift
 
 final class Song: Object {
 	dynamic var title = ""
+	dynamic var sortName = ""
 	dynamic var artist: Artist!
 	dynamic var genre: Genre!
 	dynamic var year = Int()
@@ -88,6 +89,30 @@ final class Song: Object {
 		}
 		
 		let newSong = Song(value: [title])
+		
+		func nameForSorting(for name: String) -> String {
+			var startingName = name
+			var editedName = startingName
+			let nameChars = editedName.characters
+			
+			repeat {
+				startingName = editedName
+				if editedName.hasPrefix("(") {
+					// Delete the parenthetical
+					editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
+				} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
+					// Delete any punctuation, spaces, etc.
+					editedName.remove(at: nameChars.index(of: nameChars.first!)!)
+				} else if let range = editedName.range(of: "The ") {
+					// Delete "The"
+					editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
+				}
+			} while editedName != startingName
+			
+			return editedName
+		}
+		
+		newSong.sortName = nameForSorting(for: title)
 
 		let artistSearch = realm.objects(Artist.self).filter("name like[c] %@", artistName)
 		newSong.artist = artistSearch.isEmpty ? Artist(value: [artistName]) : artistSearch.first

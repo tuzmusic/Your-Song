@@ -38,47 +38,47 @@ class BrowserViewController: RealmSearchViewController {
 	}
 }
 
-extension BrowserViewController {
-		
-	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
-		var adjustedRow = 0
-		
-		if let results = results, let titleName = titleName, !activeKeys.isEmpty {
-			let startingLetter = activeKeys[indexPath.section]
-			let items = results.objects(with: NSPredicate(format: "\(titleName) BEGINSWITH %@", startingLetter))
-			let object = items[UInt(indexPath.row)]
-			adjustedRow = Int(results.index(of: object))
-			
-			return super.tableView(tableView, cellForRowAt: IndexPath(row: adjustedRow, section: 0))
-		}
-		
-		return super.tableView(tableView, cellForRowAt: indexPath)
-	}
-	
-	override func numberOfSections(in tableView: UITableView) -> Int {
-		
-		getActiveKeys()
-		
-		return activeKeys.isEmpty ? 1 : activeKeys.count
-	}
-	
-	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-		if let results = results, let titleName = titleName, !activeKeys.isEmpty {
-			let startingLetter = activeKeys[section]
-			let items = results.objects(with: NSPredicate(format: "\(titleName) BEGINSWITH %@", startingLetter))
-			return Int(items.count)
-		}
-		
-		return Int(results?.count ?? 0)
-	}
-	
-	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {				
-		return activeKeys
-	}
-	
-	override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-		return index
-	}
-}
+//extension BrowserViewController {
+//		
+//	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//		
+//		var adjustedRow = 0
+//		
+//		if let results = results, let titleName = titleName, !activeKeys.isEmpty {
+//			let startingLetter = activeKeys[indexPath.section]
+//			let items = results.objects(with: NSPredicate(format: "\(titleName) BEGINSWITH %@", startingLetter))
+//			let object = items[UInt(indexPath.row)]
+//			adjustedRow = Int(results.index(of: object))
+//			
+//			return super.tableView(tableView, cellForRowAt: IndexPath(row: adjustedRow, section: 0))
+//		}
+//		
+//		return super.tableView(tableView, cellForRowAt: indexPath)
+//	}
+//	
+//	override func numberOfSections(in tableView: UITableView) -> Int {
+//		
+//		getActiveKeys()
+//		
+//		return activeKeys.isEmpty ? 1 : activeKeys.count
+//	}
+//	
+//	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//
+//		if let results = results, let titleName = titleName, !activeKeys.isEmpty {
+//			let startingLetter = activeKeys[section]
+//			let items = results.objects(with: NSPredicate(format: "\(titleName) BEGINSWITH %@", startingLetter))
+//			return Int(items.count)
+//		}
+//		
+//		return Int(results?.count ?? 0)
+//	}
+//	
+//	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {				
+//		return activeKeys
+//	}
+//	
+//	override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+//		return index
+//	}
+//}
