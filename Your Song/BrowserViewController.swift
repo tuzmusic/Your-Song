@@ -74,10 +74,6 @@ extension BrowserViewController {
 		return Int(results?.count ?? 0)
 	}
 	
-//	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//		return activeKeys.isEmpty ? nil : activeKeys[section]
-//	}
-	
 	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {				
 		return activeKeys
 	}

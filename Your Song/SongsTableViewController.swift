@@ -14,7 +14,6 @@ class SongsTableViewController: BrowserViewController {
 	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 
-		//let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		let song = object as! Song
 		cell.textLabel?.text = song.title
@@ -25,6 +24,9 @@ class SongsTableViewController: BrowserViewController {
 	
 	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
+		
+		// With only letters handled by indexes, the indexPath here is wrong.
+		
 		let song = anObject as! Song
 		if let form = navigationController?.viewControllers.first as? CreateRequestTableViewController {
 			form.songObject = song
