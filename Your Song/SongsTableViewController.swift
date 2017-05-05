@@ -25,7 +25,7 @@ class SongsTableViewController: BrowserViewController {
 	// TO-DO: This needs a superclass version, to work with adjustedRow
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		super.tableView.selectRow(at: IndexPath(row: adjustedRow(for: indexPath), section: 0), animated: true, scrollPosition: .top)
+		super.tableView(tableView, didSelectRowAt: adjustedIndexPath(for: indexPath))
 	}
 	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {

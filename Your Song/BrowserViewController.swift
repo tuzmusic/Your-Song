@@ -61,19 +61,22 @@ class BrowserViewController: RealmSearchViewController {
 		return Int(results?.count ?? 0)
 	}
 	
-	func adjustedRow(for indexPath: IndexPath) -> Int {
-		let startingLetter = activeKeys[indexPath.section]
+	func adjustedIndexPath(for indexPath: IndexPath) -> IndexPath {
 		if let results = results {
-			let items = results.objects(with: NSPredicate(format: "sortName BEGINSWITH[c] %@", startingLetter))
-			let object = items[UInt(indexPath.row)]
-			return Int(results.index(of: object))
+			if !(activeKeys.contains("#") && indexPath.section == 0) {
+				let startingLetter = activeKeys[indexPath.section]
+				let items = results.objects(with: NSPredicate(format: "sortName BEGINSWITH[c] %@", startingLetter))
+				let object = items[UInt(indexPath.row)]
+				return IndexPath(row: Int(results.index(of: object)), section: 0)
+			}
 		}
-		return indexPath.row
+		return indexPath
 	}
 
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		return super.tableView(tableView, cellForRowAt:
-			(activeKeys.contains("#") && indexPath.section == 0) ? indexPath : IndexPath(row: adjustedRow(for: indexPath), section: 0))
+		adjustedIndexPath(for: indexPath))
+		//(activeKeys.contains("#") && indexPath.section == 0) ? indexPath : IndexPath(row: adjustedRow(for: indexPath), section: 0))
 	}
 	
 	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
