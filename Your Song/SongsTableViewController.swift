@@ -16,15 +16,19 @@ class SongsTableViewController: BrowserViewController {
 
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		let song = object as! Song
-		cell.textLabel?.text = song.title + " (\(indexPath.row))"
+		cell.textLabel?.text = song.title// + " (\(indexPath.row))"
 		cell.detailTextLabel?.text = song.artist!.name
 		
 		return cell	
 	}
 	
+	// TO-DO: This needs a superclass version, to work with adjustedRow
+	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		super.tableView.selectRow(at: IndexPath(row: adjustedRow(for: indexPath), section: 0), animated: true, scrollPosition: .top)
+	}
 	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
-		
 		let song = anObject as! Song
 		if let form = navigationController?.viewControllers.first as? CreateRequestTableViewController {
 			form.songObject = song
