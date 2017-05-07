@@ -317,7 +317,7 @@
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="entityName" value="Song"/>
                         <userDefinedRuntimeAttribute type="string" keyPath="searchPropertyKeyPath" value="title"/>
-                        <userDefinedRuntimeAttribute type="string" keyPath="sortPropertyKey" value="sortName"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="sortPropertyKey" value="sortedName"/>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="sortAscending" value="YES"/>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="useContainsSearch" value="YES"/>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="caseInsensitiveSearch" value="YES"/>

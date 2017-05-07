@@ -25,6 +25,7 @@ class BrowserViewController: RealmSearchViewController {
 		activeKeys.removeAll()
 
 		if let results = results {
+			
 			for key in allKeys {
 				if results.objects(with: NSPredicate(format: "sortName BEGINSWITH %@", key)).count > 0 {
 					if numbers.contains(String(key.characters.first!)), !activeKeys.contains("#") {

@@ -19,7 +19,7 @@ final class Song: Object {
 	dynamic var decadeString: String {
 		return year == 0 ? "??" : "'" + String(((year - (year<2000 ? 1900 : 2000)) / 10)) + "0s"
 	}
-
+	dynamic var sortedName = ""
 	var requests: List<Request>?
 	dynamic var dateAdded: Date?
 	dynamic var dateModified: Date?
@@ -45,7 +45,6 @@ final class Song: Object {
 		let artistResults = realm.objects(Artist.self).filter("name like[c] %@", artistName)
 		newSong.artist = artistResults.isEmpty ? Artist(value: [artistName]) : artistResults.first
 		newSong.songDescription = "\(song.title) - \(artistName)"
-		
 		
 		let genreName = song.genre.name
 		let genreResults = realm.objects(Genre.self).filter("name =[c] %@", genreName)
@@ -113,6 +112,8 @@ final class Song: Object {
 		}
 		
 		newSong.sortName = nameForSorting(for: title)
+		
+		//newSong.sortName = nameForSort(newSong)
 
 		let artistSearch = realm.objects(Artist.self).filter("name like[c] %@", artistName)
 		newSong.artist = artistSearch.isEmpty ? Artist(value: [artistName]) : artistSearch.first

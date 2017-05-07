@@ -18,7 +18,7 @@ class SongsTableViewController: BrowserViewController {
 		let song = object as! Song
 		cell.textLabel?.text = song.title// + " (\(indexPath.row))"
 		cell.detailTextLabel?.text = song.artist!.name
-		
+		cell.detailTextLabel?.text = song.sortedName
 		return cell	
 	}
 	
