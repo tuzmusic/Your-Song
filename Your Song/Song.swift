@@ -19,11 +19,37 @@ final class Song: Object {
 	dynamic var decadeString: String {
 		return year == 0 ? "??" : "'" + String(((year - (year<2000 ? 1900 : 2000)) / 10)) + "0s"
 	}
-	dynamic var sortedName = ""
+	//dynamic var sortedName = ""
 	var requests: List<Request>?
 	dynamic var dateAdded: Date?
 	dynamic var dateModified: Date?
 	dynamic var songDescription = ""
+	
+	dynamic var sortedName: String {
+		if let propertyName = self.objectSchema.properties.first?.name,
+			var startingName = self.value(forKey: propertyName) as? String
+		{
+			var editedName = startingName
+			let nameChars = editedName.characters
+			
+			repeat {
+				startingName = editedName
+				if editedName.hasPrefix("(") {
+					// Delete the parenthetical
+					editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
+				} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
+					// Delete any punctuation, spaces, etc.
+					editedName.remove(at: nameChars.index(of: nameChars.first!)!)
+				} else if editedName.hasPrefix("The "), let range = editedName.range(of: "The ") {
+					// Delete "The"
+					editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
+				}
+			} while editedName != startingName
+			
+			return editedName
+		}
+		return ""
+	}
 	
 //	override static func primaryKey() -> String? {
 //		return "songDescription"
@@ -113,8 +139,6 @@ final class Song: Object {
 		
 		newSong.sortName = nameForSorting(for: title)
 		
-		//newSong.sortName = nameForSort(newSong)
-
 		let artistSearch = realm.objects(Artist.self).filter("name like[c] %@", artistName)
 		newSong.artist = artistSearch.isEmpty ? Artist(value: [artistName]) : artistSearch.first
 		newSong.songDescription = "\(title) - \(artistName)"

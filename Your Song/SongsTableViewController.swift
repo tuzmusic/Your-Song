@@ -11,19 +11,20 @@ import RealmSearchViewController
 import RealmSwift
 
 class SongsTableViewController: BrowserViewController {
-	
+
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		let song = object as! Song
-		cell.textLabel?.text = song.title// + " (\(indexPath.row))"
+		if song.title == "52Nd Street" {
+			print("\(song.title), \(song.sortedName)")
+		}
+		cell.textLabel?.text = song.title
 		cell.detailTextLabel?.text = song.artist!.name
 		cell.detailTextLabel?.text = song.sortedName
-		return cell	
+		return cell
 	}
-	
-	// TO-DO: This needs a superclass version, to work with adjustedRow
-	
+		
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		super.tableView(tableView, didSelectRowAt: adjustedIndexPath(for: indexPath))
 	}

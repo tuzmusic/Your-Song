@@ -23,6 +23,12 @@ class YpbApp {
 		var email = ""
 	}
 	
+	class func setupOfflineRealm() {
+		if try! Realm().objects(Song.self).isEmpty {
+			SongImporter().importSongs()
+		}
+	}
+	
 	class func setupRealm() {
 		/*
 		

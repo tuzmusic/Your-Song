@@ -75,9 +75,7 @@ class BrowserViewController: RealmSearchViewController {
 	}
 
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		return super.tableView(tableView, cellForRowAt:
-		adjustedIndexPath(for: indexPath))
-		//(activeKeys.contains("#") && indexPath.section == 0) ? indexPath : IndexPath(row: adjustedRow(for: indexPath), section: 0))
+		return super.tableView(tableView, cellForRowAt: adjustedIndexPath(for: indexPath))
 	}
 	
 	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
