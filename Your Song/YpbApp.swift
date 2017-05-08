@@ -204,6 +204,5 @@ extension String {
 		}
 		
 		return fullString
-		//return !fullString.isEmpty ? fullString : self.capitalized
 	}
 }
