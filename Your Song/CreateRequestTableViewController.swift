@@ -218,6 +218,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		request = Request()
 	}
 	
+	/*
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		for view in [nameTextView, songTextView, notesTextView] as [UIView] {
 			view.resignFirstResponder()
@@ -226,4 +227,5 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		{
 		}
 	}
+	*/
 }

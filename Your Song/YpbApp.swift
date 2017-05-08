@@ -24,7 +24,11 @@ class YpbApp {
 	}
 	
 	class func setupOfflineRealm() {
-		if try! Realm().objects(Song.self).isEmpty {
+		ypbRealm = try! Realm()
+		try! ypbRealm.write {
+			ypbRealm.deleteAll()
+		}
+		if ypbRealm.objects(Song.self).isEmpty {
 			SongImporter().importSongs()
 		}
 	}
@@ -54,14 +58,6 @@ class YpbApp {
 		6. Run without internet, and full song database should show (can also check in realm browser)
 		
 		*/
-		
-		func importSongs() {
-			let importer = SongImporter()
-			let fileName = "song list 2"
-			if let songData = importer.getSongDataFromTSVFile(named: fileName) {
-				importer.writeSongsToLocalRealm(songData: songData)
-			}
-		}
 		
 		let localHTTP = URL(string:"http://54.208.237.32:9080")!
 		let publicDNS = URL(string:"ec2-54-208-237-32.compute-1.amazonaws.com:9080")!
@@ -116,7 +112,7 @@ class YpbApp {
 					// If there are no songs in the offline realm, import songs from TSV.
 					// Songs are written to the offline Realm from inside importSongs()
 					if offlineSongs.isEmpty {
-						importSongs() // this method imports songs from a TSV and then writes them to the local realm: Realm()
+						SongImporter().importSongs() // this method imports songs from a TSV and then writes them to the local realm: Realm()
 					}
 					YpbApp.ypbRealm.beginWrite()
 					for song in offlineSongs {
@@ -126,5 +122,88 @@ class YpbApp {
 				}
 			}
 		}
+	}
+	/*
+	class func forSorting(for name: String) -> String {
+		var startingName = name
+		var editedName = startingName
+		let nameChars = editedName.characters
+		
+		repeat {
+			startingName = editedName
+			if editedName.hasPrefix("(") {
+				// Delete the parenthetical
+				editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
+			} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
+				// Delete any punctuation, spaces, etc.
+				editedName.remove(at: nameChars.index(of: nameChars.first!)!)
+			} else if let range = editedName.range(of: "The ") {
+				// Delete "The"
+				editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
+			}
+		} while editedName != startingName
+		
+		return editedName
+	}
+	*/
+}
+
+extension String {
+	
+	func forSorting() -> String {
+		var startingName = self
+		var editedName = startingName
+		let nameChars = editedName.characters
+		
+		repeat {
+			startingName = editedName
+			if editedName.hasPrefix("(") {
+				// Delete the parenthetical
+				editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
+			} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
+				// Delete any punctuation, spaces, etc.
+				editedName.remove(at: nameChars.index(of: nameChars.first!)!)
+			} else if let range = editedName.range(of: "The ") {
+				// Delete "The"
+				editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
+			}
+		} while editedName != startingName
+		
+		return editedName
+	}
+	
+	func capitalizedWithOddities() -> String {
+		let chars = self.unicodeScalars
+		
+		// Account for songs like "ABC"
+		var allUppercase = true
+		for char in chars {
+			if CharacterSet.lowercaseLetters.contains(char) {
+				allUppercase = false
+				break
+			}
+		}
+		if allUppercase {
+			return self
+		}
+		
+		var fullString = ""
+		
+		let words = self.components(separatedBy: " ")
+		for word in words {
+			if words.index(of: word)! > 0 {
+				fullString += " " // Add a space if it's not the first word.
+			}
+			if let firstChar = word.unicodeScalars.first {
+				if CharacterSet.decimalDigits.contains(firstChar) {
+					fullString += word
+				} else {
+					fullString += word.capitalized
+				}
+			}
+		}
+		
+		return fullString
+		//return !fullString.isEmpty ? fullString : self.capitalized
 	}
 }

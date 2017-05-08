@@ -11,7 +11,7 @@ import RealmSwift
 
 extension Object {
 	
-	dynamic var XsortedName: String {
+	dynamic var sortedName: String {
 		if let propertyName = self.objectSchema.properties.first?.name,
 			var startingName = self.value(forKey: propertyName) as? String
 		{

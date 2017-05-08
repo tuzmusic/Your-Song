@@ -9,92 +9,45 @@
 import Foundation
 import RealmSwift
 
-final class Song: Object {
-	dynamic var title = ""
-	dynamic var sortName = ""
-	dynamic var artist: Artist!
-	dynamic var genre: Genre!
-	dynamic var year = Int()
-	var decade: Int?  // Can't be dynamic. Fix?
-	dynamic var decadeString: String {
-		return year == 0 ? "??" : "'" + String(((year - (year<2000 ? 1900 : 2000)) / 10)) + "0s"
+final class Song: BrowserObject {
+	static let separator = " ^^ "
+	dynamic var title = "" {
+		didSet {
+			sortName = title.forSorting()
+		}
 	}
-	//dynamic var sortedName = ""
-	var requests: List<Request>?
+
+	dynamic var artist: Artist!
+	var artists = List<Artist>()
+
+	dynamic var genre: Genre!
+	var genres = List<Genre>()
+
+//	dynamic var year = [Int]()
+//	dynamic var decadeString: String {
+//		return year == 0 ? "??" : "'" + String(((year - (year<2000 ? 1900 : 2000)) / 10)) + "0s"
+//	}
+	
+	dynamic var decade: Decade?
+	var decades = List<Decade>()
+
+	let requests = List<Request>()
 	dynamic var dateAdded: Date?
 	dynamic var dateModified: Date?
 	dynamic var songDescription = ""
-	
-	dynamic var sortedName: String {
-		if let propertyName = self.objectSchema.properties.first?.name,
-			var startingName = self.value(forKey: propertyName) as? String
-		{
-			var editedName = startingName
-			let nameChars = editedName.characters
-			
-			repeat {
-				startingName = editedName
-				if editedName.hasPrefix("(") {
-					// Delete the parenthetical
-					editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
-				} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
-					// Delete any punctuation, spaces, etc.
-					editedName.remove(at: nameChars.index(of: nameChars.first!)!)
-				} else if editedName.hasPrefix("The "), let range = editedName.range(of: "The ") {
-					// Delete "The"
-					editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
-				}
-			} while editedName != startingName
-			
-			return editedName
-		}
-		return ""
-	}
-	
-//	override static func primaryKey() -> String? {
-//		return "songDescription"
-//	}
-	
-	var popularity: Int { return self.requests?.count ?? 0 }
-	
-	class func createSong (from song: Song, in realm: Realm) -> Song? {
 
-		if let existingSong = realm.objects(Song.self)
-			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist.name)
-			.first {
-			return existingSong
-		}
-		
-		let newSong = Song()
-		newSong.title = song.title
-		let artistName = song.artist.name
-		let artistResults = realm.objects(Artist.self).filter("name like[c] %@", artistName)
-		newSong.artist = artistResults.isEmpty ? Artist(value: [artistName]) : artistResults.first
-		newSong.songDescription = "\(song.title) - \(artistName)"
-		
-		let genreName = song.genre.name
-		let genreResults = realm.objects(Genre.self).filter("name =[c] %@", genreName)
-		newSong.genre = genreResults.isEmpty ? Genre(value: [genreName]) : genreResults.first
-		
-		
-		newSong.decade = song.decade
-		newSong.dateModified = song.dateModified
-		newSong.dateAdded = song.dateAdded
-		
-		realm.create(Song.self, value: newSong, update: false)
-		
-		return newSong
-	}
-	
-	struct SongHeaderTags {
-		static let titleOptions = ["song", "title", "name"]
-		static let artist = "artist"
-		static let genre = "genre"
-	}
+	var popularity: Int { return self.requests.count }
 	
 	class func createSong (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
+
+		struct SongHeaderTags {
+			static let titleOptions = ["song", "title", "name"]
+			static let artist = "artist"
+			static let genre = "genre"
+			static let year = "year"
+		}
 		
-		// Find the title
+		// Get the title
 		guard let titleHeader = headers.first(where: { SongHeaderTags.titleOptions.contains($0) }),
 			let titleIndex = headers.index(of: titleHeader) else
 		{
@@ -102,60 +55,74 @@ final class Song: Object {
 			return nil
 		}
 		
-		let title = songComponents[titleIndex].capitalized
+		let title = songComponents[titleIndex].capitalizedWithOddities()
 		
-		var artistName: String = "Unknown Artist"
-		if let artistIndex = headers.index(of: SongHeaderTags.artist), !songComponents[artistIndex].isEmpty {
-			artistName = songComponents[artistIndex].capitalized
+		// Get all the MULTIPLE ARTISTS
+		// Store them in artistObjects list, to quickly assign them to the new song if/when we get there.
+		
+		guard let artistIndex = headers.index(of: SongHeaderTags.artist) else {
+			print("Couldn't find artist header")
+			return nil
 		}
 		
-		if let existingSong = realm.objects(Song.self).filter("title like[c] %@ AND artist.name like[c] %@", title, artistName).first {
+		let artistList = songComponents[artistIndex]
+		let artistNames = artistList.isEmpty ? ["Unknown Artist"] : artistList.components(separatedBy: Song.separator)
+		let artists = List<Artist>()
+		for artistName in artistNames {
+			let artistName = artistName.capitalizedWithOddities()
+			let artistSearch = realm.objects(Artist.self).filter("name like[c] %@", artistName)
+			if let existingArtist = artistSearch.first {
+				artists.append(existingArtist)
+			} else {
+				let newArtist = Artist()
+				newArtist.name = artistName
+				artists.append(newArtist)
+			}
+		}
+		
+			//if let existingSong = realm.objects(Song.self).filter("title like[c] %@ AND artists.first.name like[c] %@", title, artistNames.first!).first {
+		if let existingSong = realm.objects(Song.self).filter("title like[c] %@ AND artist.name like[c] %@", title, artistNames.first!).first {
 			return existingSong
 		}
 		
+		// MARK: Create the new song
 		let newSong = Song(value: [title])
+		newSong.artists = artists
+		newSong.artist = newSong.artists.first!
 		
-		func nameForSorting(for name: String) -> String {
-			var startingName = name
-			var editedName = startingName
-			let nameChars = editedName.characters
-			
-			repeat {
-				startingName = editedName
-				if editedName.hasPrefix("(") {
-					// Delete the parenthetical
-					editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
-				} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
-					// Delete any punctuation, spaces, etc.
-					editedName.remove(at: nameChars.index(of: nameChars.first!)!)
-				} else if let range = editedName.range(of: "The ") {
-					// Delete "The"
-					editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
+		newSong.songDescription = title
+		newSong.artists.forEach { newSong.songDescription += " - \($0.name)" }
+
+		// Get all the MULTIPLE GENRES
+		if let genreIndex = headers.index(of: SongHeaderTags.genre) {
+			let genresList = songComponents[genreIndex]
+			let genreNames = genresList.isEmpty ? ["Unknown"] : genresList.components(separatedBy: Song.separator)
+			for genreName in genreNames {
+				let genreName = genreName.capitalizedWithOddities()
+				let genreSearch = realm.objects(Genre.self).filter("name like[c] %@", genreName)
+				newSong.genres.append(genreSearch.first ?? Genre(value: [genreName]))
+			}
+		}
+		newSong.genre = newSong.genres.first!
+		
+		if let yearIndex = headers.index(of: SongHeaderTags.year) {
+			let yearsList = songComponents[yearIndex]
+			let years = yearsList.components(separatedBy: Song.separator)
+			for yearString in years {
+				if let year = Int(yearString) {
+					let decadeName = (year == 0 ? "??" : "'" + String(((year - (year<2000 ? 1900 : 2000)) / 10)) + "0s")
+					let decadeSearch = realm.objects(Decade.self).filter("name like[c] %@", decadeName)
+					newSong.decades.append(decadeSearch.first ?? Decade(value: [decadeName]))
 				}
-			} while editedName != startingName
-			
-			return editedName
+			}
 		}
+		newSong.decade = newSong.decades.first
 		
-		newSong.sortName = nameForSorting(for: title)
-		
-		let artistSearch = realm.objects(Artist.self).filter("name like[c] %@", artistName)
-		newSong.artist = artistSearch.isEmpty ? Artist(value: [artistName]) : artistSearch.first
-		newSong.songDescription = "\(title) - \(artistName)"
-
-		var genreName: String = "Unknown"
-		if let genreIndex = headers.index(of: SongHeaderTags.genre), !songComponents[genreIndex].isEmpty {
-			genreName = songComponents[genreIndex].capitalized
-		}
-		let genreSearch = realm.objects(Genre.self).filter("name =[c] %@", genreName)
-		newSong.genre = genreSearch.isEmpty ? Genre(value: [genreName]) : genreSearch.first
-
 		var propertiesWithoutHeaders = [String]()
-		let propertiesToSkip = ["title", "artist", "genre"]
+		let propertiesToSkip = ["title", "artist", "genre", "decade", "year"]
 
 		for property in newSong.objectSchema.properties
 			where !propertiesToSkip.contains(property.name)
-			//where property.type != Object && property.type != List
 		{
 			if let index = headers.index(of: property.name) {
 				newSong.setValue(songComponents[index], forKey: property.name)
@@ -173,4 +140,31 @@ final class Song: Object {
 		}
 		return newSong
 	}
+	
+	class func createSong (from song: Song, in realm: Realm) -> Song? {
+		
+		if let existingSong = realm.objects(Song.self)
+			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist.name)
+			.first {
+			return existingSong
+		}
+		
+		let newSong = Song(value: [song.title])
+		let artistName = song.artist.name
+		//let artistResults = realm.objects(Artist.self).filter("name like[c] %@", artistName)
+		//newSong.artist = artistResults.isEmpty ? Artist(value: [artistName]) : artistResults.first
+		newSong.songDescription = "\(song.title) - \(artistName)"
+		
+		let genreName = song.genre.name
+		let genreResults = realm.objects(Genre.self).filter("name =[c] %@", genreName)
+		newSong.genre = genreResults.isEmpty ? Genre(value: [genreName]) : genreResults.first
+		
+		newSong.dateModified = song.dateModified
+		newSong.dateAdded = song.dateAdded
+		
+		realm.create(Song.self, value: newSong, update: false)
+		
+		return newSong
+	}
+
 }

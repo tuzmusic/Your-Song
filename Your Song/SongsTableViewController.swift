@@ -16,12 +16,20 @@ class SongsTableViewController: BrowserViewController {
 
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		let song = object as! Song
-		if song.title == "52Nd Street" {
-			print("\(song.title), \(song.sortedName)")
-		}
+
 		cell.textLabel?.text = song.title
-		cell.detailTextLabel?.text = song.artist!.name
-		cell.detailTextLabel?.text = song.sortedName
+		cell.detailTextLabel?.text = song.artists.first!.name
+		if song.artists.count > 1 {
+			var artistsString = "\(song.artists.first!.name) (\(song.artists[1].name)"
+			if song.artists.count > 2 {
+				for i in 2 ..< song.artists.count {
+					artistsString += ", \(song.artists[i].name)"
+				}
+			}
+			artistsString += ")"
+			cell.detailTextLabel?.text = artistsString
+		}
+		//cell.detailTextLabel?.text = song.artist!.name
 		return cell
 	}
 		

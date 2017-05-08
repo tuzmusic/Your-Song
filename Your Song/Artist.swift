@@ -9,8 +9,7 @@
 import Foundation
 import RealmSwift
 
-final class Artist: Object {
-	dynamic var name = ""
+final class Artist: BrowserCategory {
 	let songs = LinkingObjects(fromType: Song.self, property: "artist")
 }
 

@@ -9,18 +9,29 @@
 import Foundation
 import RealmSwift
 
-final class Genre: Object {
-	dynamic var name = ""
+final class Genre: BrowserCategory {
+	
 	let songs = LinkingObjects(fromType: Song.self, property: "genre")
 	
 	var artists: [Artist] {
-		let songs = Array(self.songs)
 		var artists = [Artist]()
-		songs.forEach {
+		self.songs.forEach {
 			if !artists.contains($0.artist!) {
 				artists.append(($0.artist!))
 			}
 		}
 		return artists
+	}
+	
+	var decades: [Decade] {
+		var decades = [Decade]()
+		self.songs.forEach {
+			if let firstDecade = $0.decades.first {
+				if !decades.contains(firstDecade) {
+					decades.append(firstDecade)
+				}
+			}
+		}
+		return decades
 	}
 }

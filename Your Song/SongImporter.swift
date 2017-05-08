@@ -14,12 +14,11 @@ class SongImporter {
 	typealias SongData = [String]
 	
 	func importSongs() {
-		let fileName = "song list 2"
+		let fileName = "song list 3"
 		if let songData = getSongDataFromTSVFile(named: fileName) {
 			writeSongsToLocalRealm(songData: songData)
 		}
-	}
-	
+	}	
 	
 	func getSongDataFromTSVFile (named fileName: String) -> [SongData]? {
 		
