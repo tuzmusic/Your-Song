@@ -39,7 +39,6 @@ final class Song: BrowserObject {
 	var popularity: Int { return self.requests.count }
 	
 	class func createSong (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
-
 		struct SongHeaderTags {
 			static let titleOptions = ["song", "title", "name"]
 			static let artist = "artist"
@@ -47,10 +46,27 @@ final class Song: BrowserObject {
 			static let year = "year"
 		}
 		
-		// Get the title
-		guard let titleHeader = headers.first(where: { SongHeaderTags.titleOptions.contains($0) }),
-			let titleIndex = headers.index(of: titleHeader) else
-		{
+		func getHeaderIndices() -> (title: Int?, artist: Int?, genre: Int?, year: Int?) {
+			struct SongHeaderTags {
+				static let titleOptions = ["song", "title", "name"]
+				static let artist = "artist"
+				static let genre = "genre"
+				static let year = "year"
+			}
+			var titleIndex: Int?
+			if let titleHeader = headers.first(where: { SongHeaderTags.titleOptions.contains($0) }) {
+				titleIndex = headers.index(of: titleHeader)
+			}
+			
+			let artistIndex = headers.index(of: SongHeaderTags.artist)
+			let genreIndex = headers.index(of: SongHeaderTags.genre)
+			let yearIndex = headers.index(of: SongHeaderTags.year)
+			return (titleIndex, artistIndex, genreIndex, yearIndex)
+		}
+		
+		let indices = getHeaderIndices()
+		
+		guard let titleIndex = indices.title else {
 			print("Song could not be created: Title field could not be found.")
 			return nil
 		}
@@ -59,29 +75,29 @@ final class Song: BrowserObject {
 		
 		// Get all the MULTIPLE ARTISTS
 		// Store them in artistObjects list, to quickly assign them to the new song if/when we get there.
-		
-		guard let artistIndex = headers.index(of: SongHeaderTags.artist) else {
-			print("Couldn't find artist header")
-			return nil
+		var artists = List<Artist>()
+		if let artistIndex = indices.artist {
+			artists = BrowserCategory.items(at: artistIndex, of: songComponents, in: realm)
+			/* let artistList = songComponents[artistIndex]
+			let artistNames = artistList.isEmpty ? ["Unknown Artist"] : artistList.components(separatedBy: Song.separator)
+			let artists = List<Artist>()
+			for artistName in artistNames {
+				let artistName = artistName.capitalizedWithOddities()
+				let artistSearch = realm.objects(Artist.self).filter("name like[c] %@", artistName)
+				if let existingArtist = artistSearch.first {
+					artists.append(existingArtist)
+				} else {
+					let newArtist = Artist()
+					newArtist.name = artistName
+					artists.append(newArtist)
+				}
+			} */
 		}
 		
-		let artistList = songComponents[artistIndex]
-		let artistNames = artistList.isEmpty ? ["Unknown Artist"] : artistList.components(separatedBy: Song.separator)
-		let artists = List<Artist>()
-		for artistName in artistNames {
-			let artistName = artistName.capitalizedWithOddities()
-			let artistSearch = realm.objects(Artist.self).filter("name like[c] %@", artistName)
-			if let existingArtist = artistSearch.first {
-				artists.append(existingArtist)
-			} else {
-				let newArtist = Artist()
-				newArtist.name = artistName
-				artists.append(newArtist)
-			}
-		}
+		
 		
 			//if let existingSong = realm.objects(Song.self).filter("title like[c] %@ AND artists.first.name like[c] %@", title, artistNames.first!).first {
-		if let existingSong = realm.objects(Song.self).filter("title like[c] %@ AND artist.name like[c] %@", title, artistNames.first!).first {
+		if let existingSong = realm.objects(Song.self).filter("title like[c] %@ AND artist.name like[c] %@", title, artists.first!.name).first {
 			return existingSong
 		}
 		
@@ -93,7 +109,12 @@ final class Song: BrowserObject {
 		newSong.songDescription = title
 		newSong.artists.forEach { newSong.songDescription += " - \($0.name)" }
 
-		// Get all the MULTIPLE GENRES
+		if let genreIndex = indices.genre {
+			newSong.genres = BrowserCategory.items(at: genreIndex, of: songComponents, in: realm)
+		}
+		newSong.genre = newSong.genres.first!
+		
+		/* // Get all the MULTIPLE GENRES
 		if let genreIndex = headers.index(of: SongHeaderTags.genre) {
 			let genresList = songComponents[genreIndex]
 			let genreNames = genresList.isEmpty ? ["Unknown"] : genresList.components(separatedBy: Song.separator)
@@ -102,8 +123,7 @@ final class Song: BrowserObject {
 				let genreSearch = realm.objects(Genre.self).filter("name like[c] %@", genreName)
 				newSong.genres.append(genreSearch.first ?? Genre(value: [genreName]))
 			}
-		}
-		newSong.genre = newSong.genres.first!
+		} */
 		
 		if let yearIndex = headers.index(of: SongHeaderTags.year) {
 			let yearsList = songComponents[yearIndex]

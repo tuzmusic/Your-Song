@@ -16,21 +16,22 @@ class BrowserCategory: BrowserObject {
 		}
 	}
 	
-	static func categoryItems<T>(called: String, for songComponents: [String]) -> T {
-		let artistList = songComponents[artistIndex]
-		let artistNames = artistList.isEmpty ? ["Unknown Artist"] : artistList.components(separatedBy: Song.separator)
-		let artists = List<Artist>()
-		for artistName in artistNames {
-			let artistName = artistName.capitalizedWithOddities()
-			let artistSearch = realm.objects(Artist.self).filter("name like[c] %@", artistName)
-			if let existingArtist = artistSearch.first {
-				artists.append(existingArtist)
+	static func items<T: BrowserCategory> (at index: Int, of songComponents: [String], in realm: Realm) -> List<T> {
+		let components = songComponents[index]
+		let names = components.isEmpty ? ["Unknown"] : components.components(separatedBy: Song.separator)
+		let items = List<T>()
+		for name in names {
+			let name = name.capitalizedWithOddities()
+			let search = realm.objects(T.self).filter("name like[c] %@", name)
+			if let existingItem = search.first {
+				items.append(existingItem)
 			} else {
-				let newArtist = Artist()
-				newArtist.name = artistName
-				artists.append(newArtist)
+				let newItem = T()
+				newItem.name = name
+				items.append(newItem)
 			}
 		}
+		return items
 	}
 	
 	// Can't figure out how to use LinkingObjects in a superclass yet. This reference to "self" doesn't work.
