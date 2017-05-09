@@ -186,9 +186,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="KG6-mh-sKK" kind="show" identifier="Artist's Songs Segue" id="wby-gZ-O8E"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -208,6 +205,7 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="KG6-mh-sKK" kind="show" identifier="All Songs Segue" id="WZe-v0-hGM"/>
+                        <segue destination="KG6-mh-sKK" kind="show" identifier="Artist's Songs Segue" id="3O3-tZ-mMT"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Bg-fC-p2X" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -528,6 +526,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="d5F-mJ-YPr"/>
-        <segue reference="B9Z-3S-UZQ"/>
+        <segue reference="WZe-v0-hGM"/>
     </inferredMetricsTieBreakers>
 </document>
