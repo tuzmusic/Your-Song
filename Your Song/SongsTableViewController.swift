@@ -18,7 +18,6 @@ class SongsTableViewController: BrowserViewController {
 		let song = object as! Song
 
 		cell.textLabel?.text = song.title
-		cell.detailTextLabel?.text = song.artists.first!.name
 		if song.artists.count > 1 {
 			var artistsString = "\(song.artists.first!.name) (\(song.artists[1].name)"
 			if song.artists.count > 2 {
@@ -29,7 +28,7 @@ class SongsTableViewController: BrowserViewController {
 			artistsString += ")"
 			cell.detailTextLabel?.text = artistsString
 		}
-		//cell.detailTextLabel?.text = song.artist!.name
+		cell.detailTextLabel?.text = song.artist!.name
 		return cell
 	}
 		

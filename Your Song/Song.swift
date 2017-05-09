@@ -10,12 +10,13 @@ import Foundation
 import RealmSwift
 
 final class Song: BrowserObject {
-	static let separator = " ^^ "
 	dynamic var title = "" {
 		didSet {
 			sortName = title.forSorting()
 		}
 	}
+
+	static let separator = " ^^ "
 
 	dynamic var artist: Artist!
 	var artists = List<Artist>()
@@ -78,7 +79,8 @@ final class Song: BrowserObject {
 		}
 		
 		// MARK: Create the new song
-		let newSong = Song(value: [title])
+		let newSong = Song()
+		newSong.title = title
 		newSong.artists = artists
 		newSong.artist = newSong.artists.first!
 		

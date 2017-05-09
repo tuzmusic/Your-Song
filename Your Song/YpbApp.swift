@@ -26,7 +26,7 @@ class YpbApp {
 	class func setupOfflineRealm() {
 		ypbRealm = try! Realm()
 		try! ypbRealm.write {
-			ypbRealm.deleteAll()
+			//ypbRealm.deleteAll()
 		}
 		if ypbRealm.objects(Song.self).isEmpty {
 			SongImporter().importSongs()

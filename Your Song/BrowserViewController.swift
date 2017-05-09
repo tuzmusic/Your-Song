@@ -28,8 +28,10 @@ class BrowserViewController: RealmSearchViewController {
 			
 			for key in allKeys {
 				if results.objects(with: NSPredicate(format: "sortName BEGINSWITH %@", key)).count > 0 {
-					if numbers.contains(String(key.characters.first!)), !activeKeys.contains("#") {
-						activeKeys.append("#") // If any items start with a number, put the # sign in the index.
+					if numbers.contains(String(key.characters.first!)) {
+						if !activeKeys.contains("#") {
+							activeKeys.append("#") // If any items start with a number, put the # sign in the index.
+						}
 					} else {
 						activeKeys.append(key) // If the key is a letter, add it to the keys.
 					}
@@ -42,9 +44,9 @@ class BrowserViewController: RealmSearchViewController {
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return getActiveKeys().isEmpty ? 1 : activeKeys.count
 	}
-
+	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
+		
 		if let results = results, !activeKeys.isEmpty {
 			if activeKeys.contains("#"), section == 0 {
 				numberKeyCount = 0
