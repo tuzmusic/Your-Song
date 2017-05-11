@@ -18,14 +18,8 @@ class ArtistsTableViewController: BrowserViewController {
 	var genreForArtists: Genre?
 	var decadeForArtists: Decade?
 	
-	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		if !activeKeys.isEmpty, section > 0 { return activeKeys[section-1] }
-		return nil
-	}
-	
 	override func numberOfSections(in tableView: UITableView) -> Int {
-		return super.numberOfSections(in: tableView) + 1 // +1 for "all songs" section/row
-		//return 2
+		return super.numberOfSections(in: tableView) + 1
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -81,11 +75,14 @@ class ArtistsTableViewController: BrowserViewController {
 		if indexPath.section == 0 {
 			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
 		} else {
-			super.tableView(tableView, didSelectRowAt: indexPath)
+			var adjIndex = indexPath
+			adjIndex.row += 1
+			super.tableView(tableView, didSelectRowAt: adjIndex)
 		}
 	}
 	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
+		print(anObject)
 		performSegue(withIdentifier: Storyboard.ArtistsSongsSegue, sender: anObject)
 	}
 		
@@ -102,6 +99,8 @@ class ArtistsTableViewController: BrowserViewController {
 				if let artist = sender as? Artist {
 					if let genre = genreForArtists {
 						songsVC.basePredicate = NSPredicate(format: "artist = %@ AND genre = %@", artist, genre)
+					} else if let decade = decadeForArtists {
+						songsVC.basePredicate = NSPredicate(format: "artist = %@ AND decade = %@", artist, decade)
 					} else {
 						songsVC.basePredicate = NSPredicate(format: "artist = %@", artist)
 					}

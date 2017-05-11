@@ -130,11 +130,9 @@ final class Song: BrowserObject {
 		}
 		//print("Properties not in table: \n \(propertiesWithoutHeaders)")
 		
-		//try! realm.write {
-			realm.add(newSong)
-			let count = realm.objects(Song.self).count
-			print("Song #\(count) added to realm: \(newSong.songDescription)")
-			//}
+		realm.add(newSong)
+		let count = realm.objects(Song.self).count
+		print("Song #\(count) added to realm: \(newSong.songDescription)")
 		return newSong
 	}
 	
