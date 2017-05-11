@@ -10,24 +10,10 @@ import UIKit
 import RealmSearchViewController
 import RealmSwift
 
-class ArtistsTableViewController: BrowserViewController {
-	
-	var selectedArtist: Artist!
-	var songs = [Song]()
+class ArtistsTableViewController: CategoryViewController {
 	
 	var genreForArtists: Genre?
 	var decadeForArtists: Decade?
-	
-	override func numberOfSections(in tableView: UITableView) -> Int {
-		return super.numberOfSections(in: tableView) + 1
-	}
-	
-	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if section != 0 {
-			return super.tableView(tableView, numberOfRowsInSection: section - 1)
-		}
-		return 1
-	}
 
 	// This is just for the "All songs" row. Has nothing to do with whether there's a genre.
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -42,9 +28,7 @@ class ArtistsTableViewController: BrowserViewController {
 			}
 			return cell
 		} else {
-			var adjIndex = indexPath
-			adjIndex.section -= 1
-			return super.tableView(tableView, cellForRowAt: adjustedIndexPath(for: adjIndex))
+			return super.tableView(tableView, cellForRowAt: indexPath)
 		}
 	}
 	
@@ -71,18 +55,8 @@ class ArtistsTableViewController: BrowserViewController {
 		return cell
 	}
 	
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if indexPath.section == 0 {
-			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
-		} else {
-			var adjIndex = indexPath
-			adjIndex.row += 1
-			super.tableView(tableView, didSelectRowAt: adjIndex)
-		}
-	}
-	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
-		print(anObject)
+		print((anObject as! Artist).name)
 		performSegue(withIdentifier: Storyboard.ArtistsSongsSegue, sender: anObject)
 	}
 		
@@ -97,13 +71,10 @@ class ArtistsTableViewController: BrowserViewController {
 				}
 			case Storyboard.ArtistsSongsSegue:
 				if let artist = sender as? Artist {
-					if let genre = genreForArtists {
-						songsVC.basePredicate = NSPredicate(format: "artist = %@ AND genre = %@", artist, genre)
-					} else if let decade = decadeForArtists {
-						songsVC.basePredicate = NSPredicate(format: "artist = %@ AND decade = %@", artist, decade)
-					} else {
-						songsVC.basePredicate = NSPredicate(format: "artist = %@", artist)
-					}
+					var predicates = [NSPredicate(format: "artist = %@", artist)]
+					if let decade = decadeForArtists { predicates.append(NSPredicate(format: "decade = %@", decade)) }
+					if let genre = genreForArtists { predicates.append(NSPredicate(format: "genre = %@", genre)) }
+					songsVC.basePredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
 				}
 			default: break
 			}
