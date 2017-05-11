@@ -87,18 +87,33 @@ final class Song: BrowserObject {
 		newSong.songDescription = title
 		newSong.artists.forEach { newSong.songDescription += " - \($0.name)" }
 
-		if let genreIndex = indices.genre {
-			newSong.genres = BrowserCategory.items(at: genreIndex, of: songComponents, in: realm)
-		}
-		newSong.genre = newSong.genres.first!
-		
 		if let yearIndex = headers.index(of: SongHeaderTags.year) {
 			let yearsList = songComponents[yearIndex]
 			let decadeStrings = Decade.decadeNames(for: yearsList)
 			newSong.decades = BrowserCategory.items(for: decadeStrings, in: realm)
 		}
 		newSong.decade = newSong.decades.first
+		// This does NOT support multiple artists (only adds the primary artist to the decade.)
+		// And it does NOT support multiple decades! (only adds the primary artist to the song's primary decade)
+		if !newSong.decade.artists.contains(newSong.artist) {
+			newSong.decade.artists.append(newSong.artist)
+		}
 		newSong.dateAdded = Date()
+		
+		if let genreIndex = indices.genre {
+			newSong.genres = BrowserCategory.items(at: genreIndex, of: songComponents, in: realm)
+		}
+		newSong.genre = newSong.genres.first!
+		// This does NOT support multiple artists (only adds the primary artist to the genre.)
+		// And it does NOT support multiple genres! (only adds the primary artist to the song's primary genre)
+		if !newSong.genre.artists.contains(newSong.artist) {
+			newSong.genre.artists.append(newSong.artist)
+		}
+		// This also does not support multiples
+		if !newSong.genre.decades.contains(newSong.decade) {
+			newSong.genre.decades.append(newSong.decade)
+		}
+		
 
 		var propertiesWithoutHeaders = [String]()
 		let propertiesToSkip = ["title", "artist", "genre", "decade", "year"]

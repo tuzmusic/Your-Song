@@ -14,14 +14,8 @@ class DecadesTableViewController: BrowserViewController {
 	
 	var selectedDecade: Decade!
 	
-	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		if !activeKeys.isEmpty, section > 0 { return activeKeys[section-1] }
-		return nil
-	}
-	
 	override func numberOfSections(in tableView: UITableView) -> Int {
-		return super.numberOfSections(in: tableView) + 1 // +1 for "all songs" section/row
-		//return 2
+		return super.numberOfSections(in: tableView) + 1
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

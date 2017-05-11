@@ -16,7 +16,7 @@ class SongImporter {
 	func importSongs() {
 		let fileName = "song list 3"
 		if let songData = getSongDataFromTSVFile(named: fileName) {
-			writeSongsToLocalRealm(songData: songData)
+			createSongsInLocalRealm(songData: songData)
 		}
 	}	
 	
@@ -39,7 +39,7 @@ class SongImporter {
 		return songData
 	}
 	
-	func writeSongsToLocalRealm(songData: [SongData]) {
+	func createSongsInLocalRealm(songData: [SongData]) {
 		
 		// Get the headers from the first entry in the database
 		guard var headers = songData.first?.map({$0.lowercased()}) else {
@@ -51,6 +51,7 @@ class SongImporter {
 			let songsLocalRealm = try Realm()
 			for songComponents in songData where songComponents.map({$0.lowercased()}) != headers {
 				var shouldImport = true
+				// This seems like an extra step. But it's here in case there's no "APP" header.
 				if let appIndex = headers.index(of: "app") {
 					if songComponents[appIndex] != "Y" { shouldImport = false }
 				}

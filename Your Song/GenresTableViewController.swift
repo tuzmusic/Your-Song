@@ -10,17 +10,19 @@ import UIKit
 import RealmSearchViewController
 import RealmSwift
 
-
 class GenresTableViewController: BrowserViewController {
 	
 	var selectedGenre: Genre!
 	
 	override func numberOfSections(in tableView: UITableView) -> Int {
-		return 2
+		return super.numberOfSections(in: tableView) + 1
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return section == 0 ? 1 : super.tableView(tableView, numberOfRowsInSection: section)
+		if section != 0 {
+			return super.tableView(tableView, numberOfRowsInSection: section - 1)
+		}
+		return 1
 	}
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -28,16 +30,17 @@ class GenresTableViewController: BrowserViewController {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 			cell.textLabel?.text = "All songs"
 			cell.detailTextLabel?.text = "\(realm.objects(Song.self).count) songs"
+			return cell
 		} else {
-			return super.tableView(tableView, cellForRowAt: indexPath)
+			var adjIndex = indexPath
+			adjIndex.section -= 1
+			return super.tableView(tableView, cellForRowAt: adjustedIndexPath(for: adjIndex))
 		}
-		return UITableViewCell()
 	}
 	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
 		
-		//self.title = "All Genres (\(realm.objects(Genre.self).count) genres)"
-		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		
 		let genre = object as! Genre
 		cell.textLabel?.text = genre.name
@@ -50,16 +53,22 @@ class GenresTableViewController: BrowserViewController {
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.section == 0 {
 			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
+		} else {
+			super.tableView(tableView, didSelectRowAt: indexPath)
 		}
 	}
 	
+	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
+		performSegue(withIdentifier: Storyboard.GenresArtistsSegue, sender: anObject)
+	}
+	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let artistsVC = segue.destination as? ArtistsTableViewController,
-			let genreName = (sender as? UITableViewCell)?.textLabel?.text
+		if segue.identifier! == Storyboard.ArtistsSongsSegue,
+			let artistsVC = segue.destination as? ArtistsTableViewController,
+			let genre = sender as? Genre
 		{
-			selectedGenre = realm.objects(Genre.self).filter("name = %@", genreName).first
-			artistsVC.genreForArtists = selectedGenre
-			artistsVC.basePredicate = NSPredicate(format: "name in %@", selectedGenre.artists.map { $0.name })
+			artistsVC.genreForArtists = genre
+			artistsVC.basePredicate = NSPredicate(format: "name in %@", genre.artists.map { $0.name })
 		}
 	}
 }
