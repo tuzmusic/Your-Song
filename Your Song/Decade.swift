@@ -25,23 +25,26 @@ final class Decade: BrowserCategory {
 	
 	static func decadeNames(for yearsList: String) -> [String] {
 		let yearStrings = yearsList.components(separatedBy: Song.separator)
-		var years = [Int]()
-		for year in yearStrings {
-			if !year.isEmpty, let year = Int(year) {
-				years.append(year)
-			}
+		var years = [String]()
+		for year in yearStrings where !year.isEmpty {
+			years.append(year)
 		}
-		var strings = [String]()
+		var string = ""
+		var decadeStrings = [String]()
 		for year in years {
-			var string = ""
-			switch year {
-			case 0..<10: string = "'\(year)0s"
-			case 10: string = "'10s"
-			case 1900...3000: string = "'" + String(((year - (year<2000 ? 1900 : 2000)) / 10)) + "0s"
-			default: "Unknown Decade"
+			if let year = Int(year) {
+				switch year {
+				case 0..<10: string = "'\(year)0s"
+				case 10: string = "'10s"
+				case 1900...3000: string = "'" + String(((year - (year<2000 ? 1900 : 2000)) / 10)) + "0s"
+				default: string = "Unknown Decade"
+				}
+				decadeStrings.append(string)
 			}
-			strings.append(string)
+			else {
+				decadeStrings.append(year)
+			}
 		}
-		return strings
+		return decadeStrings
 	}
 }

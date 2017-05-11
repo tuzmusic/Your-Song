@@ -9,9 +9,9 @@
 import Foundation
 import RealmSwift
 
-final class Genre: BrowserCategory {
+class Genre: BrowserCategory {
 	
-	let songs = LinkingObjects(fromType: Song.self, property: "genre")
+	var songs = LinkingObjects(fromType: Song.self, property: "genre")
 	
 	var artists: [Artist] {
 		var artists = [Artist]()

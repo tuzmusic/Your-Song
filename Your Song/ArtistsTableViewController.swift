@@ -16,6 +16,7 @@ class ArtistsTableViewController: BrowserViewController {
 	var songs = [Song]()
 	
 	var genreForArtists: Genre?
+	var decadeForArtists: Decade?
 	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		if !activeKeys.isEmpty, section > 0 { return activeKeys[section-1] }
@@ -62,6 +63,11 @@ class ArtistsTableViewController: BrowserViewController {
 			let songsByArtistInGenre = artist.songs.filter("genre = %@", genre)
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genre.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
+		} else if let decade = decadeForArtists {
+			let artist = decade.artists[indexPath.row]
+			let songsByArtistInGenre = artist.songs.filter("decade = %@", decade)
+			cell.textLabel?.text = artist.name
+			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(decade.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
 		} else {
 			let artist = object as! Artist
 			cell.textLabel?.text = artist.name
@@ -88,6 +94,8 @@ class ArtistsTableViewController: BrowserViewController {
 			case Storyboard.AllSongsSegue:
 				if let genre = genreForArtists {
 					songsVC.basePredicate = NSPredicate(format: "genre = %@", genre)
+				} else if let decade = decadeForArtists {
+					songsVC.basePredicate = NSPredicate(format: "decade = %@", decade)
 				}
 			case Storyboard.ArtistsSongsSegue:
 				if let artist = sender as? Artist {
@@ -99,20 +107,6 @@ class ArtistsTableViewController: BrowserViewController {
 				}
 			default: break
 			}
-			/*
-			if segue.identifier == Storyboard.AllSongsSegue, let genre = genreForArtists {
-				songsVC.basePredicate = NSPredicate(format: "genre = %@", genre)
-			} else if segue.identifier == Storyboard.ArtistsSongsSegue,
-				let artistName = (sender as? UITableViewCell)?.textLabel?.text
-			{
-				selectedArtist = realm.objects(Artist.self).filter("name = %@", artistName).first
-				if let genre = genreForArtists {
-					songsVC.basePredicate = NSPredicate(format: "artist = %@ AND genre = %@", selectedArtist, genre)
-				} else {
-					songsVC.basePredicate = NSPredicate(format: "artist = %@", selectedArtist)
-				}
-			}
-			*/
 		}
 	}
 }

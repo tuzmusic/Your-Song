@@ -26,7 +26,7 @@ class YpbApp {
 	class func setupOfflineRealm() {
 		ypbRealm = try! Realm()
 		try! ypbRealm.write {
-			//ypbRealm.deleteAll()
+			ypbRealm.deleteAll()
 		}
 		if ypbRealm.objects(Song.self).isEmpty {
 			SongImporter().importSongs()
@@ -201,6 +201,10 @@ extension String {
 					fullString += word.capitalized
 				}
 			}
+		}
+		
+		if fullString.hasSuffix("S") {
+			fullString = String(fullString.characters.dropLast()) + "s"
 		}
 		
 		return fullString

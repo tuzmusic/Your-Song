@@ -215,7 +215,7 @@
         <!--Genres-->
         <scene sceneID="9If-PV-QPU">
             <objects>
-                <tableViewController title="Genres" id="mRE-aL-cSJ" customClass="GenresTableViewController" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Genres" id="mRE-aL-cSJ" customClass="DecadesTableViewController" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="fR7-QW-dGV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -244,9 +244,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="udO-rw-oGg" kind="show" identifier="Genre's Artists Segue" id="d5F-mJ-YPr"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -256,7 +253,7 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Genres" image="your-piano-bar-blank piano only tab bar item size.png" id="eQB-87-9M9" userLabel="Genres"/>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="entityName" value="Genre"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="entityName" value="Decade"/>
                         <userDefinedRuntimeAttribute type="string" keyPath="searchPropertyKeyPath" value="name"/>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="sortAscending" value="YES"/>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="searchBarInTableView" value="YES"/>
@@ -266,6 +263,7 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="KG6-mh-sKK" kind="show" identifier="All Songs Segue" id="B9Z-3S-UZQ"/>
+                        <segue destination="udO-rw-oGg" kind="show" identifier="Genre's Artists Segue" id="8Bp-dA-ODq"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2rF-fO-v5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -525,7 +523,7 @@
         <image name="your-piano-bar-blank piano only tab bar item size.png" width="24" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="d5F-mJ-YPr"/>
-        <segue reference="WZe-v0-hGM"/>
+        <segue reference="8Bp-dA-ODq"/>
+        <segue reference="B9Z-3S-UZQ"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -24,7 +24,7 @@ final class Song: BrowserObject {
 	dynamic var genre: Genre!
 	var genres = List<Genre>()
 	
-	dynamic var decade: Decade?
+	dynamic var decade: Decade!
 	var decades = List<Decade>()
 
 	let requests = List<Request>()
@@ -96,21 +96,14 @@ final class Song: BrowserObject {
 			let yearsList = songComponents[yearIndex]
 			let decadeStrings = Decade.decadeNames(for: yearsList)
 			newSong.decades = BrowserCategory.items(for: decadeStrings, in: realm)
-			/*let yearsList = songComponents[yearIndex]
-			let years = yearsList.components(separatedBy: Song.separator)
-			for yearString in years {
-				if let year = Int(yearString) {
-					let decadeName = (year == 0 ? "??" : "'" + String(((year - (year<2000 ? 1900 : 2000)) / 10)) + "0s")
-					let decadeSearch = realm.objects(Decade.self).filter("name like[c] %@", decadeName)
-					newSong.decades.append(decadeSearch.first ?? Decade(value: [decadeName]))
-				}
-			}*/
 		}
 		newSong.decade = newSong.decades.first
-		
+		newSong.dateAdded = Date()
+
 		var propertiesWithoutHeaders = [String]()
 		let propertiesToSkip = ["title", "artist", "genre", "decade", "year"]
 
+		// This is actually superfluous at this point (all pertinent properties are covered above)
 		for property in newSong.objectSchema.properties
 			where !propertiesToSkip.contains(property.name)
 		{
@@ -122,7 +115,6 @@ final class Song: BrowserObject {
 		}
 		//print("Properties not in table: \n \(propertiesWithoutHeaders)")
 		
-		newSong.dateAdded = Date()
 		try! realm.write {
 			realm.add(newSong)
 			let count = realm.objects(Song.self).count
