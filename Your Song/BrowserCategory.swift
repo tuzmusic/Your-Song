@@ -38,7 +38,8 @@ class BrowserCategory: BrowserObject {
 	
 	static func items<T: BrowserCategory> (for components: [String], in realm: Realm) -> List<T> {
 		let items = List<T>()
-		for name in components {
+		let names = components.isEmpty ? ["Unknown"] : components
+		for name in names {
 			let name = name.capitalizedWithOddities()
 			let search = realm.objects(T.self).filter("name like[c] %@", name)
 			if let existingItem = search.first {
@@ -51,9 +52,4 @@ class BrowserCategory: BrowserObject {
 		}
 		return items
 	}
-	
-	// Can't figure out how to use LinkingObjects in a superclass yet. This reference to "self" doesn't work.
-	// So the LinkingObjects are staying in their subclasses.
-	//let songs = LinkingObjects(fromType: Song.self, property: self.objectSchema.className.lowercased())
-
 }

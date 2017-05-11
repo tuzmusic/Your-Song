@@ -27,9 +27,9 @@ class YpbApp {
 		ypbRealm = try! Realm()
 		try! ypbRealm.write {
 			ypbRealm.deleteAll()
-		}
-		if ypbRealm.objects(Song.self).isEmpty {
-			SongImporter().importSongs()
+			if ypbRealm.objects(Song.self).isEmpty {
+				SongImporter().importSongs()
+			}
 		}
 	}
 	
@@ -64,7 +64,7 @@ class YpbApp {
 		
 		func tokenString() -> String { return "ewoJImlkZW50aXR5IjogIl9fYXV0aCIsCgkiYWNjZXNzIjogWyJ1cGxvYWQiLCAiZG93bmxvYWQiLCAibWFuYWdlIl0KfQo=:H1qgzZHbRSYdBs0YoJON7ehUZdVDQ8wGKwgYWsQUoupYPycq1cC4PlGZlDZ++Q+gB2ouYcw4bRRri2Z3F5dlWALLWvARgEwB2bDmuOQRcH30IKkdhFp11PnE3StiMn30TDZWWzX31QAyPDvaUyES7/VK/y8CDHmJ8L/UJ/y8w422bmIFTlectnuXBzMRboBZ8JD/PSrXciaPhm9hd/jEEfgYTwB7oyuuch9XrWvPbSrcpWXEr/6j526nuoips1+KTA/h25LzAgCs1+ZeO63RFKi/K3q7y/HkRBB8OWgK9kBQZGIx8eiH4zu7ut4mLGBcs38JnJr4OEvSTSfdZdhGxw==" }
 		
-		// Paste into terminal to SSH into EC2: 
+		// Paste into terminal to SSH into EC2:
 		/*
 		ssh -i /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff/KeyPairs/YourPianoBarKeyPair.pem ubuntu@ec2-54-208-237-32.compute-1.amazonaws.com
 		*/
@@ -92,7 +92,7 @@ class YpbApp {
 				let realmAddress = URL(string:"realm://ec2-54-208-237-32.compute-1.amazonaws.com:9080/YourPianoBar/JonathanTuzman/")!
 				let syncConfig = SyncConfiguration (user: user, realmURL: realmAddress)
 				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
-
+				
 				YpbApp.ypbRealm = try! Realm(configuration: configuration) // No, this is not asynchronous. It finishes before the next count is printed.
 				
 				/*
@@ -106,7 +106,7 @@ class YpbApp {
 				// If no songs in online realm, import songs offline realm TO THE ONLINE REALM (shouldn't ever happen once app is released)
 				
 				if YpbApp.ypbRealm.objects(Song.self).isEmpty {
-				
+					
 					let offlineSongs = try! Realm().objects(Song.self)
 					
 					// If there are no songs in the offline realm, import songs from TSV.
@@ -125,25 +125,25 @@ class YpbApp {
 	}
 	/*
 	class func forSorting(for name: String) -> String {
-		var startingName = name
-		var editedName = startingName
-		let nameChars = editedName.characters
-		
-		repeat {
-			startingName = editedName
-			if editedName.hasPrefix("(") {
-				// Delete the parenthetical
-				editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
-			} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
-				// Delete any punctuation, spaces, etc.
-				editedName.remove(at: nameChars.index(of: nameChars.first!)!)
-			} else if let range = editedName.range(of: "The ") {
-				// Delete "The"
-				editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
-			}
-		} while editedName != startingName
-		
-		return editedName
+	var startingName = name
+	var editedName = startingName
+	let nameChars = editedName.characters
+	
+	repeat {
+	startingName = editedName
+	if editedName.hasPrefix("(") {
+	// Delete the parenthetical
+	editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
+	} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
+	// Delete any punctuation, spaces, etc.
+	editedName.remove(at: nameChars.index(of: nameChars.first!)!)
+	} else if let range = editedName.range(of: "The ") {
+	// Delete "The"
+	editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
+	}
+	} while editedName != startingName
+	
+	return editedName
 	}
 	*/
 }
