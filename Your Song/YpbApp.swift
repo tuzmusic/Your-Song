@@ -30,6 +30,10 @@ class YpbApp {
 			if ypbRealm.objects(Song.self).isEmpty {
 				SongImporter().importSongs()
 			}
+			for object in ypbRealm.objects(Artist.self) where object.songs.count == 0 {
+				print("about to delete orphan: \(object.name)")
+				ypbRealm.delete(object)
+			}
 		}
 	}
 	

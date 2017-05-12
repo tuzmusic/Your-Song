@@ -15,7 +15,7 @@ class CategoryViewController: BrowserViewController {
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return section == 0 ? 1 :super.tableView(tableView, numberOfRowsInSection: section - 1)
+		return section == 0 ? 1 : super.tableView(tableView, numberOfRowsInSection: section - 1)
 	}
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -25,7 +25,7 @@ class CategoryViewController: BrowserViewController {
 	}
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		print("Cell at \(indexPath) says \(tableView.cellForRow(at: indexPath)!.textLabel!.text!) and selects", separator: "", terminator: " ")
+		//print("Cell at \(indexPath) says \(tableView.cellForRow(at: indexPath)!.textLabel!.text!) and selects", separator: "", terminator: " ")
 		if indexPath.section == 0 {
 			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
 		} else {

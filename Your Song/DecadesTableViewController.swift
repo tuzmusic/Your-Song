@@ -10,20 +10,7 @@ import UIKit
 import RealmSwift
 import RealmSearchViewController
 
-class DecadesTableViewController: BrowserViewController {
-	
-	var selectedDecade: Decade!
-	
-	override func numberOfSections(in tableView: UITableView) -> Int {
-		return super.numberOfSections(in: tableView) + 1
-	}
-	
-	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if section != 0 {
-			return super.tableView(tableView, numberOfRowsInSection: section - 1)
-		}
-		return 1
-	}
+class DecadesTableViewController: CategoryViewController {
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.section == 0 {
@@ -32,9 +19,7 @@ class DecadesTableViewController: BrowserViewController {
 			cell.detailTextLabel?.text = "\(realm.objects(Song.self).count) songs"
 			return cell
 		} else {
-			var adjIndex = indexPath
-			adjIndex.section -= 1
-			return super.tableView(tableView, cellForRowAt: adjustedIndexPath(for: adjIndex))
+			return super.tableView(tableView, cellForRowAt: indexPath)
 		}
 	}
 	
@@ -50,24 +35,18 @@ class DecadesTableViewController: BrowserViewController {
 		return cell
 	}
 	
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if indexPath.section == 0 {
-			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
-		} else {
-			super.tableView(tableView, didSelectRowAt: indexPath)
-		}
-	}
-	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
 		performSegue(withIdentifier: Storyboard.GenresArtistsSegue, sender: anObject)
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier! == Storyboard.ArtistsSongsSegue,
+		if segue.identifier! == Storyboard.GenresArtistsSegue,
 			let artistsVC = segue.destination as? ArtistsTableViewController,
 			let decade = sender as? Decade
 		{
+			print(decade.name)
 			artistsVC.decadeForArtists = decade
+			decade.artists.forEach { print("\($0.name), \($0.songs.count) songs (total?)") }
 			artistsVC.basePredicate = NSPredicate(format: "name in %@", decade.artists.map { $0.name })
 		}
 	}

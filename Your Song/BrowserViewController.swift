@@ -57,8 +57,7 @@ class BrowserViewController: RealmSearchViewController {
 			} else {
 				let startingLetter = activeKeys[section]
 				let items = results.objects(with: NSPredicate(format: "sortName BEGINSWITH %@", startingLetter))
-				return Int(items.count) // for "Y", at section 24 (which is actually section 25) should be 1 (for "Yes")
-				// looks like, for some reason, section 24 happens before section 0
+				return Int(items.count)
 			}
 		}
 		
@@ -68,6 +67,12 @@ class BrowserViewController: RealmSearchViewController {
 	func adjustedIndexPath(for indexPath: IndexPath) -> IndexPath {
 		if let results = results, !activeKeys.isEmpty {
 			if !(activeKeys.contains("#") && indexPath.section == 0) { // in other words, if EITHER of these conditions are true.
+				var rowNumber = indexPath.row
+				for section in 0..<indexPath.section {
+					rowNumber += self.tableView.numberOfRows(inSection: section)
+				}
+				return (IndexPath(row: rowNumber, section: 0))
+				
 				let startingLetter = activeKeys[indexPath.section]
 				let items = results.objects(with: NSPredicate(format: "sortName BEGINSWITH[c] %@", startingLetter))
 				let object = items[UInt(indexPath.row)]

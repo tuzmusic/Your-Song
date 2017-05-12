@@ -22,7 +22,10 @@ class ArtistsTableViewController: CategoryViewController {
 			if let genre = genreForArtists {
 				cell.textLabel?.text = "All \(genre.name) songs"
 				cell.detailTextLabel?.text = "\(genre.songs.count) songs"
-			} else {
+			} else if let decade = decadeForArtists {
+				cell.textLabel?.text = "All \(decade.name) songs"
+				cell.detailTextLabel?.text = "\(decade.songs.count) songs"
+			}  else {
 				cell.textLabel?.text = "All songs"
 				cell.detailTextLabel?.text = "\(realm.objects(Song.self).count) songs"
 			}
@@ -45,6 +48,14 @@ class ArtistsTableViewController: CategoryViewController {
 		} else if let decade = decadeForArtists {
 			let artist = decade.artists[indexPath.row]
 			let songsByArtistInDecade = artist.songs.filter("decade = %@", decade)
+			func printInfo() {
+				print("\(artist.name) has \(songsByArtistInDecade.count) songs from the \(decade.name)")
+				for song in songsByArtistInDecade {
+					print(song.title)
+				}
+			}
+			printInfo()
+			
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(songsByArtistInDecade.count) \(decade.name)" + (songsByArtistInDecade.count == 1 ? " song" : " songs")
 		} else {
