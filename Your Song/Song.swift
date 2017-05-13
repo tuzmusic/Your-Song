@@ -34,46 +34,17 @@ final class Song: BrowserObject {
 
 	var popularity: Int { return self.requests.count }
 	
-	class func createSong (from songComponents: [String], in realm: Realm, headers: inout [String]) -> Song? {
-		struct SongHeaderTags {
-			static let titleOptions = ["song", "title", "name"]
-			static let artist = "artist"
-			static let genre = "genre"
-			static let year = "year"
-		}
+	typealias Indices = (title: Int, artist: Int?, genre: Int?, year: Int?)
+	
+	class func createSong (from songComponents: [String], with indices: Indices, in realm: Realm) -> Song? {
 		
-		func getHeaderIndices() -> (title: Int?, artist: Int?, genre: Int?, year: Int?) {
-			struct SongHeaderTags {
-				static let titleOptions = ["song", "title", "name"]
-				static let artist = "artist"
-				static let genre = "genre"
-				static let year = "year"
-			}
-			var titleIndex: Int?
-			if let titleHeader = headers.first(where: { SongHeaderTags.titleOptions.contains($0) }) {
-				titleIndex = headers.index(of: titleHeader)
-			}
-			
-			let artistIndex = headers.index(of: SongHeaderTags.artist)
-			let genreIndex = headers.index(of: SongHeaderTags.genre)
-			let yearIndex = headers.index(of: SongHeaderTags.year)
-			return (titleIndex, artistIndex, genreIndex, yearIndex)
-		}
+		let title = songComponents[indices.title].capitalizedWithOddities()
 		
-		let indices = getHeaderIndices()
-		
-		guard let titleIndex = indices.title else {
-			print("Song could not be created: Title field could not be found.")
-			return nil
-		}
-		
-		let title = songComponents[titleIndex].capitalizedWithOddities()
-		
-		// Get all the MULTIPLE ARTISTS. Store them in artistObjects list, to quickly assign them to the new song if/when we get there.
 		var artists = List<Artist>()
 		if let artistIndex = indices.artist {
-			artists = BrowserCategory.items(at: artistIndex, of: songComponents, in: realm)
+			artists = BrowserCategory.items(from: songComponents[artistIndex], in: realm)
 		}
+		
 		if let existingSong = realm.objects(Song.self).filter("title like[c] %@ AND artist.name like[c] %@", title, artists.first!.name).first {
 			return existingSong
 		}
@@ -87,10 +58,9 @@ final class Song: BrowserObject {
 		newSong.songDescription = title
 		newSong.artists.forEach { newSong.songDescription += " - \($0.name)" }
 
-		if let yearIndex = headers.index(of: SongHeaderTags.year) {
-			let yearsList = songComponents[yearIndex]
-			let decadeStrings = Decade.decadeNames(for: yearsList)
-			newSong.decades = BrowserCategory.items(for: decadeStrings, in: realm)
+		// MARK: Decade
+		if let yearIndex = indices.year {
+			newSong.decades = BrowserCategory.items(for: Decade.decadeNames(for: songComponents[yearIndex]), in: realm)
 		}
 		newSong.decade = newSong.decades.first
 		// This does NOT support multiple artists (only adds the primary artist to the decade.)
@@ -98,10 +68,10 @@ final class Song: BrowserObject {
 		if !newSong.decade.artists.contains(newSong.artist) {
 			newSong.decade.artists.append(newSong.artist)
 		}
-		newSong.dateAdded = Date()
 		
+		// MARK: Genre
 		if let genreIndex = indices.genre {
-			newSong.genres = BrowserCategory.items(at: genreIndex, of: songComponents, in: realm)
+			newSong.genres = BrowserCategory.items(from: songComponents[genreIndex], in: realm)
 		}
 		newSong.genre = newSong.genres.first!
 		// This does NOT support multiple artists (only adds the primary artist to the genre.)
@@ -114,22 +84,10 @@ final class Song: BrowserObject {
 			newSong.genre.decades.append(newSong.decade)
 		}
 		
+		newSong.dateAdded = Date()
 
-		var propertiesWithoutHeaders = [String]()
-		let propertiesToSkip = ["title", "artist", "genre", "decade", "year"]
+		// "Properties without headers" section has been deleted. See older versions.
 
-		// This is actually superfluous at this point (all pertinent properties are covered above)
-		for property in newSong.objectSchema.properties
-			where !propertiesToSkip.contains(property.name)
-		{
-			if let index = headers.index(of: property.name) {
-				newSong.setValue(songComponents[index], forKey: property.name)
-			} else {
-				propertiesWithoutHeaders.append(property.name)
-			}
-		}
-		//print("Properties not in table: \n \(propertiesWithoutHeaders)")
-		
 		realm.add(newSong)
 		let count = realm.objects(Song.self).count
 		print("Song #\(count) added to realm: \(newSong.songDescription)")

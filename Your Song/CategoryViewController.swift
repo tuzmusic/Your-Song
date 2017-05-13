@@ -25,7 +25,6 @@ class CategoryViewController: BrowserViewController {
 	}
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		//print("Cell at \(indexPath) says \(tableView.cellForRow(at: indexPath)!.textLabel!.text!) and selects", separator: "", terminator: " ")
 		if indexPath.section == 0 {
 			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
 		} else {

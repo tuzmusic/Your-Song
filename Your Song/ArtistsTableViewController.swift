@@ -49,13 +49,6 @@ class ArtistsTableViewController: CategoryViewController {
 			
 			let artist = decade.artists.sorted(byKeyPath: "sortName")[indexPath.row]
 			let songsByArtistInDecade = artist.songs.filter("decade = %@", decade)
-			func printInfo() {
-				print("\(artist.name) has \(songsByArtistInDecade.count) songs from the \(decade.name)")
-				for song in songsByArtistInDecade {
-					print(song.title)
-				}
-			}
-			printInfo()
 			
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(songsByArtistInDecade.count) \(decade.name)" + (songsByArtistInDecade.count == 1 ? " song" : " songs")
@@ -68,7 +61,7 @@ class ArtistsTableViewController: CategoryViewController {
 	}
 	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
-		print((anObject as! Artist).name)
+		print("Selected \(anObject as! Artist).name)")
 		performSegue(withIdentifier: Storyboard.ArtistsSongsSegue, sender: anObject)
 	}
 		

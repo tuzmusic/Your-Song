@@ -17,6 +17,22 @@ class BrowserCategory: BrowserObject {
 	}
 	
 	//var songs = LinkingObjects(fromType: Song.self, property: className.lowercased())
+		static func items<T: BrowserCategory> (from itemNames: String, in realm: Realm) -> List<T> {
+		let items = List<T>()
+		let names = itemNames.isEmpty ? ["Unknown"] : itemNames.components(separatedBy: Song.separator)
+		for name in names where !name.isEmpty {
+			let name = name.capitalizedWithOddities()
+			let search = realm.objects(T.self).filter("name like[c] %@", name)
+			if let existingItem = search.first {
+				items.append(existingItem)
+			} else {
+				let newItem = T()
+				newItem.name = name
+				items.append(newItem)
+			}
+		}
+		return items
+	}
 	
 	static func items<T: BrowserCategory> (at index: Int, of songComponents: [String], in realm: Realm) -> List<T> {
 		let components = songComponents[index]
@@ -36,6 +52,7 @@ class BrowserCategory: BrowserObject {
 		return items
 	}
 	
+
 	static func items<T: BrowserCategory> (for components: [String], in realm: Realm) -> List<T> {
 		let items = List<T>()
 		let names = components.isEmpty ? ["Unknown"] : components

@@ -26,12 +26,12 @@ class YpbApp {
 	class func setupOfflineRealm() {
 		ypbRealm = try! Realm()
 		try! ypbRealm.write {
-			//ypbRealm.deleteAll()
+			ypbRealm.deleteAll()
 			if ypbRealm.objects(Song.self).isEmpty {
 				SongImporter().importSongs()
 			}
 			for object in ypbRealm.objects(Artist.self) where object.songs.count == 0 {
-				print("about to delete orphan: \(object.name)")
+				print("Deleting orphan: \(object.name)")
 				ypbRealm.delete(object)
 			}
 		}
@@ -127,29 +127,6 @@ class YpbApp {
 			}
 		}
 	}
-	/*
-	class func forSorting(for name: String) -> String {
-	var startingName = name
-	var editedName = startingName
-	let nameChars = editedName.characters
-	
-	repeat {
-	startingName = editedName
-	if editedName.hasPrefix("(") {
-	// Delete the parenthetical
-	editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
-	} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
-	// Delete any punctuation, spaces, etc.
-	editedName.remove(at: nameChars.index(of: nameChars.first!)!)
-	} else if let range = editedName.range(of: "The ") {
-	// Delete "The"
-	editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
-	}
-	} while editedName != startingName
-	
-	return editedName
-	}
-	*/
 }
 
 extension String {

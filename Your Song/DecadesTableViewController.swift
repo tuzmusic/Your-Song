@@ -44,11 +44,8 @@ class DecadesTableViewController: CategoryViewController {
 			let artistsVC = segue.destination as? ArtistsTableViewController,
 			let decade = sender as? Decade
 		{
-			print(decade.name)
 			artistsVC.decadeForArtists = decade
-			//decade.artists.sorted(byKeyPath: "sortName").forEach { print("\($0.name), \($0.songs.count) songs (total?)") }
 			artistsVC.basePredicate = NSPredicate(format: "name in %@", decade.artists.map { $0.name })
-			
 		}
 	}
 }
