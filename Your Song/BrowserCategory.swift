@@ -16,7 +16,7 @@ class BrowserCategory: BrowserObject {
 		}
 	}
 	
-	//var songs = LinkingObjects(fromType: Song.self, property: className().lowercased())
+	//var songs = LinkingObjects(fromType: Song.self, property: className.lowercased())
 	
 	static func items<T: BrowserCategory> (at index: Int, of songComponents: [String], in realm: Realm) -> List<T> {
 		let components = songComponents[index]

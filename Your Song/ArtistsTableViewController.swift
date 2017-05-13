@@ -41,12 +41,13 @@ class ArtistsTableViewController: CategoryViewController {
 		
 		// These two should be able to be genericized (in an actual generic function), the predicate just needs to be accounted for in an argument.
 		if let genre = genreForArtists {
-			let artist = genre.artists[indexPath.row]
+			let artist = genre.artists.sorted(byKeyPath: "sortName")[indexPath.row]
 			let songsByArtistInGenre = artist.songs.filter("genre = %@", genre)
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genre.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
 		} else if let decade = decadeForArtists {
-			let artist = decade.artists[indexPath.row]
+			
+			let artist = decade.artists.sorted(byKeyPath: "sortName")[indexPath.row]
 			let songsByArtistInDecade = artist.songs.filter("decade = %@", decade)
 			func printInfo() {
 				print("\(artist.name) has \(songsByArtistInDecade.count) songs from the \(decade.name)")

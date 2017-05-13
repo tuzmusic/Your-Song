@@ -11,19 +11,13 @@ import RealmSwift
 
 final class Decade: BrowserCategory {
 	
-	//let songs = LinkingObjects(fromType: Song.self, property: "decade")
 	var songs = LinkingObjects(fromType: Song.self, property: className().lowercased())
 	
-	var artists = List<Artist>()
-	//	var artists: [Artist] {
-	//		var artists = [Artist]()
-	//		self.songs.forEach {
-	//			if !artists.contains($0.artist!) {
-	//				artists.append(($0.artist!))
-	//			}
-	//		}
-	//		return artists
-	//	}
+	var artists = List<Artist>() {
+		didSet {
+			artists = List(artists.sorted(byKeyPath: "sortName"))
+		}
+	}
 	
 	static func decadeNames(for yearsList: String) -> [String] {
 		let yearStrings = yearsList.components(separatedBy: Song.separator)

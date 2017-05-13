@@ -46,8 +46,9 @@ class DecadesTableViewController: CategoryViewController {
 		{
 			print(decade.name)
 			artistsVC.decadeForArtists = decade
-			decade.artists.forEach { print("\($0.name), \($0.songs.count) songs (total?)") }
+			//decade.artists.sorted(byKeyPath: "sortName").forEach { print("\($0.name), \($0.songs.count) songs (total?)") }
 			artistsVC.basePredicate = NSPredicate(format: "name in %@", decade.artists.map { $0.name })
+			
 		}
 	}
 }

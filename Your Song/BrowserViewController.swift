@@ -65,18 +65,13 @@ class BrowserViewController: RealmSearchViewController {
 	}
 	
 	func adjustedIndexPath(for indexPath: IndexPath) -> IndexPath {
-		if let results = results, !activeKeys.isEmpty {
+		if !activeKeys.isEmpty {
 			if !(activeKeys.contains("#") && indexPath.section == 0) { // in other words, if EITHER of these conditions are true.
 				var rowNumber = indexPath.row
 				for section in 0..<indexPath.section {
 					rowNumber += self.tableView.numberOfRows(inSection: section)
 				}
 				return (IndexPath(row: rowNumber, section: 0))
-				
-				let startingLetter = activeKeys[indexPath.section]
-				let items = results.objects(with: NSPredicate(format: "sortName BEGINSWITH[c] %@", startingLetter))
-				let object = items[UInt(indexPath.row)]
-				return IndexPath(row: Int(results.index(of: object)), section: 0)
 			}
 		}
 		return indexPath
