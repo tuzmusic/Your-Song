@@ -23,18 +23,17 @@ class BrowserViewController: RealmSearchViewController {
 	func getActiveKeys() -> [String] {
 		
 		activeKeys.removeAll()
-
+		numberKeyCount = 0
+		
 		if let results = results {
-			
 			for key in allKeys {
 				if results.objects(with: NSPredicate(format: "sortName BEGINSWITH %@", key)).count > 0 {
-					if numbers.contains(String(key.characters.first!)) {
+					if numbers.contains(key) {
+						numberKeyCount += 1
 						if !activeKeys.contains("#") {
-							// If any items start with a number, put the # sign in the index.
 							activeKeys.append("#")
 						}
 					} else {
-						// If the key is a letter, add it to the keys.
 						activeKeys.append(key)
 					}
 				}
@@ -51,10 +50,6 @@ class BrowserViewController: RealmSearchViewController {
 		
 		if let results = results, !activeKeys.isEmpty {
 			if activeKeys.contains("#"), section == 0 {
-				numberKeyCount = 0
-				for number in numbers {
-					numberKeyCount += Int(results.objects(with: NSPredicate(format: "sortName BEGINSWITH %@", number)).count)
-				}
 				return numberKeyCount
 			} else {
 				let startingLetter = activeKeys[section]
@@ -68,7 +63,7 @@ class BrowserViewController: RealmSearchViewController {
 	
 	func adjustedIndexPath(for indexPath: IndexPath) -> IndexPath {
 		if !activeKeys.isEmpty {
-			if !(activeKeys.contains("#") && indexPath.section == 0) { // in other words, if EITHER of these conditions are true.
+			if  indexPath.section > 0 {
 				var rowNumber = indexPath.row
 				for section in 0..<indexPath.section {
 					rowNumber += self.tableView.numberOfRows(inSection: section)
