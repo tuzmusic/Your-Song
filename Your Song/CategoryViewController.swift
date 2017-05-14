@@ -19,14 +19,12 @@ class CategoryViewController: BrowserViewController {
 	}
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		var adjIndex = indexPath
-		//adjIndex.section -= 1
-		return super.tableView(tableView, cellForRowAt: adjustedIndexPath(for: adjIndex))
+		return super.tableView(tableView, cellForRowAt: adjustedIndexPath(for: indexPath))
 	}
 	
 	override func adjustedIndexPath(for indexPath: IndexPath) -> IndexPath {
 		if !activeKeys.isEmpty {
-			if !(activeKeys.contains("#") && indexPath.section == 0) { // in other words, if EITHER of these conditions are true.
+			if indexPath.section > 0 {
 				var rowNumber = indexPath.row
 				for section in 1..<indexPath.section {
 					rowNumber += self.tableView.numberOfRows(inSection: section)
@@ -42,9 +40,7 @@ class CategoryViewController: BrowserViewController {
 		if indexPath.section == 0 {
 			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
 		} else {
-			var adjIndex = indexPath
-			//adjIndex.section -= 1
-			super.tableView(tableView, didSelectRowAt: adjustedIndexPath(for: adjIndex))
+			super.tableView(tableView, didSelectRowAt: adjustedIndexPath(for: indexPath))
 		}
 	}
 	
@@ -58,7 +54,7 @@ class CategoryViewController: BrowserViewController {
 			if section == 0 {
 				return "\"All\" (section \(section))"
 			} else {
-				return activeKeys[section - 1]+" (section \(section))"
+				return activeKeys[section - 1] + " (section #\(section))"
 			}
 		}
 		return nil
