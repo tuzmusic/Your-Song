@@ -19,9 +19,7 @@ class GenresTableViewController: BrowserViewController {
 			cell.detailTextLabel?.text = "\(realm.objects(Song.self).count) songs"
 			return cell
 		} else {
-			var adjIndex = indexPath
-			adjIndex.section -= 1
-			return super.tableView(tableView, cellForRowAt: adjustedIndexPath(for: adjIndex))
+			return super.tableView(tableView, cellForRowAt: indexPath)
 		}
 	}
 	

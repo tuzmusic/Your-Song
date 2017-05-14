@@ -19,30 +19,11 @@ class CategoryViewController: BrowserViewController {
 		return section == 0 ? 1 : super.tableView(tableView, numberOfRowsInSection: section - 1)
 	}
 	
-	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		return super.tableView(tableView, cellForRowAt: adjustedIndexPath(for: indexPath))
-	}
-	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.section == 0 {
 			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
 		} else {
 			super.tableView(tableView, didSelectRowAt: adjustedIndexPath(for: indexPath))
 		}
-	}
-	
-	override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-		return activeKeys.index(of: title)! + 1
-	}
-	
-	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		if !activeKeys.isEmpty {
-			if section == 0 {
-				return "\"All\" (section \(section))"
-			} else {
-				return activeKeys[section - 1] + " (section #\(section))"
-			}
-		}
-		return nil
 	}
 }

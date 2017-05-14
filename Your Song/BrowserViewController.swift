@@ -84,6 +84,6 @@ class BrowserViewController: RealmSearchViewController {
 	}
 	
 	override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-		return activeKeys.index(of: title)!
+		return activeKeys.index(of: title)! + allSection
 	}
 }
