@@ -35,6 +35,14 @@ class DecadesTableViewController: CategoryViewController {
 		return cell
 	}
 	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if indexPath.section == 0 {
+			performSegue(withIdentifier: Storyboard.AllSongsSegue, sender: nil)
+		} else {
+			super.tableView(tableView, didSelectRowAt: indexPath)
+		}
+	}
+	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
 		performSegue(withIdentifier: Storyboard.GenresArtistsSegue, sender: anObject)
 	}

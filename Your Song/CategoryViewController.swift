@@ -21,7 +21,7 @@ class CategoryViewController: BrowserViewController {
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		return super.tableView(tableView, cellForRowAt: adjustedIndexPath(for: indexPath))
-	}	
+	}
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.section == 0 {
