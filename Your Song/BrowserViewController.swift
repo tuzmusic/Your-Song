@@ -14,6 +14,7 @@ class BrowserViewController: RealmSearchViewController {
 	
 	var activeKeys = [String]()
 	var numberKeyCount = 0
+	var allSection = 0
 	
 	let numbers = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
 	let letters = [ "A","B","C","D","E","F","G","H","I","J","K","L","M",
@@ -43,7 +44,7 @@ class BrowserViewController: RealmSearchViewController {
 	}
 	
 	override func numberOfSections(in tableView: UITableView) -> Int {
-		return getActiveKeys().isEmpty ? 1 : activeKeys.count
+		return getActiveKeys().isEmpty ? 1 : activeKeys.count + allSection
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -65,7 +66,8 @@ class BrowserViewController: RealmSearchViewController {
 		if !activeKeys.isEmpty {
 			if  indexPath.section > 0 {
 				var rowNumber = indexPath.row
-				for section in 0..<indexPath.section {
+				//for section in 0..<indexPath.section {
+				for section in allSection..<indexPath.section {
 					rowNumber += self.tableView.numberOfRows(inSection: section)
 				}
 				return (IndexPath(row: rowNumber, section: 0))
