@@ -17,6 +17,7 @@ class ArtistsTableViewController: CategoryViewController {
 
 	// This is just for the "All songs" row. Has nothing to do with whether there's a genre.
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		/*DEBUG*/
 		if indexPath.section == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 			if let genre = genreForArtists {
@@ -46,10 +47,8 @@ class ArtistsTableViewController: CategoryViewController {
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genre.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
 		} else if let decade = decadeForArtists {
-			
 			let artist = decade.artists.sorted(byKeyPath: "sortName")[indexPath.row]
 			let songsByArtistInDecade = artist.songs.filter("decade = %@", decade)
-			
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(songsByArtistInDecade.count) \(decade.name)" + (songsByArtistInDecade.count == 1 ? " song" : " songs")
 		} else {
@@ -61,7 +60,6 @@ class ArtistsTableViewController: CategoryViewController {
 	}
 	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
-		print("Selected \(anObject as! Artist).name)")
 		performSegue(withIdentifier: Storyboard.ArtistsSongsSegue, sender: anObject)
 	}
 		

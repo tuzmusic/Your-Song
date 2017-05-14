@@ -30,10 +30,12 @@ class BrowserViewController: RealmSearchViewController {
 				if results.objects(with: NSPredicate(format: "sortName BEGINSWITH %@", key)).count > 0 {
 					if numbers.contains(String(key.characters.first!)) {
 						if !activeKeys.contains("#") {
-							activeKeys.append("#") // If any items start with a number, put the # sign in the index.
+							// If any items start with a number, put the # sign in the index.
+							activeKeys.append("#")
 						}
 					} else {
-						activeKeys.append(key) // If the key is a letter, add it to the keys.
+						// If the key is a letter, add it to the keys.
+						activeKeys.append(key)
 					}
 				}
 			}
