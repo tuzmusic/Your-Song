@@ -15,9 +15,8 @@ class ArtistsTableViewController: CategoryViewController {
 	var genreForArtists: Genre?
 	var decadeForArtists: Decade?
 
-	// This is just for the "All songs" row. Has nothing to do with whether there's a genre.
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		/*DEBUG*/
+		// This is just for the "All songs" row(s). Has nothing to do with whether there's a genre.
 		if indexPath.section == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 			if let genre = genreForArtists {
@@ -48,6 +47,9 @@ class ArtistsTableViewController: CategoryViewController {
 			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genre.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
 		} else if let decade = decadeForArtists {
 			let artist = decade.artists.sorted(byKeyPath: "sortName")[indexPath.row]
+			if let searchString = self.searchController.searchBar.text, !searchString.isEmpty {
+				
+			}
 			let songsByArtistInDecade = artist.songs.filter("decade = %@", decade)
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(songsByArtistInDecade.count) \(decade.name)" + (songsByArtistInDecade.count == 1 ? " song" : " songs")

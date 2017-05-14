@@ -66,7 +66,6 @@ class BrowserViewController: RealmSearchViewController {
 		if !activeKeys.isEmpty {
 			if  indexPath.section > 0 {
 				var rowNumber = indexPath.row
-				//for section in 0..<indexPath.section {
 				for section in allSection..<indexPath.section {
 					rowNumber += self.tableView.numberOfRows(inSection: section)
 				}
