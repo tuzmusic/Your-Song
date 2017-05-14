@@ -40,23 +40,27 @@ class ArtistsTableViewController: CategoryViewController {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		
 		// These two should be able to be genericized (in an actual generic function), the predicate just needs to be accounted for in an argument.
-		if let genre = genreForArtists {
-			let artist = genre.artists.sorted(byKeyPath: "sortName")[indexPath.row]
-			let songsByArtistInGenre = artist.songs.filter("genre = %@", genre)
-			cell.textLabel?.text = artist.name
-			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genre.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
-		} else if let decade = decadeForArtists {
-			let artist = decade.artists.sorted(byKeyPath: "sortName")[indexPath.row]
-			if let searchString = self.searchController.searchBar.text, !searchString.isEmpty {
-				
-			}
+//		if let genre = genreForArtists {
+//			let artist = genre.artists.sorted(byKeyPath: "sortName")[indexPath.row]
+//			let songsByArtistInGenre = artist.songs.filter("genre = %@", genre)
+//			cell.textLabel?.text = artist.name
+//			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genre.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
+//		}
+//		else if let decade = decadeForArtists {
+//			let artist = decade.artists.sorted(byKeyPath: "sortName")[indexPath.row]
+//			let songsByArtistInDecade = artist.songs.filter("decade = %@", decade)
+//			cell.textLabel?.text = artist.name
+//			cell.detailTextLabel?.text = "\(songsByArtistInDecade.count) \(decade.name)" + (songsByArtistInDecade.count == 1 ? " song" : " songs")
+//		} else {
+		
+		let artist = object as! Artist
+		cell.textLabel?.text = artist.name
+
+		if let decade = decadeForArtists {
 			let songsByArtistInDecade = artist.songs.filter("decade = %@", decade)
-			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = "\(songsByArtistInDecade.count) \(decade.name)" + (songsByArtistInDecade.count == 1 ? " song" : " songs")
 		} else {
-			let artist = object as! Artist
-			cell.textLabel?.text = artist.name
-			cell.detailTextLabel?.text = "\(artist.songs.count) songs"
+			cell.detailTextLabel?.text = "\(artist.songs.count)" + (artist.songs.count == 1 ? " song" : " songs")
 		}
 		return cell
 	}
