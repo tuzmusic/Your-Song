@@ -25,16 +25,13 @@ class YpbApp {
 	
 	class func setupOfflineRealm() {
 		ypbRealm = try! Realm()
-		try! ypbRealm.write {
-			//ypbRealm.deleteAll()
-			if ypbRealm.objects(Song.self).isEmpty {
-				SongImporter().importSongs()
-			}
-//			for object in ypbRealm.objects(Artist.self) where object.songs.count == 0 {
-//				print("Deleting orphan: \(object.name)")
-//				ypbRealm.delete(object)
-//			}
+		//try! ypbRealm.write { ypbRealm.deleteAll() }
+
+		ypbRealm.beginWrite()
+		if ypbRealm.objects(Song.self).isEmpty {
+			SongImporter().importSongs()
 		}
+		try! ypbRealm.commitWrite()
 	}
 	
 	class func setupRealm() {
@@ -44,7 +41,7 @@ class YpbApp {
 			static let localHTTP = URL(string:"http://54.208.237.32:9080")!
 			static let publicDNS = URL(string:"http://ec2-54-208-237-32.compute-1.amazonaws.com:9080")!
 			static let realmAddress = URL(string:"realm://ec2-54-208-237-32.compute-1.amazonaws.com:9080/YourPianoBar/JonathanTuzman/")!
-
+			
 			static func tokenString() -> String { return "ewoJImlkZW50aXR5IjogIl9fYXV0aCIsCgkiYWNjZXNzIjogWyJ1cGxvYWQiLCAiZG93bmxvYWQiLCAibWFuYWdlIl0KfQo=:H1qgzZHbRSYdBs0YoJON7ehUZdVDQ8wGKwgYWsQUoupYPycq1cC4PlGZlDZ++Q+gB2ouYcw4bRRri2Z3F5dlWALLWvARgEwB2bDmuOQRcH30IKkdhFp11PnE3StiMn30TDZWWzX31QAyPDvaUyES7/VK/y8CDHmJ8L/UJ/y8w422bmIFTlectnuXBzMRboBZ8JD/PSrXciaPhm9hd/jEEfgYTwB7oyuuch9XrWvPbSrcpWXEr/6j526nuoips1+KTA/h25LzAgCs1+ZeO63RFKi/K3q7y/HkRBB8OWgK9kBQZGIx8eiH4zu7ut4mLGBcs38JnJr4OEvSTSfdZdhGxw==" }
 			
 			static let userCred = SyncCredentials.usernamePassword(username: "tuzmusic@gmail.com", password: "***REMOVED***")
@@ -129,7 +126,7 @@ extension String {
 	}
 	
 	func capitalizedWithOddities() -> String {
-
+		
 		// Still doesn't deal with stuff like "McFerrin." Should probably just capitalize the source data correctly!
 		if self.uppercased() == self { return self }
 		

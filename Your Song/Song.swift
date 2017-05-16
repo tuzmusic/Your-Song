@@ -21,20 +21,23 @@ final class Song: BrowserObject {
 	dynamic var artist: Artist!
 	var artists = List<Artist>() {
 		didSet {
-//			if let artist = artists.first {
-//				self.artist = artist
-//			}
-////			if artists.count == 1 {
-////				self.artist = artists.first!
-////			}
+			artist = artists.first
 		}
 	}
 
 	dynamic var genre: Genre!
-	var genres = List<Genre>()
+	var genres = List<Genre>(){
+		didSet {
+			genre = genres.first
+		}
+	}
 	
 	dynamic var decade: Decade!
-	var decades = List<Decade>()
+	var decades = List<Decade>() {
+		didSet {
+			decade = decades.first
+		}
+	}
 
 	let requests = List<Request>()
 	dynamic var dateAdded: Date?
@@ -51,7 +54,9 @@ final class Song: BrowserObject {
 		
 		var artists = List<Artist>()
 		if let artistIndex = indices.artist {
-			artists = BrowserCategory.items(from: songComponents[artistIndex], in: realm)
+			let itemNames = songComponents[artistIndex]
+			let names = itemNames.isEmpty ? ["Unknown"] : itemNames.components(separatedBy: Song.separator)
+			artists = BrowserCategory.items(for: names, in: realm)
 		}
 		
 		if let existingSong = realm.objects(Song.self).filter("title like[c] %@ AND artist.name like[c] %@", title, artists.first!.name).first {
@@ -61,8 +66,9 @@ final class Song: BrowserObject {
 		// MARK: Create the new song
 		let newSong = Song()
 		newSong.title = title
+		
 		newSong.artists = artists
-		newSong.artist = newSong.artists.first!
+		//newSong.artist = newSong.artists.first!
 		
 		newSong.songDescription = title
 		newSong.artists.forEach { newSong.songDescription += " - \($0.name)" }
@@ -71,24 +77,25 @@ final class Song: BrowserObject {
 		if let yearIndex = indices.year {
 			newSong.decades = BrowserCategory.items(for: Decade.decadeNames(for: songComponents[yearIndex]), in: realm)
 		}
-		newSong.decade = newSong.decades.first
-		// This does NOT support multiple artists (only adds the primary artist to the decade.)
-		// And it does NOT support multiple decades! (only adds the primary artist to the song's primary decade)
+		
+		//newSong.decade = newSong.decades.first
+		
 		if !newSong.decade.artists.contains(newSong.artist) {
 			newSong.decade.artists.append(newSong.artist)
 		}
 		
 		// MARK: Genre
 		if let genreIndex = indices.genre {
-			newSong.genres = BrowserCategory.items(from: songComponents[genreIndex], in: realm)
+			let itemNames = songComponents[genreIndex]
+			let names = itemNames.isEmpty ? ["Unknown"] : itemNames.components(separatedBy: Song.separator)
+			newSong.genres = BrowserCategory.items(for: names, in: realm)
 		}
-		newSong.genre = newSong.genres.first!
-		// This does NOT support multiple artists (only adds the primary artist to the genre.)
-		// And it does NOT support multiple genres! (only adds the primary artist to the song's primary genre)
+	
+		//newSong.genre = newSong.genres.first!
+		
 		if !newSong.genre.artists.contains(newSong.artist) {
 			newSong.genre.artists.append(newSong.artist)
 		}
-		// This also does not support multiples
 		if !newSong.genre.decades.contains(newSong.decade) {
 			newSong.genre.decades.append(newSong.decade)
 		}
@@ -100,6 +107,11 @@ final class Song: BrowserObject {
 		realm.add(newSong)
 		let count = realm.objects(Song.self).count
 		print("Song #\(count) added to realm: \(newSong.songDescription)")
+//		print("Song has \(newSong.artists.count) artists, \(newSong.decades.count) decades, \(newSong.genres.count) genres")
+//		if let testSong = realm.objects(Song.self).last {
+//			print("Test: \(testSong.songDescription) has \(testSong.artists.count) artists, \(testSong.decades.count) decades, \(testSong.genres.count) genres")
+//
+//		}
 		return newSong
 	}
 	
@@ -112,24 +124,22 @@ final class Song: BrowserObject {
 		
 		let newSong = Song()
 		newSong.title = song.title
-		realm.beginWrite()
 		for artist in song.artists {
-//			print("Current artist: \(artist.name)")
-//			print("all artists: \(realm.objects(Artist.self).map {$0.name})")
-			if realm.objects(Artist.self).filter("name like[c] %@", artist.name).isEmpty {
+			//print("Current artist: \(artist.name)")
+			//print("all artists: \(realm.objects(Artist.self).map {$0.name})")
+			if realm.objects(Artist.self).filter("name =[c] %@", artist.name).isEmpty {
+				//if !realm.objects(Artist.self).contains(artist) {
 				print("Creating \(artist.name)")
-				//realm.create(Artist.self, value: artist, update: false)
+				try! realm.write { realm.create(Artist.self, value: artist, update: false) }
 			} else {
 				print("\(artist.name) already exists")
 			}
 		}
 		//print("Creating \"\(song.songDescription)\"")
 		//realm.create(Song.self, value: song, update: false)
-
-		try! realm.commitWrite()
 		
 		newSong.artists = song.artists
-		newSong.artist = song.artists.first!
+		newSong.artist = song.artists.first!  // MARK: Artist created
 		
 		newSong.songDescription = song.songDescription
 		newSong.dateModified = song.dateModified
@@ -138,7 +148,7 @@ final class Song: BrowserObject {
 			realm.create(Song.self, value: newSong, update: false)
 		}
 		
-		return newSong
+		return newSong // MARK: Artist created twice more here!
 	}
 
 }

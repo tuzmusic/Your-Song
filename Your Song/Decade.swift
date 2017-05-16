@@ -11,7 +11,7 @@ import RealmSwift
 
 final class Decade: BrowserCategory {
 	
-	var songs = LinkingObjects(fromType: Song.self, property: className().lowercased())
+	var songs = LinkingObjects(fromType: Song.self, property: className().lowercased()) 
 	
 	var artists = List<Artist>() {
 		didSet {

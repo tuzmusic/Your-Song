@@ -24,63 +24,18 @@ class BrowserCategory: BrowserObject {
 	
 	//var songs: LinkingObjects<Song> { return LinkingObjects(fromType: Song.self, property: className.lowercased()) }
 	
-	static func item<T: BrowserCategory> (fromObject object: T, in realm: Realm) -> T? {
-		print(object.name)
-		let item = T()
-		if !realm.objects(T.self).contains(object) {
-			return object
-		}
-		return nil
-	}
-	
-	static func items<T: BrowserCategory> (from itemNames: String, in realm: Realm) -> List<T> {
-		let items = List<T>()
-		let names = itemNames.isEmpty ? ["Unknown"] : itemNames.components(separatedBy: Song.separator)
-		for name in names where !name.isEmpty {
-			let name = name.capitalizedWithOddities()
-			let search = realm.objects(T.self).filter("name like[c] %@", name)
-			if let existingItem = search.first {
-				items.append(existingItem)
-			} else {
-				let newItem = T()
-				newItem.name = name
-				items.append(newItem)
-			}
-		}
-		return items
-	}
-	
-	static func items<T: BrowserCategory> (at index: Int, of songComponents: [String], in realm: Realm) -> List<T> {
-		let components = songComponents[index]
-		let items = List<T>()
-		let names = components.isEmpty ? ["Unknown"] : components.components(separatedBy: Song.separator)
-		for name in names {
-			let name = name.capitalizedWithOddities()
-			let search = realm.objects(T.self).filter("name like[c] %@", name)
-			if let existingItem = search.first {
-				items.append(existingItem)
-			} else {
-				let newItem = T()
-				newItem.name = name
-				items.append(newItem)
-			}
-		}
-		return items
-	}
-	
-
 	static func items<T: BrowserCategory> (for components: [String], in realm: Realm) -> List<T> {
 		let items = List<T>()
 		let names = components.isEmpty ? ["Unknown"] : components
 		for name in names {
 			let name = name.capitalizedWithOddities()
 			let search = realm.objects(T.self).filter("name like[c] %@", name)
-			if let existingItem = search.first {
-				items.append(existingItem)
-			} else {
+			if search.isEmpty {
 				let newItem = T()
 				newItem.name = name
 				items.append(newItem)
+			} else if let existingItem = search.first, !items.contains(existingItem) {
+				items.append(existingItem)
 			}
 		}
 		return items
