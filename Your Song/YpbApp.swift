@@ -39,27 +39,32 @@ class YpbApp {
 	
 	class func setupRealm() {
 		
+		struct RealmConstants {
+			
+		}
 		let localHTTP = URL(string:"http://54.208.237.32:9080")!
-		let publicDNS = URL(string:"ec2-54-208-237-32.compute-1.amazonaws.com:9080")!
+		let publicDNS = URL(string:"http://ec2-54-208-237-32.compute-1.amazonaws.com:9080")!
 		
 		func tokenString() -> String { return "ewoJImlkZW50aXR5IjogIl9fYXV0aCIsCgkiYWNjZXNzIjogWyJ1cGxvYWQiLCAiZG93bmxvYWQiLCAibWFuYWdlIl0KfQo=:H1qgzZHbRSYdBs0YoJON7ehUZdVDQ8wGKwgYWsQUoupYPycq1cC4PlGZlDZ++Q+gB2ouYcw4bRRri2Z3F5dlWALLWvARgEwB2bDmuOQRcH30IKkdhFp11PnE3StiMn30TDZWWzX31QAyPDvaUyES7/VK/y8CDHmJ8L/UJ/y8w422bmIFTlectnuXBzMRboBZ8JD/PSrXciaPhm9hd/jEEfgYTwB7oyuuch9XrWvPbSrcpWXEr/6j526nuoips1+KTA/h25LzAgCs1+ZeO63RFKi/K3q7y/HkRBB8OWgK9kBQZGIx8eiH4zu7ut4mLGBcs38JnJr4OEvSTSfdZdhGxw==" }
 		
+		let userCred = SyncCredentials.usernamePassword(username: "tuzmusic@gmail.com", password: "***REMOVED***")
+		let tokenCred = SyncCredentials.accessToken(tokenString(), identity: "admin")
+		//let tokenCred = SyncCredentials.accessToken("wrong string", identity: "admin")
+
 		// Paste into terminal to SSH into EC2:
 		/*
 		ssh -i /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff/KeyPairs/YourPianoBarKeyPair.pem ubuntu@ec2-54-208-237-32.compute-1.amazonaws.com
 		*/
 		
-		let tokenCred = SyncCredentials.accessToken(tokenString(), identity: "admin")
-		//let tokenCred = SyncCredentials.accessToken("wrong string", identity: "admin")
-		
 		// Currently, I'm not actually using a SyncUser. I'm using authentication (Google, FB, YPB, whatever) to create a YpbUser and to allow entry into the next scene of the app.
 		
-		SyncUser.logIn(with: tokenCred, server: publicDNS) {
+		SyncUser.logIn(with: userCred, server: publicDNS) {
 			
 			// Log in the user. If not, use local Realm config. If unable, return nil.
 			user, error in
 			guard let user = user else {
 				print("Could not access server. Using local Realm [default configuration].")
+				print(error)
 				if try! Realm().objects(Song.self).isEmpty {
 					SongImporter().importSongs()
 				}
@@ -76,7 +81,6 @@ class YpbApp {
 				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
 				
 				YpbApp.ypbRealm = try! Realm(configuration: configuration)
-				
 				
 				// If no songs in online realm, import songs offline realm TO THE ONLINE REALM (shouldn't ever happen once app is released)
 				
