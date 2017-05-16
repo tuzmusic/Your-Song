@@ -19,7 +19,16 @@ final class Song: BrowserObject {
 	static let separator = " ^^ "
 
 	dynamic var artist: Artist!
-	var artists = List<Artist>()
+	var artists = List<Artist>() {
+		didSet {
+//			if let artist = artists.first {
+//				self.artist = artist
+//			}
+////			if artists.count == 1 {
+////				self.artist = artists.first!
+////			}
+		}
+	}
 
 	dynamic var genre: Genre!
 	var genres = List<Genre>()
@@ -95,27 +104,39 @@ final class Song: BrowserObject {
 	}
 	
 	class func createSong (from song: Song, in realm: Realm) -> Song? {
-		
+		print("Creating from \"\(song.songDescription)\"")
 		if let existingSong = realm.objects(Song.self)
-			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist.name)
-			.first {
+			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist.name).first {
 			return existingSong
 		}
 		
-		let newSong = Song(value: [song.title])
-		let artistName = song.artist.name
-		//let artistResults = realm.objects(Artist.self).filter("name like[c] %@", artistName)
-		//newSong.artist = artistResults.isEmpty ? Artist(value: [artistName]) : artistResults.first
-		newSong.songDescription = "\(song.title) - \(artistName)"
+		let newSong = Song()
+		newSong.title = song.title
+		realm.beginWrite()
+		for artist in song.artists {
+//			print("Current artist: \(artist.name)")
+//			print("all artists: \(realm.objects(Artist.self).map {$0.name})")
+			if realm.objects(Artist.self).filter("name like[c] %@", artist.name).isEmpty {
+				print("Creating \(artist.name)")
+				//realm.create(Artist.self, value: artist, update: false)
+			} else {
+				print("\(artist.name) already exists")
+			}
+		}
+		//print("Creating \"\(song.songDescription)\"")
+		//realm.create(Song.self, value: song, update: false)
+
+		try! realm.commitWrite()
 		
-		let genreName = song.genre.name
-		let genreResults = realm.objects(Genre.self).filter("name =[c] %@", genreName)
-		newSong.genre = genreResults.isEmpty ? Genre(value: [genreName]) : genreResults.first
+		newSong.artists = song.artists
+		newSong.artist = song.artists.first!
 		
+		newSong.songDescription = song.songDescription
 		newSong.dateModified = song.dateModified
 		newSong.dateAdded = song.dateAdded
-		
-		realm.create(Song.self, value: newSong, update: false)
+		try! realm.write {
+			realm.create(Song.self, value: newSong, update: false)
+		}
 		
 		return newSong
 	}

@@ -24,6 +24,15 @@ class BrowserCategory: BrowserObject {
 	
 	//var songs: LinkingObjects<Song> { return LinkingObjects(fromType: Song.self, property: className.lowercased()) }
 	
+	static func item<T: BrowserCategory> (fromObject object: T, in realm: Realm) -> T? {
+		print(object.name)
+		let item = T()
+		if !realm.objects(T.self).contains(object) {
+			return object
+		}
+		return nil
+	}
+	
 	static func items<T: BrowserCategory> (from itemNames: String, in realm: Realm) -> List<T> {
 		let items = List<T>()
 		let names = itemNames.isEmpty ? ["Unknown"] : itemNames.components(separatedBy: Song.separator)
