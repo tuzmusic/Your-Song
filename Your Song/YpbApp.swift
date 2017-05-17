@@ -32,6 +32,34 @@ class YpbApp {
 		}
 	}
 	
+	class func populateSyncedRealmFromLocalRealm() {
+		let offlineSongs = try! Realm().objects(Song.self)
+		if offlineSongs.isEmpty {
+			SongImporter().importSongs()
+		}
+		
+		for song in offlineSongs {
+			try! YpbApp.ypbRealm.write {
+				_ = Song.createSong(fromObject: song, in: YpbApp.ypbRealm)
+			}
+		}
+	}
+	
+	class func populateLocalRealmFromSyncedRealm() {
+		let onlineSongs = try! YpbApp.ypbRealm.objects(Song.self)
+		let localRealm = try! Realm()
+		for song in onlineSongs {
+			try! localRealm.write {
+				_ = Song.createSong(fromObject: song, in: localRealm)
+			}
+		}
+	}
+	
+	class func emptyLocalRealm() {
+		let localRealm = try! Realm()
+		try! localRealm.write { localRealm.deleteAll() }
+	}
+	
 	class func setupRealm() {
 		
 		struct RealmConstants {
@@ -67,29 +95,20 @@ class YpbApp {
 			}
 			
 			DispatchQueue.main.async {
+				
 				// Open the online Realm
 				let syncConfig = SyncConfiguration (user: user, realmURL: RealmConstants.realmAddress)
 				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
 				
-				ypbRealm = try! Realm(configuration: configuration)
-				//try! ypbRealm.write { ypbRealm.deleteAll() }
-
-				// If no songs in online realm, import songs offline realm TO THE ONLINE REALM (shouldn't ever happen once app is released)
-				if ypbRealm.objects(Song.self).isEmpty {
-					
-					let offlineSongs = try! Realm().objects(Song.self)
-					if offlineSongs.isEmpty { SongImporter().importSongs() }
-					
-					for song in offlineSongs {
-						try! ypbRealm.write {
-							_ = Song.createSong(fromObject: song, in: YpbApp.ypbRealm)
-						}
+				YpbApp.ypbRealm = try! Realm(configuration: configuration)
+				let localRealm = try! Realm()
+				if localRealm.objects(Song.self).isEmpty {
+					if YpbApp.ypbRealm.objects(Song.self).isEmpty {
+						// this isn't quite right... or at least it should be named something else
+						YpbApp.populateSyncedRealmFromLocalRealm()
 					}
-					
-				} else {
-					print("Online realm isn't empty.")
-					print("This is where I'll take the online songs and write them to the local realm so they don't have to be downloaded again.")
-				}
+					YpbApp.populateLocalRealmFromSyncedRealm()
+				}				
 			}
 		}
 	}

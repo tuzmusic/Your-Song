@@ -166,9 +166,6 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	@IBAction func submitButtonPressed(_ sender: UIButton) {
 		
 		textViewInfo.keys.forEach { $0.endEditing(true) }
-		//		nameTextView.endEditing(true)
-		//		songTextView.endEditing(true)
-		//		notesTextView.endEditing(true)
 		
 		guard let request = request, !request.userString.isEmpty && !request.songString.isEmpty else {
 			let alert = UIAlertController(title: "Incomplete Request",

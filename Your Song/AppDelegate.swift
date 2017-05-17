@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 		// For automatic sign-in?
 		// GIDSignIn.sharedInstance().signInSilently() {
 		
-		YpbApp.setupOfflineRealm()
+		//YpbApp.setupOfflineRealm()
 		YpbApp.setupRealm()
 
 		return true
