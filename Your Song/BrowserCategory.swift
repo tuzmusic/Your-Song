@@ -28,43 +28,11 @@ class BrowserCategory: BrowserObject {
 	static func items<T: BrowserCategory> (forComponents components: [String], in realm: Realm) -> List<T> {
 		let names = components.isEmpty ? ["Unknown"] : components.map { $0.capitalizedWithOddities() }
 		return BrowserCategory.createItems(for: names, in: realm)
-
-		let items = List<T>()
-		for name in names {
-			let search = realm.objects(T.self).filter("name like[c] %@", name)
-			if search.isEmpty {
-				let newItem = T()
-				newItem.name = name
-				items.append(newItem)
-			} else if let existingItem = search.first, !items.contains(existingItem) {
-				items.append(existingItem)
-			}
-		}
-		return items
 	}
+	
 	static func items<T: BrowserCategory> (forObjects objects: List<T>, in realm: Realm) -> List<T> {
 		let names = Array<String>(objects.map({$0.name}))
 		return BrowserCategory.createItems(for: names, in: realm)
-		
-		let items = List<T>()
-		for name in names {
-			let search = realm.objects(T.self).filter("name like[c] %@", name)
-			if search.isEmpty {
-				let newItem = T()
-				newItem.name = name
-				items.append(newItem)
-			} else if let existingItem = search.first, !items.contains(existingItem) {
-				items.append(existingItem)
-			}
-			
-			/* if !realm.objects(T.self).contains(object) {
-				let newItem = T()
-				newItem.name = object.name
-				realm.create(T.self, value: newItem, update: false)
-			}
-			items.append(object) */
-		}
-		return items
 	}
 	
 	static func createItems<T: BrowserCategory> (for names: [String], in realm: Realm) -> List<T> {

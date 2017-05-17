@@ -102,17 +102,24 @@ final class Song: BrowserObject {
 		for key in simpleCopyKeyPaths {
 			newSong.setValue(song.value(forKey: key), forKey: key)
 		}
-		/*
-		newSong.title = song.title
-		newSong.songDescription = song.songDescription
-		newSong.dateAdded = song.dateAdded
-		newSong.dateModified = song.dateModified
-		*/
 		
+		// KVC implementation for categories, doesn't quite work.
+		/* let categoryKeyPaths = ["artists", "decades", "genres"]
+		for key in categoryKeyPaths {
+			let value = song.value(forKey: key)
+			let items = BrowserCategory.items(forObjects: value, in: realm)
+			newSong.setValue(items, forKey: key)
+		} */
 		newSong.artists = BrowserCategory.items(forObjects: song.artists, in: realm)
-		//	Even with the new items(fromObjects:in:) implementation, this adds two. 
-		//	But it's not an issue with the implementation. It adds it once when setting "artists" and then again when didSet sets "artist".
-		//	However, it only does it when first adding the artist! Meaning, each additional song by the same artist doesn't add it again! (this is correct, of course)
+		newSong.decades = BrowserCategory.items(forObjects: song.decades, in: realm)
+		newSong.genres = BrowserCategory.items(forObjects: song.genres, in: realm)
+		// notes about duplicates:
+		/*
+		Even with the new items(fromObjects:in:) implementation, this adds two.
+		But it's not an issue with the implementation. It adds it once when setting "artists" and then again when didSet sets "artist".
+		However, it only does it when first adding the artist! Meaning, each additional song by the same artist doesn't add it again! (this is correct, of course)
+		So, I could do a band-aid fix which is after the realm is populated I can delete all categories that are duplicates. But will this cause problems? Are the songs' "artist" properties assigned to the duplicates? 
+		*/
 
 		realm.create(Song.self, value: newSong, update: false)
 

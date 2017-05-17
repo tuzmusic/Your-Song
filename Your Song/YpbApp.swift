@@ -78,15 +78,11 @@ class YpbApp {
 				if ypbRealm.objects(Song.self).isEmpty {
 					
 					let offlineSongs = try! Realm().objects(Song.self)
-					if offlineSongs.isEmpty {
-						SongImporter().importSongs()
-					}
+					if offlineSongs.isEmpty { SongImporter().importSongs() }
 					
 					for song in offlineSongs {
-						if song.artist.name == "Billy Joel" && ypbRealm.objects(Song.self).count < 20 {
-							try! ypbRealm.write {
-								_ = Song.createSong(fromObject: song, in: YpbApp.ypbRealm) // this method creates Song objects and creates them in the YpbApp.ypbRealm.
-							}
+						try! ypbRealm.write {
+							_ = Song.createSong(fromObject: song, in: YpbApp.ypbRealm)
 						}
 					}
 					
