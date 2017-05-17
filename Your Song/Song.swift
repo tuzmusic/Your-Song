@@ -118,7 +118,7 @@ final class Song: BrowserObject {
 		Even with the new items(fromObjects:in:) implementation, this adds two.
 		But it's not an issue with the implementation. It adds it once when setting "artists" and then again when didSet sets "artist".
 		However, it only does it when first adding the artist! Meaning, each additional song by the same artist doesn't add it again! (this is correct, of course)
-		So, I could do a band-aid fix which is after the realm is populated I can delete all categories that are duplicates. But will this cause problems? Are the songs' "artist" properties assigned to the duplicates? 
+		So, I could do a band-aid fix which is after the realm is populated I can delete all categories that are duplicates. But will this cause problems? Are the songs' "artist" properties assigned to the duplicates?
 		*/
 
 		realm.create(Song.self, value: newSong, update: false)

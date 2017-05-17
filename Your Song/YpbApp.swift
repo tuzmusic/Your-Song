@@ -25,7 +25,7 @@ class YpbApp {
 	
 	class func setupOfflineRealm() {
 		ypbRealm = try! Realm()
-		try! ypbRealm.write { ypbRealm.deleteAll() }
+		//try! ypbRealm.write { ypbRealm.deleteAll() }
 
 		if ypbRealm.objects(Song.self).isEmpty {
 			SongImporter().importSongs()
@@ -72,7 +72,7 @@ class YpbApp {
 				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
 				
 				ypbRealm = try! Realm(configuration: configuration)
-				try! ypbRealm.write { ypbRealm.deleteAll() }
+				//try! ypbRealm.write { ypbRealm.deleteAll() }
 
 				// If no songs in online realm, import songs offline realm TO THE ONLINE REALM (shouldn't ever happen once app is released)
 				if ypbRealm.objects(Song.self).isEmpty {
