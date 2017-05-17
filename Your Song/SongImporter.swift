@@ -78,8 +78,7 @@ class SongImporter {
 					if let appIndex = headers.index(of: "app") {
 						if songComponents[appIndex] != "Y" { shouldImport = false }
 					}
-//					if shouldImport {
-					if shouldImport, songsLocalRealm.objects(Song.self).count < 1 {
+					if shouldImport {
 						_ = Song.createSong(from: songComponents, with: indices, in: songsLocalRealm)
 					}
 				}

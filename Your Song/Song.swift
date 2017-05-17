@@ -107,43 +107,57 @@ final class Song: BrowserObject {
 		realm.add(newSong)
 		let count = realm.objects(Song.self).count
 		print("Song #\(count) added to realm: \(newSong.songDescription)")
-//		print("Song has \(newSong.artists.count) artists, \(newSong.decades.count) decades, \(newSong.genres.count) genres")
-//		if let testSong = realm.objects(Song.self).last {
-//			print("Test: \(testSong.songDescription) has \(testSong.artists.count) artists, \(testSong.decades.count) decades, \(testSong.genres.count) genres")
-//
-//		}
 		return newSong
 	}
 	
-	class func createSong (from song: Song, in realm: Realm) -> Song? {
-		print("Creating from \"\(song.songDescription)\"")
+	class func createSong (fromObject song: Song, in realm: Realm) -> Song? {
+
 		if let existingSong = realm.objects(Song.self)
 			.filter("title like[c] %@ AND artist.name like[c] %@", song.title, song.artist.name).first {
 			return existingSong
 		}
 		
-		let newSong = Song()
+		var newSong = Song()
 		newSong.title = song.title
 		for artist in song.artists {
-			//print("Current artist: \(artist.name)")
-			//print("all artists: \(realm.objects(Artist.self).map {$0.name})")
 			if realm.objects(Artist.self).filter("name =[c] %@", artist.name).isEmpty {
-				//if !realm.objects(Artist.self).contains(artist) {
 				print("Creating \(artist.name)")
-				try! realm.write { realm.create(Artist.self, value: artist, update: false) }
+				try! realm.write {
+					realm.create(Artist.self, value: artist, update: false)
+				}
 			} else {
 				print("\(artist.name) already exists")
 			}
 		}
-		//print("Creating \"\(song.songDescription)\"")
-		//realm.create(Song.self, value: song, update: false)
 		
-		newSong.artists = song.artists
-		newSong.artist = song.artists.first!  // MARK: Artist created
+		for decade in song.decades {
+			if realm.objects(Decade.self).filter("name =[c] %@", decade.name).isEmpty {
+				print("Creating \(decade.name)")
+				try! realm.write {
+					realm.create(Decade.self, value: decade, update: false)
+				}
+			} else {
+				print("\(decade.name) already exists")
+			}
+		}
 		
+		for genre in song.genres {
+			if realm.objects(Genre.self).filter("name =[c] %@", genre.name).isEmpty {
+				print("Creating \(genre.name)")
+				try! realm.write {
+					realm.create(Genre.self, value: genre, update: false)
+				}
+			} else {
+				print("\(genre.name) already exists")
+			}
+		}
+		
+		newSong.artists = song.artists // Removing this fixes the duplication problem. But then the song has no artists!
+
 		newSong.songDescription = song.songDescription
 		newSong.dateModified = song.dateModified
 		newSong.dateAdded = song.dateAdded
+		//newSong = song
 		try! realm.write {
 			realm.create(Song.self, value: newSong, update: false)
 		}

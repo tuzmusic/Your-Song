@@ -47,14 +47,13 @@ class YpbApp {
 			static let userCred = SyncCredentials.usernamePassword(username: "tuzmusic@gmail.com", password: "***REMOVED***")
 			static let tokenCred = SyncCredentials.accessToken(RealmConstants.tokenString(), identity: "admin")
 			//static let tokenCred = SyncCredentials.accessToken("wrong string", identity: "admin")
+			
+			// Paste into terminal to SSH into EC2:
+			/*
+			ssh -i /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff/KeyPairs/YourPianoBarKeyPair.pem ubuntu@ec2-54-208-237-32.compute-1.amazonaws.com
+			*/
+			
 		}
-		
-		// Paste into terminal to SSH into EC2:
-		/*
-		ssh -i /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff/KeyPairs/YourPianoBarKeyPair.pem ubuntu@ec2-54-208-237-32.compute-1.amazonaws.com
-		*/
-		
-		// Currently, I'm not actually using a SyncUser. I'm using authentication (Google, FB, YPB, whatever) to create a YpbUser and to allow entry into the next scene of the app.
 		
 		SyncUser.logIn(with: RealmConstants.userCred, server: RealmConstants.publicDNS) {
 			
@@ -68,8 +67,6 @@ class YpbApp {
 				//globalConfig = Realm.Configuration.defaultConfiguration
 				return
 			}
-			
-			print("\n"+"SyncUser.logIn(with: tokenCred, server: publicDNS) was successful.")
 			
 			DispatchQueue.main.async {
 				// Open the online Realm
@@ -88,12 +85,16 @@ class YpbApp {
 					if offlineSongs.isEmpty {
 						SongImporter().importSongs() // this method imports songs from a TSV and then writes them to the local realm: Realm()
 					}
-					for song in offlineSongs {
-						_ = Song.createSong(from: song, in: YpbApp.ypbRealm) // this method creates Song objects and writes them to the YpbApp.ypbRealm.
+					for song in offlineSongs
+					where song.artist.name == "Billy Joel"
+						// it appears that it first creates 3 copies, and thereafter creates 2.
+					{
+						if ypbRealm.objects(Song.self).count < 4 {
+							_ = Song.createSong(fromObject: song, in: YpbApp.ypbRealm) // this method creates Song objects and writes them to the YpbApp.ypbRealm.
+						}
 					}
 				} else {
 					print("Online realm isn't empty.")
-					print(ypbRealm.objects(Song.self).map { $0.title })
 					print("This is where I'll take the online songs and write them to the local realm so they don't have to be downloaded again.")
 				}
 			}
