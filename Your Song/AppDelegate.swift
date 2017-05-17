@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 	var window: UIWindow?
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-		
 		print("Documents folder: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])")
 		
 		// Initialize Google sign-in
@@ -29,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 		// For automatic sign-in?
 		// GIDSignIn.sharedInstance().signInSilently() {
 		
-		//YpbApp.setupOfflineRealm()
+		YpbApp.setupOfflineRealm()
 		YpbApp.setupRealm()
 
 		return true

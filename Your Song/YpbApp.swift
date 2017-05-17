@@ -25,13 +25,11 @@ class YpbApp {
 	
 	class func setupOfflineRealm() {
 		ypbRealm = try! Realm()
-		//try! ypbRealm.write { ypbRealm.deleteAll() }
+		try! ypbRealm.write { ypbRealm.deleteAll() }
 
-		ypbRealm.beginWrite()
 		if ypbRealm.objects(Song.self).isEmpty {
 			SongImporter().importSongs()
 		}
-		try! ypbRealm.commitWrite()
 	}
 	
 	class func setupRealm() {
@@ -73,26 +71,25 @@ class YpbApp {
 				let syncConfig = SyncConfiguration (user: user, realmURL: RealmConstants.realmAddress)
 				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
 				
-				YpbApp.ypbRealm = try! Realm(configuration: configuration)
-				
-				// If no songs in online realm, import songs offline realm TO THE ONLINE REALM (shouldn't ever happen once app is released)
+				ypbRealm = try! Realm(configuration: configuration)
 				try! ypbRealm.write { ypbRealm.deleteAll() }
-				if YpbApp.ypbRealm.objects(Song.self).isEmpty {
+
+				// If no songs in online realm, import songs offline realm TO THE ONLINE REALM (shouldn't ever happen once app is released)
+				if ypbRealm.objects(Song.self).isEmpty {
 					
 					let offlineSongs = try! Realm().objects(Song.self)
-					
-					// If there are no songs in the offline realm, import songs from TSV. Songs are written to the offline Realm from inside importSongs().
 					if offlineSongs.isEmpty {
-						SongImporter().importSongs() // this method imports songs from a TSV and then writes them to the local realm: Realm()
+						SongImporter().importSongs()
 					}
-					for song in offlineSongs
-					where song.artist.name == "Billy Joel"
-						// it appears that it first creates 3 copies, and thereafter creates 2.
-					{
-						if ypbRealm.objects(Song.self).count < 4 {
-							_ = Song.createSong(fromObject: song, in: YpbApp.ypbRealm) // this method creates Song objects and writes them to the YpbApp.ypbRealm.
+					
+					for song in offlineSongs {
+						if song.artist.name == "Billy Joel" && ypbRealm.objects(Song.self).count < 20 {
+							try! ypbRealm.write {
+								_ = Song.createSong(fromObject: song, in: YpbApp.ypbRealm) // this method creates Song objects and creates them in the YpbApp.ypbRealm.
+							}
 						}
 					}
+					
 				} else {
 					print("Online realm isn't empty.")
 					print("This is where I'll take the online songs and write them to the local realm so they don't have to be downloaded again.")
