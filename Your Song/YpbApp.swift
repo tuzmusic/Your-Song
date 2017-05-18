@@ -108,9 +108,7 @@ class YpbApp {
 		let allArtists = realm.objects(Artist.self)
 		for artist in allArtists {
 			let search = allArtists.filter("name = %@", artist.name)
-			print("Searching for duplicate: \(artist.name). \(search.count) artists found with \(search.first!.songs.count) songs.")
 			if search.count > 1 {
-				print("Found duplicate: \(artist.name)")
 				if artist.songs.isEmpty {
 					print("Deleting duplicate with no songs: \(artist.name)")
 					try! realm.write {
@@ -124,7 +122,6 @@ class YpbApp {
 		for genre in allGenres {
 			let search = allGenres.filter("name = %@", genre.name)
 			if search.count > 1 {
-				print("Found duplicate: \(genre.name)")
 				if genre.songs.isEmpty {
 					print("Deleting duplicate with no songs: \(genre.name)")
 					try! realm.write {
@@ -138,7 +135,6 @@ class YpbApp {
 		for decade in allDecades {
 			let search = allDecades.filter("name = %@", decade.name)
 			if search.count > 1 {
-				print("Found duplicate: \(decade.name)")
 				if decade.songs.isEmpty {
 					print("Deleting duplicate with no songs: \(decade.name)")
 					try! realm.write {

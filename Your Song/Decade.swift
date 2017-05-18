@@ -14,13 +14,14 @@ final class Decade: BrowserCategory {
 	var songs = LinkingObjects(fromType: Song.self, property: className().lowercased())
 	
 	var artists: List<Artist> {
-		let list = List<Artist>()
+		var artists = Array<Artist>()
 		for song in songs {
-			if !self.artists.contains(song.artist) {
-				list.append(song.artist)
+			if !artists.contains(song.artist) {
+				artists.append(song.artist)
 			}
 		}
-		return List(list.sorted(byKeyPath: "sortName"))
+		artists.sort { $0.sortName < $1.sortName }
+		return List(artists)
 	}
 	
 	static func decadeNames(for yearsList: String) -> [String] {
