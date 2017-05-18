@@ -32,21 +32,9 @@ class YpbApp {
 		}
 	}
 	
-	class func populateSyncedRealmFromLocalRealm() {
-		let offlineSongs = try! Realm().objects(Song.self)
-		if offlineSongs.isEmpty {
-			SongImporter().importSongs()
-		}
-		
-		for song in offlineSongs {
-			try! YpbApp.ypbRealm.write {
-				_ = Song.createSong(fromObject: song, in: YpbApp.ypbRealm)
-			}
-		}
-	}
-	
+
 	class func populateLocalRealmFromSyncedRealm() {
-		let onlineSongs = try! YpbApp.ypbRealm.objects(Song.self)
+		let onlineSongs = YpbApp.ypbRealm.objects(Song.self)
 		let localRealm = try! Realm()
 		for song in onlineSongs {
 			try! localRealm.write {
@@ -102,8 +90,6 @@ class YpbApp {
 				
 				YpbApp.ypbRealm = try! Realm(configuration: configuration)
 				
-				//YpbApp.deleteDuplicateCategories(in: YpbApp.ypbRealm)
-				
 				let localRealm = try! Realm()
 				if localRealm.objects(Song.self).isEmpty {
 					if YpbApp.ypbRealm.objects(Song.self).isEmpty {
@@ -118,6 +104,7 @@ class YpbApp {
 	}
 
 	class func deleteDuplicateCategories (in realm: Realm) {
+		
 		let allArtists = realm.objects(Artist.self)
 		for artist in allArtists {
 			let search = allArtists.filter("name = %@", artist.name)
@@ -130,6 +117,64 @@ class YpbApp {
 						realm.delete(artist)
 					}
 				}
+			}
+		}
+		
+		let allGenres = realm.objects(Genre.self)
+		for genre in allGenres {
+			let search = allGenres.filter("name = %@", genre.name)
+			if search.count > 1 {
+				print("Found duplicate: \(genre.name)")
+				if genre.songs.isEmpty {
+					print("Deleting duplicate with no songs: \(genre.name)")
+					try! realm.write {
+						realm.delete(genre)
+					}
+				}
+			}
+		}
+		
+		let allDecades = realm.objects(Decade.self)
+		for decade in allDecades {
+			let search = allDecades.filter("name = %@", decade.name)
+			if search.count > 1 {
+				print("Found duplicate: \(decade.name)")
+				if decade.songs.isEmpty {
+					print("Deleting duplicate with no songs: \(decade.name)")
+					try! realm.write {
+						realm.delete(decade)
+					}
+				}
+			}
+		}
+		
+		// Attempt to genericize this that I can't get to work.
+		func deleteDuplicates<T: BrowserCategory>(of type: T, in realm: Realm) {
+			let allItems = realm.objects(T.self)
+			for item in allItems {
+				let search = allItems.filter("name = %@", item.name)
+				if search.count > 1 {
+					print("Found duplicate: \(item.name)")
+					//if item.songs.isEmpty {		this is the line that doesn't work
+						print("Deleting duplicate with no songs: \(item.name)")
+						try! realm.write {
+							realm.delete(item)
+						}
+					//}
+				}
+			}
+		}
+	}
+
+	class func populateSyncedRealmFromLocalRealm() {
+		let offlineSongs = try! Realm().objects(Song.self)
+		if offlineSongs.isEmpty {
+			SongImporter().importSongs()
+		}
+		
+		for song in offlineSongs {
+			try! YpbApp.ypbRealm.write {
+				_ = Song.createSong(fromObject: song, in: YpbApp.ypbRealm)
 			}
 		}
 	}

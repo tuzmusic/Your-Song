@@ -17,12 +17,11 @@ class BrowserCategory: BrowserObject {
 		}
 	}
 	
-	class func typeName() -> String {
+	func typeName() -> String {
 		return String(describing: type(of: self))
 	}
 	
 	//var songs2 = LinkingObjects(fromType: Song.self, property: BrowserCategory.typeName().lowercased())
-	
 	//var songs: LinkingObjects<Song> { return LinkingObjects(fromType: Song.self, property: className.lowercased()) }
 		
 	static func items<T: BrowserCategory> (forComponents components: [String], in realm: Realm) -> List<T> {
