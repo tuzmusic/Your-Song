@@ -101,6 +101,9 @@ class YpbApp {
 				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
 				
 				YpbApp.ypbRealm = try! Realm(configuration: configuration)
+				
+				//YpbApp.deleteDuplicateCategories(in: YpbApp.ypbRealm)
+				
 				let localRealm = try! Realm()
 				if localRealm.objects(Song.self).isEmpty {
 					if YpbApp.ypbRealm.objects(Song.self).isEmpty {
@@ -108,7 +111,25 @@ class YpbApp {
 						YpbApp.populateSyncedRealmFromLocalRealm()
 					}
 					YpbApp.populateLocalRealmFromSyncedRealm()
-				}				
+				}
+				YpbApp.deleteDuplicateCategories(in: localRealm)
+			}
+		}
+	}
+
+	class func deleteDuplicateCategories (in realm: Realm) {
+		let allArtists = realm.objects(Artist.self)
+		for artist in allArtists {
+			let search = allArtists.filter("name = %@", artist.name)
+			print("Searching for duplicate: \(artist.name). \(search.count) artists found with \(search.first!.songs.count) songs.")
+			if search.count > 1 {
+				print("Found duplicate: \(artist.name)")
+				if artist.songs.isEmpty {
+					print("Deleting duplicate with no songs: \(artist.name)")
+					try! realm.write {
+						realm.delete(artist)
+					}
+				}
 			}
 		}
 	}
