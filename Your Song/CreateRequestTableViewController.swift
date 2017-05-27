@@ -24,8 +24,8 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	// MARK: MODEL
 	
 	var realm: Realm? {
-		get { return YpbApp.ypbRealm }
-		set { YpbApp.ypbRealm = newValue }
+		get { return YpbApp.realmSynced }
+		set { YpbApp.realmSynced = newValue }
 	}
 	
 	var request: Request!
@@ -216,8 +216,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let songsVC = segue.destination.childViewControllers.first as? SongsTableViewController{
-			songsVC.realmConfiguration = YpbApp.ypbRealm.configuration
-		}
+		/* if let songsVC = segue.destination.childViewControllers.first as? SongsTableViewController{
+		} */
 	}
 }

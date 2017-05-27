@@ -14,6 +14,8 @@ class YpbApp {
 	static var currentRequest: Request?
 	
 	static var ypbRealm: Realm!
+	static var realmSynced: Realm!
+	static var realmLocal = try! Realm()
 	
 	static var ypbUser: YpbUser!
 	
@@ -24,28 +26,25 @@ class YpbApp {
 	}
 	
 	class func setupOfflineRealm() {
-		ypbRealm = try! Realm()
-		//try! ypbRealm.write { ypbRealm.deleteAll() }
+		//try! YpbApp.realmLocal { YpbApp.realmLocal() }
 
-		if ypbRealm.objects(Song.self).isEmpty {
+		if YpbApp.realmLocal.objects(Song.self).isEmpty {
 			SongImporter().importSongs()
 		}
 	}
 	
 
 	class func populateLocalRealmFromSyncedRealm() {
-		let onlineSongs = YpbApp.ypbRealm.objects(Song.self)
-		let localRealm = try! Realm()
+		let onlineSongs = YpbApp.realmSynced.objects(Song.self)
 		for song in onlineSongs {
-			try! localRealm.write {
-				_ = Song.createSong(fromObject: song, in: localRealm)
+			try! YpbApp.realmLocal.write {
+				_ = Song.createSong(fromObject: song, in: YpbApp.realmLocal)
 			}
 		}
 	}
 	
 	class func emptyLocalRealm() {
-		let localRealm = try! Realm()
-		try! localRealm.write { localRealm.deleteAll() }
+		try! YpbApp.realmLocal.write { YpbApp.realmLocal.deleteAll() }
 	}
 	
 	class func setupRealm() {
@@ -75,7 +74,7 @@ class YpbApp {
 			user, error in
 			guard let user = user else {
 				print("Could not access server. Using local Realm [default configuration].")
-				if try! Realm().objects(Song.self).isEmpty {
+				if YpbApp.realmLocal.objects(Song.self).isEmpty {
 					SongImporter().importSongs()
 				}
 				//globalConfig = Realm.Configuration.defaultConfiguration
@@ -88,17 +87,16 @@ class YpbApp {
 				let syncConfig = SyncConfiguration (user: user, realmURL: RealmConstants.realmAddress)
 				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
 				
-				YpbApp.ypbRealm = try! Realm(configuration: configuration)
+				YpbApp.realmSynced = try! Realm(configuration: configuration)
 				
-				let localRealm = try! Realm()
-				if localRealm.objects(Song.self).isEmpty {
-					if YpbApp.ypbRealm.objects(Song.self).isEmpty {
+				if YpbApp.realmLocal.objects(Song.self).isEmpty {
+					if YpbApp.realmSynced.objects(Song.self).isEmpty {
 						// this isn't quite right... or at least it should be named something else
 						YpbApp.populateSyncedRealmFromLocalRealm()
 					}
 					YpbApp.populateLocalRealmFromSyncedRealm()
 				}
-				YpbApp.deleteDuplicateCategories(in: localRealm)
+				YpbApp.deleteDuplicateCategories(in: YpbApp.realmLocal)
 			}
 		}
 	}
@@ -163,30 +161,29 @@ class YpbApp {
 	}
 
 	class func populateSyncedRealmFromLocalRealm() {
-		let offlineSongs = try! Realm().objects(Song.self)
+		let offlineSongs = YpbApp.realmLocal.objects(Song.self)
 		if offlineSongs.isEmpty {
 			SongImporter().importSongs()
 		}
 		
 		for song in offlineSongs {
-			try! YpbApp.ypbRealm.write {
-				_ = Song.createSong(fromObject: song, in: YpbApp.ypbRealm)
+			try! YpbApp.realmSynced.write {
+				_ = Song.createSong(fromObject: song, in: YpbApp.realmSynced)
 			}
 		}
 	}
 	
 	class func writeSongCatalogToFile () {
-		let realm = try! Realm()
 
 		func precedeSecondArtistWithComma() {
-			for song in realm.objects(Song.self) {
+			for song in YpbApp.realmLocal.objects(Song.self) {
 				var components = song.songDescription.components(separatedBy: " - ")
 				if components.count > 2 {
 					var newDescription = components[0] + " - " + components[1]
 					for i in 2 ..< components.count {
 						newDescription += ", " + components[i]
 					}
-					try! realm.write {
+					try! YpbApp.realmLocal.write {
 						song.songDescription = newDescription
 					}
 				}
@@ -196,7 +193,7 @@ class YpbApp {
 		// Assemble the text
 		var text = ""
 		
-		let decades = realm.objects(Decade.self)
+		let decades = YpbApp.realmLocal.objects(Decade.self)
 
 		for decade in decades {
 			var songsArray = [Song]()
