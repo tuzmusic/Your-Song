@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 		
 		//YpbApp.setupOfflineRealm()
 		YpbApp.setupRealm()
-
+		YpbApp.writeSongCatalogToFile()
 		return true
 	}
 	

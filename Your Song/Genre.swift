@@ -14,23 +14,25 @@ class Genre: BrowserCategory {
 	var songs = LinkingObjects(fromType: Song.self, property: className().lowercased())
 	
 	var artists: List<Artist> {
-		let list = List<Artist>()
+		var artists = Array<Artist>()
 		for song in songs {
-			if !self.artists.contains(song.artist) {
-				list.append(song.artist)
+			if !artists.contains(song.artist) {
+				artists.append(song.artist)
 			}
 		}
-		return List(list.sorted(byKeyPath: "sortName"))
+		artists.sort { $0.sortName < $1.sortName }
+		return List(artists)
 	}
 	
 	var decades: List<Decade> {
-		let list = List<Decade>()
+		var decades = Array<Decade>()
 		for song in songs {
-			if !self.decades.contains(song.decade) {
-				list.append(song.decade)
+			if !decades.contains(song.decade) {
+				decades.append(song.decade)
 			}
 		}
-		return List(list.sorted(byKeyPath: "sortName"))
+		decades.sort { $0.sortName < $1.sortName }
+		return List(decades)
 	}
 
 }

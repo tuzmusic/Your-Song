@@ -174,6 +174,53 @@ class YpbApp {
 			}
 		}
 	}
+	
+	class func writeSongCatalogToFile () {
+		let realm = try! Realm()
+
+		func precedeSecondArtistWithComma() {
+			for song in realm.objects(Song.self) {
+				var components = song.songDescription.components(separatedBy: " - ")
+				if components.count > 2 {
+					var newDescription = components[0] + " - " + components[1]
+					for i in 2 ..< components.count {
+						newDescription += ", " + components[i]
+					}
+					try! realm.write {
+						song.songDescription = newDescription
+					}
+				}
+			}
+		}		
+		
+		// Assemble the text
+		var text = ""
+		
+		let decades = realm.objects(Decade.self)
+
+		for decade in decades {
+			var songsArray = [Song]()
+			for song in decade.songs {
+				songsArray.append(song)
+			}
+			songsArray.sort { $0.songDescription < $1.songDescription }
+			text += "\n" + decade.name + "\n"
+			for song in songsArray {
+				text += song.songDescription + " / "
+			}
+		}
+		
+		let fileName = "songCatalog.txt" //this is the file. we will write to and read from it
+		if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+			let path = dir.appendingPathComponent(fileName)
+			do {
+				try text.write(to: path, atomically: false, encoding: String.Encoding.utf8)
+			}
+			catch {
+				print("Couldn't write file")
+			}
+		}
+	}
 }
 
 extension String {

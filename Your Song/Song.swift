@@ -70,8 +70,14 @@ final class Song: BrowserObject {
 		newSong.artists = artists
 		
 		newSong.songDescription = title
-		newSong.artists.forEach { newSong.songDescription += " - \($0.name)" }
-
+		for artist in newSong.artists {
+			if artist == artists.first! {
+				newSong.songDescription += " - \(artist.name)"
+			} else {
+				newSong.songDescription += ", \(artist.name)"
+			}
+		}
+		
 		// MARK: Decade
 		if let yearIndex = indices.year {
 			newSong.decades = BrowserCategory.items(forComponents: Decade.decadeNames(for: songComponents[yearIndex]), in: realm)
@@ -137,11 +143,7 @@ final class Song: BrowserObject {
 
 		let newSong = Song()
 		newSong.title = song.title
-		//		newSong.artist = song.artist		// This creates one.
-//		newSong.artists = song.artists	// This creates two.
-//		newSong.decades = song.decades
-//		newSong.genres = song.genres
-		
+
 		newSong.songDescription = song.songDescription
 		newSong.dateModified = song.dateModified
 		newSong.dateAdded = song.dateAdded
