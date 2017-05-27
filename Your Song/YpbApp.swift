@@ -13,7 +13,6 @@ class YpbApp {
 	
 	static var currentRequest: Request?
 	
-	static var ypbRealm: Realm!
 	static var realmSynced: Realm!
 	static var realmLocal = try! Realm()
 	
@@ -77,7 +76,6 @@ class YpbApp {
 				if YpbApp.realmLocal.objects(Song.self).isEmpty {
 					SongImporter().importSongs()
 				}
-				//globalConfig = Realm.Configuration.defaultConfiguration
 				return
 			}
 			
@@ -89,6 +87,14 @@ class YpbApp {
 				
 				YpbApp.realmSynced = try! Realm(configuration: configuration)
 				
+				/*
+				try! YpbApp.realmSynced.write {
+					YpbApp.realmSynced.deleteAll()
+				}
+				try! YpbApp.realmLocal.write {
+					YpbApp.realmLocal.deleteAll()
+				}
+				*/
 				if YpbApp.realmLocal.objects(Song.self).isEmpty {
 					if YpbApp.realmSynced.objects(Song.self).isEmpty {
 						// this isn't quite right... or at least it should be named something else

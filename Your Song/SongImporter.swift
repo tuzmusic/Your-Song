@@ -14,7 +14,7 @@ class SongImporter {
 	typealias SongData = [String]
 	
 	func importSongs() {
-		let fileName = "song list 4"
+		let fileName = "song list"
 		if let songData = songData(fromTSV: fileName) {
 			createSongsInLocalRealm(songData: songData)
 		}

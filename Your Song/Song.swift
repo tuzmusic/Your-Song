@@ -71,7 +71,7 @@ final class Song: BrowserObject {
 		
 		newSong.songDescription = title
 		for artist in newSong.artists {
-			if artist == artists.first! {
+			if artist == newSong.artists.first! {
 				newSong.songDescription += " - \(artist.name)"
 			} else {
 				newSong.songDescription += ", \(artist.name)"
