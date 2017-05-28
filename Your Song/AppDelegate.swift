@@ -28,9 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 		// For automatic sign-in?
 		// GIDSignIn.sharedInstance().signInSilently() {
 		
-		//YpbApp.setupOfflineRealm()
-		YpbApp.setupRealm()
-		YpbApp.writeSongCatalogToFile()
+		YPB.setupRealm()
+
+		YPB.createBlogByReplacingEachEntry()
+		
 		return true
 	}
 	
@@ -48,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 			return
 		}
 
-		YpbApp.ypbUser = YpbUser.user(firstName: user.profile.givenName, lastName: user.profile.familyName, email: user.profile.email, in: YpbApp.realmSynced)
+		YPB.ypbUser = YpbUser.user(firstName: user.profile.givenName, lastName: user.profile.familyName, email: user.profile.email, in: YPB.realmSynced)
 
 		// Some more google user info
 		/*

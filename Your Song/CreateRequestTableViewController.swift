@@ -24,8 +24,8 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	// MARK: MODEL
 	
 	var realm: Realm? {
-		get { return YpbApp.realmSynced }
-		set { YpbApp.realmSynced = newValue }
+		get { return YPB.realmSynced }
+		set { YPB.realmSynced = newValue }
 	}
 	
 	var request: Request!
@@ -78,7 +78,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 			}
 		} else {
 			request = Request()
-			if let user = YpbApp.ypbUser {
+			if let user = YPB.ypbUser {
 				request.user = user
 				request.userString = "\(user.firstName) \(user.lastName)"
 			}

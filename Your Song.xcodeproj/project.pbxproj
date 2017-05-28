@@ -12,10 +12,15 @@
 		7607666B1EA3920F00348171 /* ArtistsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7607666A1EA3920F00348171 /* ArtistsTableViewController.swift */; };
 		7618CC701EC46C75000CE532 /* DecadesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618CC6F1EC46C75000CE532 /* DecadesTableViewController.swift */; };
 		7618CC761EC4DEFD000CE532 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618CC751EC4DEFD000CE532 /* CategoryViewController.swift */; };
+		7626A2851ED9DC2B00BED54B /* BlogXML Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7626A2841ED9DC2B00BED54B /* BlogXML Header.swift */; };
 		762A6AE51EB5D19300C6A115 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762A6AE41EB5D19300C6A115 /* BrowserViewController.swift */; };
 		762A6AE71EB9CA5700C6A115 /* SortedName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762A6AE61EB9CA5700C6A115 /* SortedName.swift */; };
 		762F59531EAFCA3A000FE032 /* YpbUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762F59521EAFCA3A000FE032 /* YpbUser.swift */; };
 		764FF2AD1ED981E200F8A6FC /* song list.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 764FF2AC1ED981E200F8A6FC /* song list.tsv */; };
+		764FF2AF1ED9D76C00F8A6FC /* Utility Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764FF2AE1ED9D76C00F8A6FC /* Utility Functions.swift */; };
+		764FF2B31ED9DADD00F8A6FC /* each-post.xml in Resources */ = {isa = PBXBuildFile; fileRef = 764FF2B11ED9DADD00F8A6FC /* each-post.xml */; };
+		764FF2B41ED9DADD00F8A6FC /* header.xml in Resources */ = {isa = PBXBuildFile; fileRef = 764FF2B21ED9DADD00F8A6FC /* header.xml */; };
+		764FF2B61ED9DB1C00F8A6FC /* BlogXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764FF2B51ED9DB1C00F8A6FC /* BlogXML.swift */; };
 		768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235AE1E856ECF006186D7 /* AppDelegate.swift */; };
 		768235B61E856ED0006186D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 768235B51E856ED0006186D7 /* Assets.xcassets */; };
 		768235B91E856ED0006186D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235B71E856ED0006186D7 /* LaunchScreen.storyboard */; };
@@ -28,8 +33,9 @@
 		769D2E171EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E161EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png */; };
 		769D2E191EAE20BC0069FB30 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E181EAE20BC0069FB30 /* GoogleService-Info.plist */; };
 		769D2E1B1EAE20CC0069FB30 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E1A1EAE20CC0069FB30 /* GoogleService-Info.plist */; };
-		769FFBF21EAA1AB800F5EB37 /* YpbApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769FFBF11EAA1AB800F5EB37 /* YpbApp.swift */; };
+		769FFBF21EAA1AB800F5EB37 /* YPB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769FFBF11EAA1AB800F5EB37 /* YPB.swift */; };
 		76BE13AE1EC09340007A7348 /* Decade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE13AD1EC09340007A7348 /* Decade.swift */; };
+		76CDBE781EDB297B005C9C56 /* String Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CDBE771EDB297B005C9C56 /* String Extensions.swift */; };
 		76DD71F91EC0601100AD3AEE /* BrowserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DD71F81EC0601100AD3AEE /* BrowserObject.swift */; };
 		76DD71FB1EC0636A00AD3AEE /* BrowserCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DD71FA1EC0636A00AD3AEE /* BrowserCategory.swift */; };
 		76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638231E9E99E8001BBFB1 /* Artist.swift */; };
@@ -39,7 +45,6 @@
 		76F6382D1E9FD476001BBFB1 /* GenresTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6382C1E9FD476001BBFB1 /* GenresTableViewController.swift */; };
 		76F638311EA102B4001BBFB1 /* SongImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638301EA102B4001BBFB1 /* SongImporter.swift */; };
 		76F638381EA221AA001BBFB1 /* SongsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638371EA221AA001BBFB1 /* SongsTableViewController.swift */; };
-		76F6383A1EA223EC001BBFB1 /* RealmSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638391EA223EC001BBFB1 /* RealmSetup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,11 +63,16 @@
 		7607666A1EA3920F00348171 /* ArtistsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistsTableViewController.swift; sourceTree = "<group>"; };
 		7618CC6F1EC46C75000CE532 /* DecadesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecadesTableViewController.swift; sourceTree = "<group>"; };
 		7618CC751EC4DEFD000CE532 /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		7626A2841ED9DC2B00BED54B /* BlogXML Header.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "BlogXML Header.swift"; path = "Utilities/BlogXML/BlogXML Header.swift"; sourceTree = "<group>"; };
 		762A6AE41EB5D19300C6A115 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		762A6AE61EB9CA5700C6A115 /* SortedName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedName.swift; sourceTree = "<group>"; };
 		762F59521EAFCA3A000FE032 /* YpbUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YpbUser.swift; sourceTree = "<group>"; };
 		76321C641EAEB101001C860C /* Your Song-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Your Song-Bridging-Header.h"; sourceTree = "<group>"; };
 		764FF2AC1ED981E200F8A6FC /* song list.tsv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "song list.tsv"; sourceTree = "<group>"; };
+		764FF2AE1ED9D76C00F8A6FC /* Utility Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Utility Functions.swift"; sourceTree = "<group>"; };
+		764FF2B11ED9DADD00F8A6FC /* each-post.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "each-post.xml"; path = "Utilities/BlogXML/each-post.xml"; sourceTree = "<group>"; };
+		764FF2B21ED9DADD00F8A6FC /* header.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = header.xml; path = Utilities/BlogXML/header.xml; sourceTree = "<group>"; };
+		764FF2B51ED9DB1C00F8A6FC /* BlogXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlogXML.swift; sourceTree = "<group>"; };
 		768235AB1E856ECF006186D7 /* Your Song.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Your Song.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		768235AE1E856ECF006186D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		768235B51E856ED0006186D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -79,7 +89,7 @@
 		769D2E161EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "!your-piano-bar-logo-tagline-final.png"; sourceTree = "<group>"; };
 		769D2E181EAE20BC0069FB30 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		769D2E1A1EAE20CC0069FB30 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		769FFBF11EAA1AB800F5EB37 /* YpbApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YpbApp.swift; sourceTree = "<group>"; };
+		769FFBF11EAA1AB800F5EB37 /* YPB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPB.swift; sourceTree = "<group>"; };
 		76ACB9A61E95465300923D6F /* BebasNeue Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Bold.ttf"; sourceTree = "<group>"; };
 		76ACB9A71E95465300923D6F /* BebasNeue Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Book.ttf"; sourceTree = "<group>"; };
 		76ACB9A81E95465300923D6F /* BebasNeue Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Light.ttf"; sourceTree = "<group>"; };
@@ -87,6 +97,7 @@
 		76ACB9AA1E95465300923D6F /* BebasNeue Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Thin.ttf"; sourceTree = "<group>"; };
 		76ACB9AB1E95982A00923D6F /* Bebas.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bebas.TTF; sourceTree = "<group>"; };
 		76BE13AD1EC09340007A7348 /* Decade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decade.swift; sourceTree = "<group>"; };
+		76CDBE771EDB297B005C9C56 /* String Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String Extensions.swift"; sourceTree = "<group>"; };
 		76DD71F81EC0601100AD3AEE /* BrowserObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserObject.swift; sourceTree = "<group>"; };
 		76DD71FA1EC0636A00AD3AEE /* BrowserCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserCategory.swift; sourceTree = "<group>"; };
 		76F638231E9E99E8001BBFB1 /* Artist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
@@ -96,7 +107,6 @@
 		76F6382C1E9FD476001BBFB1 /* GenresTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenresTableViewController.swift; sourceTree = "<group>"; };
 		76F638301EA102B4001BBFB1 /* SongImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongImporter.swift; sourceTree = "<group>"; };
 		76F638371EA221AA001BBFB1 /* SongsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongsTableViewController.swift; sourceTree = "<group>"; };
-		76F638391EA223EC001BBFB1 /* RealmSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSetup.swift; sourceTree = "<group>"; };
 		83DF17F54E8055D173B70A1D /* Pods-Your SongTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Your SongTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Your SongTests/Pods-Your SongTests.release.xcconfig"; sourceTree = "<group>"; };
 		87D87E3028E95717BDF05199 /* Pods-Your SongTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Your SongTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Your SongTests/Pods-Your SongTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8ED8B60A8FAE82ADC3497484 /* Pods-Your Song.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Your Song.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Your Song/Pods-Your Song.debug.xcconfig"; sourceTree = "<group>"; };
@@ -132,6 +142,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		764FF2B01ED9DABE00F8A6FC /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				769FFBF11EAA1AB800F5EB37 /* YPB.swift */,
+				764FF2B11ED9DADD00F8A6FC /* each-post.xml */,
+				764FF2B21ED9DADD00F8A6FC /* header.xml */,
+				7626A2841ED9DC2B00BED54B /* BlogXML Header.swift */,
+				764FF2AE1ED9D76C00F8A6FC /* Utility Functions.swift */,
+				764FF2B51ED9DB1C00F8A6FC /* BlogXML.swift */,
+				76CDBE771EDB297B005C9C56 /* String Extensions.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		768235A21E856ECF006186D7 = {
 			isa = PBXGroup;
 			children = (
@@ -158,11 +182,11 @@
 			children = (
 				76ACB9AF1E9A552400923D6F /* Realm Object Classes */,
 				768235DA1E856FAA006186D7 /* Browser */,
+				764FF2B01ED9DABE00F8A6FC /* Utilities */,
 				768235ED1E857044006186D7 /* Main.storyboard */,
 				769D2E141EACE6510069FB30 /* SignInTableViewController.swift */,
 				768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */,
 				768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */,
-				769FFBF11EAA1AB800F5EB37 /* YpbApp.swift */,
 				768235AE1E856ECF006186D7 /* AppDelegate.swift */,
 			);
 			path = "Your Song";
@@ -197,7 +221,6 @@
 			children = (
 				76F638341EA102DF001BBFB1 /* Importer */,
 				76ACB9B81E9A563200923D6F /* View Controllers */,
-				76F638391EA223EC001BBFB1 /* RealmSetup.swift */,
 			);
 			name = Browser;
 			sourceTree = "<group>";
@@ -366,9 +389,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				764FF2B31ED9DADD00F8A6FC /* each-post.xml in Resources */,
 				769D2E171EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png in Resources */,
 				769D2E191EAE20BC0069FB30 /* GoogleService-Info.plist in Resources */,
 				764FF2AD1ED981E200F8A6FC /* song list.tsv in Resources */,
+				764FF2B41ED9DADD00F8A6FC /* header.xml in Resources */,
 				768235B91E856ED0006186D7 /* LaunchScreen.storyboard in Resources */,
 				768235EE1E857044006186D7 /* Main.storyboard in Resources */,
 				768235B61E856ED0006186D7 /* Assets.xcassets in Resources */,
@@ -489,23 +514,26 @@
 				76DD71FB1EC0636A00AD3AEE /* BrowserCategory.swift in Sources */,
 				768235E81E856FF7006186D7 /* CreateRequestTableViewController.swift in Sources */,
 				762A6AE71EB9CA5700C6A115 /* SortedName.swift in Sources */,
+				76CDBE781EDB297B005C9C56 /* String Extensions.swift in Sources */,
 				76F638281E9E99E8001BBFB1 /* Genre.swift in Sources */,
 				76F638311EA102B4001BBFB1 /* SongImporter.swift in Sources */,
 				768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */,
 				76F6382D1E9FD476001BBFB1 /* GenresTableViewController.swift in Sources */,
 				76BE13AE1EC09340007A7348 /* Decade.swift in Sources */,
-				76F6383A1EA223EC001BBFB1 /* RealmSetup.swift in Sources */,
 				7618CC701EC46C75000CE532 /* DecadesTableViewController.swift in Sources */,
 				76DD71F91EC0601100AD3AEE /* BrowserObject.swift in Sources */,
+				764FF2B61ED9DB1C00F8A6FC /* BlogXML.swift in Sources */,
+				7626A2851ED9DC2B00BED54B /* BlogXML Header.swift in Sources */,
 				7607666B1EA3920F00348171 /* ArtistsTableViewController.swift in Sources */,
 				76F638381EA221AA001BBFB1 /* SongsTableViewController.swift in Sources */,
 				76F638291E9E99E8001BBFB1 /* Requests - Realm Classes.swift in Sources */,
-				769FFBF21EAA1AB800F5EB37 /* YpbApp.swift in Sources */,
+				769FFBF21EAA1AB800F5EB37 /* YPB.swift in Sources */,
 				769D2E151EACE6510069FB30 /* SignInTableViewController.swift in Sources */,
 				76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */,
 				76F6382A1E9E99E8001BBFB1 /* Song.swift in Sources */,
 				7618CC761EC4DEFD000CE532 /* CategoryViewController.swift in Sources */,
 				762F59531EAFCA3A000FE032 /* YpbUser.swift in Sources */,
+				764FF2AF1ED9D76C00F8A6FC /* Utility Functions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

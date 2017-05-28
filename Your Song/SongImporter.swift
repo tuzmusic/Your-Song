@@ -48,18 +48,18 @@ class SongImporter {
 			return
 		}
 		
-		YpbApp.realmLocal.beginWrite()
+		YPB.realmLocal.beginWrite()
 		
 		for songComponents in songData where songComponents.map({$0.lowercased()}) != headers {
 			if let indices = headerIndices(from: headers) {
 				if let appIndex = headers.index(of: "app"), songComponents[appIndex] != "Y" {
 					continue
 				}
-				_ = Song.createSong(fromComponents: songComponents, with: indices, in: YpbApp.realmLocal)
+				_ = Song.createSong(fromComponents: songComponents, with: indices, in: YPB.realmLocal)
 			}
 		}
 		
-		try! YpbApp.realmLocal.commitWrite()
+		try! YPB.realmLocal.commitWrite()
 	}
 	
 	func headerIndices(from headers: [String]) -> (title: Int, artist: Int?, genre: Int?, year: Int?)? {

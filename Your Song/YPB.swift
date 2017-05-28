@@ -1,5 +1,5 @@
 //
-//  YpbApp.swift
+//  YPB.swift
 //  Your Song
 //
 //  Created by Jonathan Tuzman on 4/21/17.
@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class YpbApp {
+class YPB {
 	
 	static var currentRequest: Request?
 	
@@ -25,25 +25,24 @@ class YpbApp {
 	}
 	
 	class func setupOfflineRealm() {
-		//try! YpbApp.realmLocal { YpbApp.realmLocal() }
+		//try! YPB.realmLocal { YPB.realmLocal() }
 
-		if YpbApp.realmLocal.objects(Song.self).isEmpty {
+		if YPB.realmLocal.objects(Song.self).isEmpty {
 			SongImporter().importSongs()
 		}
 	}
-	
 
 	class func populateLocalRealmFromSyncedRealm() {
-		let onlineSongs = YpbApp.realmSynced.objects(Song.self)
+		let onlineSongs = YPB.realmSynced.objects(Song.self)
 		for song in onlineSongs {
-			try! YpbApp.realmLocal.write {
-				_ = Song.createSong(fromObject: song, in: YpbApp.realmLocal)
+			try! YPB.realmLocal.write {
+				_ = Song.createSong(fromObject: song, in: YPB.realmLocal)
 			}
 		}
 	}
 	
 	class func emptyLocalRealm() {
-		try! YpbApp.realmLocal.write { YpbApp.realmLocal.deleteAll() }
+		try! YPB.realmLocal.write { YPB.realmLocal.deleteAll() }
 	}
 	
 	class func setupRealm() {
@@ -73,7 +72,7 @@ class YpbApp {
 			user, error in
 			guard let user = user else {
 				print("Could not access server. Using local Realm [default configuration].")
-				if YpbApp.realmLocal.objects(Song.self).isEmpty {
+				if YPB.realmLocal.objects(Song.self).isEmpty {
 					SongImporter().importSongs()
 				}
 				return
@@ -85,24 +84,24 @@ class YpbApp {
 				let syncConfig = SyncConfiguration (user: user, realmURL: RealmConstants.realmAddress)
 				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
 				
-				YpbApp.realmSynced = try! Realm(configuration: configuration)
+				YPB.realmSynced = try! Realm(configuration: configuration)
 				
 				/*
-				try! YpbApp.realmSynced.write {
-					YpbApp.realmSynced.deleteAll()
+				try! YPB.realmSynced.write {
+					YPB.realmSynced.deleteAll()
 				}
-				try! YpbApp.realmLocal.write {
-					YpbApp.realmLocal.deleteAll()
+				try! YPB.realmLocal.write {
+					YPB.realmLocal.deleteAll()
 				}
 				*/
-				if YpbApp.realmLocal.objects(Song.self).isEmpty {
-					if YpbApp.realmSynced.objects(Song.self).isEmpty {
+				if YPB.realmLocal.objects(Song.self).isEmpty {
+					if YPB.realmSynced.objects(Song.self).isEmpty {
 						// this isn't quite right... or at least it should be named something else
-						YpbApp.populateSyncedRealmFromLocalRealm()
+						YPB.populateSyncedRealmFromLocalRealm()
 					}
-					YpbApp.populateLocalRealmFromSyncedRealm()
+					YPB.populateLocalRealmFromSyncedRealm()
 				}
-				YpbApp.deleteDuplicateCategories(in: YpbApp.realmLocal)
+				YPB.deleteDuplicateCategories(in: YPB.realmLocal)
 			}
 		}
 	}
@@ -167,117 +166,18 @@ class YpbApp {
 	}
 
 	class func populateSyncedRealmFromLocalRealm() {
-		let offlineSongs = YpbApp.realmLocal.objects(Song.self)
+		let offlineSongs = YPB.realmLocal.objects(Song.self)
 		if offlineSongs.isEmpty {
 			SongImporter().importSongs()
 		}
 		
 		for song in offlineSongs {
-			try! YpbApp.realmSynced.write {
-				_ = Song.createSong(fromObject: song, in: YpbApp.realmSynced)
+			try! YPB.realmSynced.write {
+				_ = Song.createSong(fromObject: song, in: YPB.realmSynced)
 			}
 		}
 	}
 	
-	class func writeSongCatalogToFile () {
-
-		func precedeSecondArtistWithComma() {
-			for song in YpbApp.realmLocal.objects(Song.self) {
-				var components = song.songDescription.components(separatedBy: " - ")
-				if components.count > 2 {
-					var newDescription = components[0] + " - " + components[1]
-					for i in 2 ..< components.count {
-						newDescription += ", " + components[i]
-					}
-					try! YpbApp.realmLocal.write {
-						song.songDescription = newDescription
-					}
-				}
-			}
-		}		
-		
-		// Assemble the text
-		var text = ""
-		
-		let decades = YpbApp.realmLocal.objects(Decade.self)
-
-		for decade in decades {
-			var songsArray = [Song]()
-			for song in decade.songs {
-				songsArray.append(song)
-			}
-			songsArray.sort { $0.songDescription < $1.songDescription }
-			text += "\n" + decade.name + "\n"
-			for song in songsArray {
-				text += song.songDescription + " / "
-			}
-		}
-		
-		let fileName = "songCatalog.txt" //this is the file. we will write to and read from it
-		if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-			let path = dir.appendingPathComponent(fileName)
-			do {
-				try text.write(to: path, atomically: false, encoding: String.Encoding.utf8)
-			}
-			catch {
-				print("Couldn't write file")
-			}
-		}
-	}
 }
 
-extension String {
-	
-	func forSorting() -> String {
-		var startingName = self
-		var editedName = startingName
-		let nameChars = editedName.characters
-		
-		repeat {
-			startingName = editedName
-			if editedName.hasPrefix("(") {
-				// Delete the parenthetical
-				editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
-			} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
-				// Delete any punctuation, spaces, etc.
-				editedName.remove(at: nameChars.index(of: nameChars.first!)!)
-			} else if let range = editedName.range(of: "The ") {
-				// Delete "The"
-				editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
-			}
-		} while editedName != startingName
-		
-		return editedName
-	}
-	
-	func capitalizedWithOddities() -> String {
-		
-		// Still doesn't deal with stuff like "McFerrin." Should probably just capitalize the source data correctly!
-		if self.uppercased() == self { return self }
-		
-		var fullString = ""
-		let words = self.components(separatedBy: " ")
-		for word in words {
-			if words.index(of: word)! > 0 {
-				fullString += " " // Add a space if it's not the first word.
-			}
-			
-			if let firstChar = word.unicodeScalars.first {
-				// If it starts with a number, don't capitalize it.
-				if CharacterSet.decimalDigits.contains(firstChar) {
-					fullString += word
-				} else if word == word.uppercased() {
-					fullString += word
-				} else {
-					fullString += word.capitalized
-				}
-			}
-		}
-		
-		if fullString.hasSuffix("S") {
-			fullString = String(fullString.characters.dropLast()) + "s"
-		}
-		
-		return fullString
-	}
-}
+
