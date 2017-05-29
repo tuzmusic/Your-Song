@@ -9,12 +9,7 @@
 import UIKit
 import RealmSwift
 
-extension UITextView {
-	func reset(with placeholder: String, color: UIColor) {
-		self.text = placeholder
-		self.textColor = color
-	}
-}
+
 
 class CreateRequestTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
 	

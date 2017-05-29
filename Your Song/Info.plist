@@ -19,11 +19,9 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.111693765997-vbcs27e46c6fdh6osh4494dvjfsacmut</string>
+				<string>fb635250220006733</string>
 			</array>
 		</dict>
 		<dict>
@@ -31,14 +29,27 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>TuzMusic.Your-Song</string>
+				<string>com.googleusercontent.apps.111693765997-vbcs27e46c6fdh6osh4494dvjfsacmut</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>Comment</key>
+	<string>END FACEBOOK STUFF</string>
+	<key>FacebookAppID</key>
+	<string>635250220006733</string>
+	<key>FacebookDisplayName</key>
+	<string>Your Song</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
-	<true/>
+	<false/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -66,35 +77,5 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
-	
-	<key>Comment</key>
-	<string>FACEBOOK STUFF</string>
-	
-	<key>CFBundleURLTypes</key>
-	<array>
-  <dict>
-	  <key>CFBundleURLSchemes</key>
-	  <array>
-    <string>fb635250220006733</string>
-	  </array>
-  </dict>
-	</array>
-	<key>FacebookAppID</key>
-	<string>635250220006733</string>
-	<key>FacebookDisplayName</key>
-	<string>Your Song</string>
-	
-	
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-  <string>fbapi</string>
-  <string>fb-messenger-api</string>
-  <string>fbauth2</string>
-  <string>fbshareextension</string>
-	</array>
-	
-	<key>Comment</key>
-	<string>END FACEBOOK STUFF</string>
-	
 </dict>
 </plist>

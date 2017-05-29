@@ -35,10 +35,26 @@ struct Storyboard {
 	static let LoginSegue = "Log In Segue"
 }
 
-struct Info {
-	static let Artist = "artist"
-	static let Song = "song"
-	static let Genre = "genre"
+
+extension UITextView {
+	func reset(with placeholder: String, color: UIColor) {
+		self.text = placeholder
+		self.textColor = color
+	}
+}
+
+extension UIView {
+	func addNewSpinner() -> UIActivityIndicatorView {
+		let spinner = UIActivityIndicatorView()
+		spinner.frame.origin.x = self.frame.midX - 20
+		spinner.frame.origin.y = self.frame.midY - 20
+		spinner.frame.size = CGSize(width: 40, height: 40)
+		spinner.hidesWhenStopped = true
+		spinner.activityIndicatorViewStyle = .whiteLarge
+		spinner.color = .lightGray
+		self.addSubview(spinner)
+		return spinner
+	}
 }
 
 extension UIColor {

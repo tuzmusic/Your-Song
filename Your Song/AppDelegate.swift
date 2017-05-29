@@ -65,7 +65,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 			return
 		}
 
-		YPB.ypbUser = YpbUser.user(firstName: user.profile.givenName, lastName: user.profile.familyName, email: user.profile.email, in: YPB.realmSynced)
+		YPB.ypbUser = YpbUser.user(firstName: user.profile.givenName,
+		                           lastName: user.profile.familyName,
+		                           email: user.profile.email,
+		                           in: YPB.realmSynced)
 
 		// Some more google user info
 		/*

@@ -437,22 +437,6 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="K5a-hK-tj8" id="q18-Z1-BZr">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nyh-jH-BKc" userLabel="Google Sign In Button" customClass="GIDSignInButton">
-                                                    <rect key="frame" x="8" y="0.0" width="304" height="44"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="Google Sign In Button"/>
-                                                    <connections>
-                                                        <action selector="signIn:" destination="YYS-js-pkU" eventType="touchUpInside" id="cHu-7C-aMJ"/>
-                                                    </connections>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="nyh-jH-BKc" secondAttribute="bottom" id="Eos-Tb-gds"/>
-                                                <constraint firstItem="nyh-jH-BKc" firstAttribute="top" secondItem="q18-Z1-BZr" secondAttribute="top" id="NvP-Dx-xXn"/>
-                                                <constraint firstItem="nyh-jH-BKc" firstAttribute="leading" secondItem="q18-Z1-BZr" secondAttribute="leadingMargin" id="ZWU-mJ-C1W"/>
-                                                <constraint firstItem="nyh-jH-BKc" firstAttribute="trailing" secondItem="q18-Z1-BZr" secondAttribute="trailingMargin" id="tdo-Ws-chb"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Lon-Uo-mrW" userLabel="Facebook Cell">
@@ -461,19 +445,6 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lon-Uo-mrW" id="BOM-Yh-JBf">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ap-U1-zug" userLabel="Facebook Sign In Button" customClass="LoginButton" customModule="FacebookLogin">
-                                                    <rect key="frame" x="8" y="0.0" width="304" height="44"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="Google Sign In Button"/>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="9ap-U1-zug" firstAttribute="top" secondItem="BOM-Yh-JBf" secondAttribute="top" id="8nj-2W-laK"/>
-                                                <constraint firstAttribute="bottom" secondItem="9ap-U1-zug" secondAttribute="bottom" id="Oos-2p-4mM"/>
-                                                <constraint firstItem="9ap-U1-zug" firstAttribute="trailing" secondItem="BOM-Yh-JBf" secondAttribute="trailingMargin" id="TVB-h6-Yeh"/>
-                                                <constraint firstItem="9ap-U1-zug" firstAttribute="leading" secondItem="BOM-Yh-JBf" secondAttribute="leadingMargin" id="tPv-tb-kFn"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -486,8 +457,7 @@
                     </tableView>
                     <connections>
                         <outlet property="contentViewForFacebookButton" destination="BOM-Yh-JBf" id="hSm-cU-j0Y"/>
-                        <outlet property="facebookButtonVIew" destination="9ap-U1-zug" id="Ng1-Au-wrW"/>
-                        <outlet property="googleButtonView" destination="nyh-jH-BKc" id="Yus-Xi-xqt"/>
+                        <outlet property="contentViewForGoogleButton" destination="q18-Z1-BZr" id="DKW-ce-QPx"/>
                         <segue destination="KuP-g6-YzW" kind="show" identifier="Log In Segue" id="awu-eu-RiJ"/>
                     </connections>
                 </tableViewController>

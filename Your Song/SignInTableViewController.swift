@@ -11,39 +11,40 @@ import GoogleSignIn
 import FacebookLogin
 
 class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
-	
-	func addNewSpinner() -> UIActivityIndicatorView {
-		let spinner = UIActivityIndicatorView()
-		spinner.frame.origin.x = view.frame.midX - 20
-		spinner.frame.origin.y = view.frame.midY - 20
-		spinner.frame.size = CGSize(width: 40, height: 40)
-		spinner.hidesWhenStopped = true
-		spinner.activityIndicatorViewStyle = .whiteLarge
-		spinner.color = .lightGray
-		spinner.startAnimating()
-		view.addSubview(spinner)
-		return spinner
-	}
 
-	@IBOutlet weak var googleButtonView: UIView!
-	@IBOutlet weak var facebookButtonView: LoginButton!
-	@IBOutlet weak var contentViewForFacebookButton: UIView!
+	// MARK: Outlets and variables
 	
+	var spinner: UIActivityIndicatorView!
+
+	let facebookLoginButton = LoginButton(readPermissions: [ .publicProfile ])
+	let googleLoginButton = GIDSignInButton()
+	
+	@IBOutlet weak var contentViewForFacebookButton: UIView!
+	@IBOutlet weak var contentViewForGoogleButton: UIView!
+
 	func addFacebookLoginButton () {
-		let facebookLoginButton = LoginButton(readPermissions: [ .publicProfile ])
-		facebookLoginButton.center = contentViewForFacebookButton.center
+		facebookLoginButton.center = contentViewForFacebookButton.center		
 		contentViewForFacebookButton.addSubview(facebookLoginButton)
+	}
+	
+	func addGoogleLoginButton() {
+		googleLoginButton.center = contentViewForGoogleButton.center
+		googleLoginButton.bounds.size = CGSize(width: facebookLoginButton.bounds.width + 8, height: googleLoginButton.bounds.height)
 		
-		googleButtonView.bounds = facebookLoginButton.bounds
+		contentViewForGoogleButton.addSubview(googleLoginButton)
 	}
 	
 	override func viewDidLoad() {
 		
 		super.viewDidLoad()
-		GIDSignIn.sharedInstance().uiDelegate = self
+		spinner = view.addNewSpinner()
+		spinner.stopAnimating()
 		
 		addFacebookLoginButton()
-		
+		addGoogleLoginButton()
+
+		GIDSignIn.sharedInstance().uiDelegate = self
+
 		// Uncomment to automatically sign in the user.
 		/* GIDSignIn.sharedInstance().signInSilently()
 		
@@ -53,16 +54,6 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		
 	}
 	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(true)
-		googleButtonView.bounds = facebookLoginButton.bounds
-
-	}
-	
-	var spinner: UIActivityIndicatorView!
-	
-	// note: maybe this should be:
-	// 	func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!)
 
 	func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
 		pr("GIDSignInUIDelegate signed-in method")
@@ -70,8 +61,8 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		guard GIDSignIn.sharedInstance().currentUser != nil else {
 			let alert = UIAlertController(title: "Google Login Failed", message: "Not signed in", preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil ))
-			//present(alert, animated: true, completion: nil)
-			spinner.stopAnimating()
+			present(alert, animated: true, completion: nil)
+			//spinner.stopAnimating()
 			return
 		}
 		
@@ -85,7 +76,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	
 	@IBAction func signIn(_ sender: Any) {
 		pr("signIn")
-		spinner = addNewSpinner()
+		spinner.startAnimating()
 	}
 	
 	@IBAction func googleSignOut(_ sender: Any) {
