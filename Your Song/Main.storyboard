@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="KuP-g6-YzW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YYS-js-pkU">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -351,7 +351,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
-                            <tableViewSection id="4Ne-cw-czd">
+                            <tableViewSection id="4Ne-cw-czd" userLabel="Logo">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="150" id="ng9-0O-I6M">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
@@ -410,32 +410,36 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="VaG-sZ-tkV" style="IBUITableViewCellStyleDefault" id="dhj-18-abx">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="VaG-sZ-tkV" style="IBUITableViewCellStyleDefault" id="dhj-18-abx" userLabel="Create YPB Account Cell">
                                         <rect key="frame" x="0.0" y="266" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dhj-18-abx" id="eAq-x6-MxC">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Create an account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VaG-sZ-tkV">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Create an account" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="VaG-sZ-tkV">
                                                     <rect key="frame" x="15" y="0.0" width="290" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Use an Existing Account:" id="2KN-u1-1cM" userLabel="Social Log In">
+                                <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="K5a-hK-tj8" userLabel="Google Cell">
-                                        <rect key="frame" x="0.0" y="310" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="338" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="K5a-hK-tj8" id="q18-Z1-BZr">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nyh-jH-BKc" userLabel="Google Sign In Button" customClass="GIDSignInButton">
-                                                    <rect key="frame" x="67" y="0.0" width="186" height="44"/>
+                                                    <rect key="frame" x="8" y="0.0" width="304" height="44"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <accessibility key="accessibilityConfiguration" identifier="Google Sign In Button"/>
                                                     <connections>
@@ -444,61 +448,32 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="nyh-jH-BKc" firstAttribute="leading" secondItem="q18-Z1-BZr" secondAttribute="leadingMargin" constant="59" id="R31-wx-3Yh"/>
-                                                <constraint firstItem="nyh-jH-BKc" firstAttribute="centerX" secondItem="q18-Z1-BZr" secondAttribute="centerX" id="bWz-UN-t6N"/>
-                                                <constraint firstItem="nyh-jH-BKc" firstAttribute="centerY" secondItem="q18-Z1-BZr" secondAttribute="centerY" id="fkX-we-9Ne"/>
-                                                <constraint firstItem="nyh-jH-BKc" firstAttribute="top" secondItem="q18-Z1-BZr" secondAttribute="top" id="x47-ms-mgV"/>
+                                                <constraint firstAttribute="bottom" secondItem="nyh-jH-BKc" secondAttribute="bottom" id="Eos-Tb-gds"/>
+                                                <constraint firstItem="nyh-jH-BKc" firstAttribute="top" secondItem="q18-Z1-BZr" secondAttribute="top" id="NvP-Dx-xXn"/>
+                                                <constraint firstItem="nyh-jH-BKc" firstAttribute="leading" secondItem="q18-Z1-BZr" secondAttribute="leadingMargin" id="ZWU-mJ-C1W"/>
+                                                <constraint firstItem="nyh-jH-BKc" firstAttribute="trailing" secondItem="q18-Z1-BZr" secondAttribute="trailingMargin" id="tdo-Ws-chb"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Lon-Uo-mrW">
-                                        <rect key="frame" x="0.0" y="354" width="320" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Lon-Uo-mrW" userLabel="Facebook Cell">
+                                        <rect key="frame" x="0.0" y="382" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lon-Uo-mrW" id="BOM-Yh-JBf">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="gGX-f5-YEd">
-                                        <rect key="frame" x="0.0" y="398" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gGX-f5-YEd" id="yiS-IC-hqP">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="k5d-zp-K36">
-                                        <rect key="frame" x="0.0" y="442" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k5d-zp-K36" id="dFk-52-d89">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZD-CV-lHE">
-                                                    <rect key="frame" x="131" y="6" width="113" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Google Sign Out"/>
-                                                    <connections>
-                                                        <action selector="googleSignOut:" destination="YYS-js-pkU" eventType="touchUpInside" id="Uld-QF-wzU"/>
-                                                    </connections>
-                                                </button>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ap-U1-zug" userLabel="Facebook Sign In Button" customClass="LoginButton" customModule="FacebookLogin">
+                                                    <rect key="frame" x="8" y="0.0" width="304" height="44"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="Google Sign In Button"/>
+                                                </view>
                                             </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="SB7-V5-3JJ">
-                                        <rect key="frame" x="0.0" y="486" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SB7-V5-3JJ" id="Eow-h3-tCT">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="BCq-9z-4N1">
-                                        <rect key="frame" x="0.0" y="530" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BCq-9z-4N1" id="VEp-4W-P5B">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <constraints>
+                                                <constraint firstItem="9ap-U1-zug" firstAttribute="top" secondItem="BOM-Yh-JBf" secondAttribute="top" id="8nj-2W-laK"/>
+                                                <constraint firstAttribute="bottom" secondItem="9ap-U1-zug" secondAttribute="bottom" id="Oos-2p-4mM"/>
+                                                <constraint firstItem="9ap-U1-zug" firstAttribute="trailing" secondItem="BOM-Yh-JBf" secondAttribute="trailingMargin" id="TVB-h6-Yeh"/>
+                                                <constraint firstItem="9ap-U1-zug" firstAttribute="leading" secondItem="BOM-Yh-JBf" secondAttribute="leadingMargin" id="tPv-tb-kFn"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -510,12 +485,15 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="contentViewForFacebookButton" destination="BOM-Yh-JBf" id="hSm-cU-j0Y"/>
+                        <outlet property="facebookButtonVIew" destination="9ap-U1-zug" id="Ng1-Au-wrW"/>
+                        <outlet property="googleButtonView" destination="nyh-jH-BKc" id="Yus-Xi-xqt"/>
                         <segue destination="KuP-g6-YzW" kind="show" identifier="Log In Segue" id="awu-eu-RiJ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="73a-kG-LWn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1637" y="-37"/>
+            <point key="canvasLocation" x="-1638.75" y="-38.028169014084504"/>
         </scene>
     </scenes>
     <resources>

@@ -66,5 +66,35 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	
+	<key>Comment</key>
+	<string>FACEBOOK STUFF</string>
+	
+	<key>CFBundleURLTypes</key>
+	<array>
+  <dict>
+	  <key>CFBundleURLSchemes</key>
+	  <array>
+    <string>fb635250220006733</string>
+	  </array>
+  </dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>635250220006733</string>
+	<key>FacebookDisplayName</key>
+	<string>Your Song</string>
+	
+	
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+  <string>fbapi</string>
+  <string>fb-messenger-api</string>
+  <string>fbauth2</string>
+  <string>fbshareextension</string>
+	</array>
+	
+	<key>Comment</key>
+	<string>END FACEBOOK STUFF</string>
+	
 </dict>
 </plist>

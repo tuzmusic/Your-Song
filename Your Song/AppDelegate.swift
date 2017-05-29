@@ -10,15 +10,14 @@ import UIKit
 import RealmSwift
 import GoogleSignIn
 import GGLCore
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 	
 	var window: UIWindow?
 
-	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-		print("Documents folder: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])")
-		
+	func googleSignIn() {
 		// Initialize Google sign-in
 		var configureError: NSError?
 		GGLContext.sharedInstance().configureWithError(&configureError)
@@ -26,20 +25,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 		GIDSignIn.sharedInstance().delegate = self
 		
 		// For automatic sign-in?
-		// GIDSignIn.sharedInstance().signInSilently() {
+		// GIDSignIn.sharedInstance().signInSilently()
+	}
+	
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+		print("Documents folder: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])")
+		
+		googleSignIn()
+		
+		FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 		
 		YPB.setupRealm()
 
-		YPB.createBlogByReplacingEachEntry()
+		//YPB.createBlogByReplacingEachEntry()
 		
 		return true
 	}
 	
 	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 		
-		// Gets called after sign-in succeeds in safari, before it returns to this app
+		// Gets called after sign-in succeeds in Safari (probably also if it fails), before it returns to this app
+		
+		// These are the two versions of this from Google and Facebook Sign-ins.
+		/* return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
+		                                         annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+		return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+		*/
+
 		return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
 		                                         annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+		|| FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+		
 	}
 	
 	func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {

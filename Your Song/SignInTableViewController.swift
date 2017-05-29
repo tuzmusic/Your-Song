@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleSignIn
+import FacebookLogin
 
 class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	
@@ -23,21 +24,46 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		view.addSubview(spinner)
 		return spinner
 	}
+
+	@IBOutlet weak var googleButtonView: UIView!
+	@IBOutlet weak var facebookButtonView: LoginButton!
+	@IBOutlet weak var contentViewForFacebookButton: UIView!
+	
+	func addFacebookLoginButton () {
+		let facebookLoginButton = LoginButton(readPermissions: [ .publicProfile ])
+		facebookLoginButton.center = contentViewForFacebookButton.center
+		contentViewForFacebookButton.addSubview(facebookLoginButton)
+		
+		googleButtonView.bounds = facebookLoginButton.bounds
+	}
 	
 	override func viewDidLoad() {
+		
 		super.viewDidLoad()
 		GIDSignIn.sharedInstance().uiDelegate = self
 		
-  // Uncomment to automatically sign in the user.
-  // GIDSignIn.sharedInstance().signInSilently()
+		addFacebookLoginButton()
 		
-  // TODO(developer) Configure the sign-in button look/feel
-  // ...
+		// Uncomment to automatically sign in the user.
+		/* GIDSignIn.sharedInstance().signInSilently()
 		
+		// TODO(developer) Configure the sign-in button look/feel
+		// ...
+		*/
+		
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(true)
+		googleButtonView.bounds = facebookLoginButton.bounds
+
 	}
 	
 	var spinner: UIActivityIndicatorView!
 	
+	// note: maybe this should be:
+	// 	func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!)
+
 	func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
 		pr("GIDSignInUIDelegate signed-in method")
 

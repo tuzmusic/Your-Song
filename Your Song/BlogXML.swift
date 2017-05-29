@@ -99,10 +99,9 @@ extension YPB {
 		let allSongs = YPB.realmLocal.objects(Song.self)
 
 		let XMLSourceName = "blog with 1 song.xml"
-		let postsPerFile = 49
+		let postsPerFile = 48
 		let songsToWrite = allSongs.count
-		let songsOnBlogSoFar = 0
-
+		let songsOnBlogSoFar = 300
 		
 		func blogPost(for song: Song) -> String {
 			var post = Blogger.eachPost
