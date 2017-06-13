@@ -17,12 +17,14 @@ final class YpbUser: Object {
 	dynamic var email: String = ""
 	let requests = LinkingObjects(fromType: Request.self, property: "user")
 	
-	func averageTip() -> Double {
-		let average = 0.0
-		
-		
-		
-		return average
+	var tips: [Double] {
+		for request in requests {
+			tips.append(request.tip)
+		}
+	}
+	
+	var averageTip: Double {
+		return tips.reduce(0, { $0 + $1 })/tips.count
 	}
 	
 	class func user(firstName: String, lastName: String, email: String, in realm: Realm) -> YpbUser? {

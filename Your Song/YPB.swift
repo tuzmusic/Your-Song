@@ -14,7 +14,13 @@ class YPB {
 	static var currentRequest: Request?
 	
 	static var realmSynced: Realm!
-	static var realmLocal = try! Realm()
+	static var realmLocal = try! Realm() {
+		didSet {
+			if YPB.realmLocal.objects(Song.self).isEmpty {
+				SongImporter().importSongs()
+			}
+		}
+	}
 	
 	static var ypbUser: YpbUser!
 	
@@ -22,27 +28,6 @@ class YPB {
 		var firstName = ""
 		var lastName = ""
 		var email = ""
-	}
-	
-	class func setupOfflineRealm() {
-		//try! YPB.realmLocal { YPB.realmLocal() }
-
-		if YPB.realmLocal.objects(Song.self).isEmpty {
-			SongImporter().importSongs()
-		}
-	}
-
-	class func populateLocalRealmFromSyncedRealm() {
-		let onlineSongs = YPB.realmSynced.objects(Song.self)
-		for song in onlineSongs {
-			try! YPB.realmLocal.write {
-				_ = Song.createSong(fromObject: song, in: YPB.realmLocal)
-			}
-		}
-	}
-	
-	class func emptyLocalRealm() {
-		try! YPB.realmLocal.write { YPB.realmLocal.deleteAll() }
 	}
 	
 	class func setupRealm() {
@@ -88,10 +73,10 @@ class YPB {
 				
 				/*
 				try! YPB.realmSynced.write {
-					YPB.realmSynced.deleteAll()
+				YPB.realmSynced.deleteAll()
 				}
 				try! YPB.realmLocal.write {
-					YPB.realmLocal.deleteAll()
+				YPB.realmLocal.deleteAll()
 				}
 				*/
 				if YPB.realmLocal.objects(Song.self).isEmpty {
@@ -106,6 +91,19 @@ class YPB {
 		}
 	}
 
+	class func populateLocalRealmFromSyncedRealm() {
+		let onlineSongs = YPB.realmSynced.objects(Song.self)
+		for song in onlineSongs {
+			try! YPB.realmLocal.write {
+				_ = Song.createSong(fromObject: song, in: YPB.realmLocal)
+			}
+		}
+	}
+	
+	class func emptyLocalRealm() {
+		try! YPB.realmLocal.write { YPB.realmLocal.deleteAll() }
+	}
+	
 	class func populateSyncedRealmFromLocalRealm() {
 		let offlineSongs = YPB.realmLocal.objects(Song.self)
 		if offlineSongs.isEmpty {

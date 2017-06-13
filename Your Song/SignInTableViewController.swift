@@ -9,6 +9,7 @@
 import UIKit
 import GoogleSignIn
 import FacebookLogin
+import FacebookCore
 
 class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 
@@ -16,7 +17,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	
 	var spinner: UIActivityIndicatorView!
 
-	let facebookLoginButton = LoginButton(readPermissions: [ .publicProfile ])
+	let facebookLoginButton = LoginButton(readPermissions: [ .publicProfile, .email ])
 	let googleLoginButton = GIDSignInButton()
 	
 	@IBOutlet weak var contentViewForFacebookButton: UIView!
@@ -54,7 +55,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		
 	}
 	
-
+	// MARK: Google Login Handler
 	func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
 		pr("GIDSignInUIDelegate signed-in method")
 
@@ -62,12 +63,26 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 			let alert = UIAlertController(title: "Google Login Failed", message: "Not signed in", preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil ))
 			present(alert, animated: true, completion: nil)
-			//spinner.stopAnimating()
+			spinner.stopAnimating()
 			return
 		}
 		
 		performSegue(withIdentifier: Storyboard.LoginSegue, sender: nil)
 	}
+	
+	// MARK: Facebook Login Handler
+
+	/*	func loginButtonDidCompleteLogin(_ loginButton: LoginButton, result: LoginResult) {
+		let req = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"email,name"], tokenString: accessToken.tokenString, version: nil, HTTPMethod: "GET")
+		req.startWithCompletionHandler { (connection, result, error : NSError!) -> Void in
+			if error == nil {
+				print("result \(result)")
+			} else {
+				print("error \(error)")
+			}
+		}
+	} */
+
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		pr("prepare for segue")

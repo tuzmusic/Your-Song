@@ -18,11 +18,12 @@ final class Request: Object {
 	dynamic var date = Date()
 	var tip: Double?
 	dynamic var played = false
-	dynamic var singAtMic = false
 	dynamic var event: Event?
-	
-}
 
+	// Implement later
+	dynamic var singAtMic = false
+
+}
 
 final class Event: Object {
 	dynamic var name: String = "General"

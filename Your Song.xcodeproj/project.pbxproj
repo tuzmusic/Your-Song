@@ -145,11 +145,10 @@
 		764FF2B01ED9DABE00F8A6FC /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				769FFBF11EAA1AB800F5EB37 /* YPB.swift */,
+				764FF2AE1ED9D76C00F8A6FC /* Utility Functions.swift */,
 				764FF2B11ED9DADD00F8A6FC /* each-post.xml */,
 				764FF2B21ED9DADD00F8A6FC /* header.xml */,
 				7626A2841ED9DC2B00BED54B /* BlogXML Header.swift */,
-				764FF2AE1ED9D76C00F8A6FC /* Utility Functions.swift */,
 				764FF2B51ED9DB1C00F8A6FC /* BlogXML.swift */,
 				76CDBE771EDB297B005C9C56 /* String Extensions.swift */,
 			);
@@ -180,13 +179,11 @@
 		768235AD1E856ECF006186D7 /* Your Song */ = {
 			isa = PBXGroup;
 			children = (
-				76ACB9AF1E9A552400923D6F /* Realm Object Classes */,
+				76D1A22E1EDED106002EE3E7 /* YPB Universal */,
 				768235DA1E856FAA006186D7 /* Browser */,
-				764FF2B01ED9DABE00F8A6FC /* Utilities */,
 				768235ED1E857044006186D7 /* Main.storyboard */,
 				769D2E141EACE6510069FB30 /* SignInTableViewController.swift */,
 				768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */,
-				768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */,
 				768235AE1E856ECF006186D7 /* AppDelegate.swift */,
 			);
 			path = "Your Song";
@@ -219,7 +216,6 @@
 		768235DA1E856FAA006186D7 /* Browser */ = {
 			isa = PBXGroup;
 			children = (
-				76F638341EA102DF001BBFB1 /* Importer */,
 				76ACB9B81E9A563200923D6F /* View Controllers */,
 			);
 			name = Browser;
@@ -258,8 +254,8 @@
 				76F638241E9E99E8001BBFB1 /* Genre.swift */,
 				76F638251E9E99E8001BBFB1 /* Requests - Realm Classes.swift */,
 				762F59521EAFCA3A000FE032 /* YpbUser.swift */,
-				76DD71F81EC0601100AD3AEE /* BrowserObject.swift */,
 				76DD71FA1EC0636A00AD3AEE /* BrowserCategory.swift */,
+				76DD71F81EC0601100AD3AEE /* BrowserObject.swift */,
 			);
 			name = "Realm Object Classes";
 			sourceTree = "<group>";
@@ -275,6 +271,18 @@
 				762A6AE41EB5D19300C6A115 /* BrowserViewController.swift */,
 			);
 			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		76D1A22E1EDED106002EE3E7 /* YPB Universal */ = {
+			isa = PBXGroup;
+			children = (
+				76F638341EA102DF001BBFB1 /* Importer */,
+				76ACB9AF1E9A552400923D6F /* Realm Object Classes */,
+				769FFBF11EAA1AB800F5EB37 /* YPB.swift */,
+				768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */,
+				764FF2B01ED9DABE00F8A6FC /* Utilities */,
+			);
+			name = "YPB Universal";
 			sourceTree = "<group>";
 		};
 		76F638341EA102DF001BBFB1 /* Importer */ = {
