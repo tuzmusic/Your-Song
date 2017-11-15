@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import GoogleSignIn
 import GGLCore
-import FBSDKCoreKit
+//import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
@@ -33,11 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 		
 		googleSignIn()
 		
-		FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+		//FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 		
 		YPB.setupRealm()
-
-		//YPB.createBlogByReplacingEachEntry()
 		
 		return true
 	}
@@ -54,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
 		return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
 		                                         annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-		|| FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+		//|| FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
 		
 	}
 	

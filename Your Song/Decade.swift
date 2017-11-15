@@ -11,7 +11,7 @@ import RealmSwift
 
 final class Decade: BrowserCategory {
 	
-	var songs = LinkingObjects(fromType: Song.self, property: className().lowercased())
+	var songs = LinkingObjects(fromType: Song.self, property: "decade")
 	
 	var artists: List<Artist> {
 		var artists = Array<Artist>()
@@ -21,7 +21,12 @@ final class Decade: BrowserCategory {
 			}
 		}
 		artists.sort { $0.sortName < $1.sortName }
-		return List(artists)
+		//return List(artists)
+		let x = List<Artist>()
+		artists.forEach {
+			x.append($0)
+		}
+		return x
 	}
 	
 	static func decadeNames(for yearsList: String) -> [String] {

@@ -10,24 +10,24 @@ import Foundation
 import RealmSwift
 
 final class Request: Object {
-	dynamic var user: YpbUser?
-	dynamic var userString: String = ""
-	dynamic var songString: String = ""
-	dynamic var songObject: Song?
-	dynamic var notes: String = ""
-	dynamic var date = Date()
+	@objc dynamic var user: YpbUser?
+	@objc dynamic var userString: String = ""
+	@objc dynamic var songString: String = ""
+	@objc dynamic var songObject: Song?
+	@objc dynamic var notes: String = ""
+	@objc dynamic var date = Date()
 	var tip: Double?
-	dynamic var played = false
-	dynamic var event: Event?
+	@objc dynamic var played = false
+	@objc dynamic var event: Event?
 
 	// Implement later
-	dynamic var singAtMic = false
+	@objc dynamic var singAtMic = false
 
 }
 
 final class Event: Object {
-	dynamic var name: String = "General"
-	dynamic var date: Date?
+	@objc dynamic var name: String = "General"
+	@objc dynamic var date: Date?
 	var type: EventType?
 	
 	enum EventType {

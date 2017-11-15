@@ -10,8 +10,7 @@ import Foundation
 import RealmSwift
 
 extension Object {
-	
-	dynamic var sortedName: String {
+	@objc dynamic var sortedName: String {
 		if let propertyName = self.objectSchema.properties.first?.name,
 			var startingName = self.value(forKey: propertyName) as? String
 		{

@@ -8,10 +8,9 @@
 
 import Foundation
 import RealmSwift
-import RealmSearchViewController
 
 class BrowserObject: Object {
 	
-	dynamic var sortName = ""
+	@objc dynamic var sortName = ""
 	
 }

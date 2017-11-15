@@ -11,7 +11,7 @@ import RealmSwift
 
 class BrowserCategory: BrowserObject {
 	
-	dynamic var name = "" {
+	@objc dynamic var name = "" {
 		didSet {
 			sortName = name.forSorting()
 		}

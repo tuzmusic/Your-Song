@@ -12,7 +12,7 @@ import RealmSwift
 
 class GenresTableViewController: BrowserViewController {
 	
-	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	fileprivate func extractedFunc(_ indexPath: IndexPath, _ tableView: UITableView) -> UITableViewCell {
 		if indexPath.section == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 			cell.textLabel?.text = "All songs"
@@ -21,6 +21,10 @@ class GenresTableViewController: BrowserViewController {
 		} else {
 			return super.tableView(tableView, cellForRowAt: indexPath)
 		}
+	}
+	
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		return extractedFunc(indexPath, tableView)
 	}
 	
 	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {

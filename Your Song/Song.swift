@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 
 final class Song: BrowserObject {
-	dynamic var title = "" {
+	@objc dynamic var title = "" {
 		didSet {
 			sortName = title.forSorting()
 		}
@@ -18,21 +18,21 @@ final class Song: BrowserObject {
 
 	static let separator = " ^^ "
 
-	dynamic var artist: Artist!
+	@objc dynamic var artist: Artist!
 	var artists = List<Artist>() {
 		didSet {
 			artist = artists.first
 		}
 	}
 
-	dynamic var genre: Genre!
+	@objc dynamic var genre: Genre!
 	var genres = List<Genre>(){
 		didSet {
 			genre = genres.first
 		}
 	}
 	
-	dynamic var decade: Decade!
+	@objc dynamic var decade: Decade!
 	var decades = List<Decade>() {
 		didSet {
 			decade = decades.first
@@ -40,9 +40,9 @@ final class Song: BrowserObject {
 	}
 
 	let requests = List<Request>()
-	dynamic var dateAdded: Date?
-	dynamic var dateModified: Date?
-	dynamic var songDescription = ""
+	@objc dynamic var dateAdded: Date?
+	@objc dynamic var dateModified: Date?
+	@objc dynamic var songDescription = ""
 
 	var popularity: Int { return self.requests.count }
 	

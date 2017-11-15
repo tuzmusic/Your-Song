@@ -11,7 +11,7 @@ import RealmSwift
 
 class Genre: BrowserCategory {
 	
-	var songs = LinkingObjects(fromType: Song.self, property: className().lowercased())
+	var songs = LinkingObjects(fromType: Song.self, property: "genre")
 	
 	var artists: List<Artist> {
 		var artists = Array<Artist>()
@@ -21,7 +21,13 @@ class Genre: BrowserCategory {
 			}
 		}
 		artists.sort { $0.sortName < $1.sortName }
-		return List(artists)
+		// because the return statement below no longer works, I'm reconstructing this List manually
+		//return List(artists)
+		let x = List<Artist>()
+		artists.forEach {
+			x.append($0)
+		}
+		return x
 	}
 	
 	var decades: List<Decade> {
@@ -32,7 +38,12 @@ class Genre: BrowserCategory {
 			}
 		}
 		decades.sort { $0.sortName < $1.sortName }
-		return List(decades)
+		let x = List<Decade>()
+		decades.forEach {
+			x.append($0)
+		}
+		return x
+		//return List(decades)
 	}
 
 }

@@ -8,8 +8,8 @@
 
 import UIKit
 import GoogleSignIn
-import FacebookLogin
-import FacebookCore
+//import FacebookLogin
+//import FacebookCore
 
 class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 
@@ -17,20 +17,20 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	
 	var spinner: UIActivityIndicatorView!
 
-	let facebookLoginButton = LoginButton(readPermissions: [ .publicProfile, .email ])
+//	let facebookLoginButton = LoginButton(readPermissions: [ .publicProfile, .email ])
 	let googleLoginButton = GIDSignInButton()
 	
 	@IBOutlet weak var contentViewForFacebookButton: UIView!
 	@IBOutlet weak var contentViewForGoogleButton: UIView!
 
-	func addFacebookLoginButton () {
-		facebookLoginButton.center = contentViewForFacebookButton.center		
-		contentViewForFacebookButton.addSubview(facebookLoginButton)
-	}
+//	func addFacebookLoginButton () {
+//		facebookLoginButton.center = contentViewForFacebookButton.center
+//		contentViewForFacebookButton.addSubview(facebookLoginButton)
+//	}
 	
 	func addGoogleLoginButton() {
 		googleLoginButton.center = contentViewForGoogleButton.center
-		googleLoginButton.bounds.size = CGSize(width: facebookLoginButton.bounds.width + 8, height: googleLoginButton.bounds.height)
+		//googleLoginButton.bounds.size = CGSize(width: facebookLoginButton.bounds.width + 8, height: googleLoginButton.bounds.height)
 		
 		contentViewForGoogleButton.addSubview(googleLoginButton)
 	}
@@ -41,7 +41,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		spinner = view.addNewSpinner()
 		spinner.stopAnimating()
 		
-		addFacebookLoginButton()
+//		addFacebookLoginButton()
 		addGoogleLoginButton()
 
 		GIDSignIn.sharedInstance().uiDelegate = self
