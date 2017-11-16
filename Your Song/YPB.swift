@@ -34,7 +34,7 @@ class YPB {
         
         let onlineRealm = false
         struct RealmConstants {
-            static let ec2ip = "54.227.135.125"
+            static let ec2ip = "54.159.244.247"
             static let ec2ipDash = ec2ip.replacingOccurrences(of: ".", with: "-")
             static let localHTTP = URL(string:"http://" + ec2ip)!
             static let publicDNS = URL(string:"http://ec2-\(ec2ipDash).compute-1.amazonaws.com:9080")!
@@ -45,15 +45,29 @@ class YPB {
             
             struct CommentedInfo {
                 /*
-                 Paste into terminal to SSH into EC2:
-                 ssh -i /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff/KeyPairs/YourPianoBarKeyPair.pem ubuntu@ec2-54-227-135-125.compute-1.amazonaws.com
-                 NOTE: I've not successfully SSH'd into this instance, it's always timed out. (although I'm also not able to reach my previous instance today, using the same ssh command that had worked in the past.)
-                 
-                 NEW Realm AMI instance
-                 Created 11/10/17
-                 IP 54.227.135.125
+			• To SSH into EC2: (THIRD realm)
+				  ssh -i /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff/KeyPairs/YourPianoBarKeyPair.pem ubuntu@ec2-54-159-244-247.compute-1.amazonaws.com
+			
+			• Finally installed ROS 2.0.18 onto server using:
+				curl -s https://raw.githubusercontent.com/realm/realm-object-server/master/install.sh | bash
+			However, "ros start" gives an error (i.e., it successfully starts to run, but fails).
+				The error is saying "you already have something running here!" which refers to ROS 1.8.3
+			Was able to free up the port (kill that task) by following this: https://stackoverflow.com/questions/47214593/realm-object-server-not-starting-on-digital-ocean
+			
+			• Starting a 3rd ec2 instance had the same problem, perhaps because the AMI already has a version of realm running.
+				However I'm not getting the "Cannot /GET" error or causing a response in terminal (like happened with the 2nd instance)
+
+			• Ubuntu AMI instance (54.205.63.24)
+				ros starts on first try, but gets to the same hanging spot.
+
+			• THIRD Realm AMI instance
+				Created 11/15/17
+				IP 54.159.244.247
+			
+			• NEW Realm AMI instance
+				  Created 11/10/17
+				  IP 54.227.135.125
                  first login in Chrome, creating Realm creds tm, PW tuzrealm
-                 (Realm Studio still times out...)
                  */
             }
         }

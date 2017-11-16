@@ -33,8 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 		
 		googleSignIn()
 		
-		//FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-		
 		YPB.setupRealm()
 		
 		return true
@@ -43,17 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 		
 		// Gets called after sign-in succeeds in Safari (probably also if it fails), before it returns to this app
-		
-		// These are the two versions of this from Google and Facebook Sign-ins.
-		/* return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
-		                                         annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-		return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-		*/
 
 		return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
 		                                         annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-		//|| FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-		
 	}
 	
 	func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -62,12 +52,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 			print("\(error.localizedDescription)")
 			return
 		}
-
 		YPB.ypbUser = YpbUser.user(firstName: user.profile.givenName,
-		                           lastName: user.profile.familyName,
-		                           email: user.profile.email,
-		                           in: YPB.realmSynced)
-
+							  lastName: user.profile.familyName,
+							  email: user.profile.email,
+							  in: YPB.realmSynced ?? YPB.realmLocal)
+		
 		// Some more google user info
 		/*
 		let userId = user.userID                  // For client-side use only!
