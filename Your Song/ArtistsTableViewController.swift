@@ -64,6 +64,7 @@ class ArtistsTableViewController: CategoryViewController {
 		if let songsVC = segue.destination as? SongsTableViewController {
 			switch segue.identifier! {
 			case Storyboard.AllSongsSegue:
+				segue.destination.title = "All Songs"
 				if let genre = genreForArtists {
 					songsVC.basePredicate = NSPredicate(format: "genre = %@", genre)
 				} else if let decade = decadeForArtists {
@@ -71,6 +72,7 @@ class ArtistsTableViewController: CategoryViewController {
 				}
 			case Storyboard.ArtistsSongsSegue:
 				if let artist = sender as? Artist {
+					songsVC.title = artist.name
 					var predicates = [NSPredicate(format: "artist = %@", artist)]
 					if let decade = decadeForArtists { predicates.append(NSPredicate(format: "decade = %@", decade)) }
 					if let genre = genreForArtists { predicates.append(NSPredicate(format: "genre = %@", genre)) }
@@ -79,5 +81,36 @@ class ArtistsTableViewController: CategoryViewController {
 			default: break
 			}
 		}
+	}
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(sortArtists))
+	}
+	
+	@objc func sortArtists(sender:UIBarButtonItem) {
+		let alert = UIAlertController(title: "Sort artists by...", message: nil, preferredStyle: .alert)
+		
+		alert.addAction(UIAlertAction(title: "Alphabetical (A to Z)", style: .default, handler: { _ in
+			self.sortPropertyKey = "sortName"
+			self.sortAscending = true
+		}))
+		alert.addAction(UIAlertAction(title: "Alphabetical (Z to A)", style: .default, handler: { _ in
+			self.sortPropertyKey = "sortName"
+			self.sortAscending = false
+		}))
+		/*
+		alert.addAction(UIAlertAction(title: "# of songs (Most to Least)", style: .default, handler: { _ in
+			self.sortPropertyKey = "songCount"
+			self.sortAscending = true
+		}))
+		alert.addAction(UIAlertAction(title: "# of songs (Least to Most)", style: .default, handler: { _ in
+			self.sortPropertyKey = "songCount"
+			self.sortAscending = false
+		}))
+		*/
+		alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+		
+		present(alert, animated: true)
 	}
 }

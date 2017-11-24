@@ -22,6 +22,8 @@ class YPB {
 		}
 	}
 	
+	static var realm = realmLocal
+	
 	static var ypbUser: YpbUser!
 	
 	struct UserInfo {
@@ -104,6 +106,7 @@ class YPB {
             }
             return
         }
+	
         SyncUser.logIn(with: RealmConstants.userCred, server: RealmConstants.publicDNS) {
             
             // Log in the user. If not, use local Realm config. If unable, return nil.
@@ -123,16 +126,7 @@ class YPB {
                 let configuration = Realm.Configuration(syncConfiguration: syncConfig)
                 
                 YPB.realmSynced = try! Realm(configuration: configuration)
-                
-                /*
-                 try! YPB.realmSynced.write {
-                 YPB.realmSynced.deleteAll()
-                 }
-                 try! YPB.realmLocal.write {
-                 YPB.realmLocal.deleteAll()
-                 }
-                 */
-                
+			
                 if YPB.realmLocal.objects(Song.self).isEmpty {
                     if YPB.realmSynced.objects(Song.self).isEmpty {
                         // this isn't quite right... or at least it should be named something else
@@ -145,7 +139,6 @@ class YPB {
         }
     }
 
-
 	class func populateLocalRealmFromSyncedRealm() {
 		let onlineSongs = YPB.realmSynced.objects(Song.self)
 		for song in onlineSongs {
@@ -156,7 +149,9 @@ class YPB {
 	}
 	
 	class func emptyLocalRealm() {
-		try! YPB.realmLocal.write { YPB.realmLocal.deleteAll() }
+		try! YPB.realmLocal.write {
+			YPB.realmLocal.deleteAll()
+		}
 	}
 	
 	class func populateSyncedRealmFromLocalRealm() {

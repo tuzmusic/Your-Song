@@ -61,6 +61,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		}
 	}
 	
+	
 	// MARK: Controller - loading the request/populating textViews
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -91,15 +92,15 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	
 	var textViewInfo: [UITextView : (placeholder: String, keyPath: String)] {
 		return [nameTextView : (TextViewStrings.placeholders.user, "userString"),
-		        songTextView : (TextViewStrings.placeholders.song, "songString"),
-		        notesTextView : (TextViewStrings.placeholders.notes, "notes")]
+			   songTextView : (TextViewStrings.placeholders.song, "songString"),
+			   notesTextView : (TextViewStrings.placeholders.notes, "notes")]
 	}
 	
 	struct TextViewStrings {
 		struct placeholders {
 			static let user = "Enter your name"
 			static let song = "Enter your song, or look for your favorite song in our catalog"
-			static let notes = "Got a dedication? Want to come up and sing? Put any extra notes here"
+			static let notes = "Have a dedication? Want to come up and sing? Put any extra notes here"
 		}
 	}
 	
@@ -116,8 +117,8 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		request?.setValue(textView.text, forKey: textViewInfo[textView]!.keyPath)
 		if textView.text == "" {
 			textView.reset(with: textViewInfo[textView]!.placeholder, color: placeholderColor)
-		 if textView == songTextView {
-			songObject = nil
+			if textView == songTextView {
+				songObject = nil
 			}
 		}
 	}
@@ -164,8 +165,8 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		
 		guard let request = request, !request.userString.isEmpty && !request.songString.isEmpty else {
 			let alert = UIAlertController(title: "Incomplete Request",
-			                              message: "Please enter your name and a song.",
-			                              preferredStyle: .alert)
+									message: "Please enter your name and a song.",
+									preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 			present(alert, animated: true, completion: nil)
 			return
@@ -195,8 +196,8 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 			}
 		} catch {
 			let alert = UIAlertController(title: "Error",
-			                              message: "Could not write to the Realm.",
-			                              preferredStyle: .alert)
+									message: "Could not write to the Realm.",
+									preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 			self.present(alert, animated: true, completion: nil)
 			return
@@ -211,7 +212,11 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		/* if let songsVC = segue.destination.childViewControllers.first as? SongsTableViewController{
-		} */
+	/*
+		// This applies to the Tab Bar Controller!
+		if segue.identifier == "Browse Songs Segue" {
+			segue.destination.title = "All Songs"
+		}
+		*/
 	}
 }

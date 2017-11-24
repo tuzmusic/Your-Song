@@ -11,5 +11,6 @@ import RealmSwift
 
 final class Artist: BrowserCategory {
 	var songs = LinkingObjects(fromType: Song.self, property: "artist")
+	var songCount: Int { return songs.count }   
 }
 

@@ -52,8 +52,11 @@ class DecadesTableViewController: CategoryViewController {
 			let artistsVC = segue.destination as? ArtistsTableViewController,
 			let decade = sender as? Decade
 		{
+			artistsVC.title = decade.name + " Artists"
 			artistsVC.decadeForArtists = decade
 			artistsVC.basePredicate = NSPredicate(format: "name in %@", decade.artists.map { $0.name })
+		} else {
+			segue.destination.title = "All Songs"
 		}
 	}
 }

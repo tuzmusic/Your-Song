@@ -19,7 +19,6 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	
 	@IBOutlet weak var contentViewForGoogleButton: UIView!
 
-	
 	func addGoogleLoginButton() {
 		googleLoginButton.center = contentViewForGoogleButton.center
 		//googleLoginButton.bounds.size = CGSize(width: facebookLoginButton.bounds.width + 8, height: googleLoginButton.bounds.height)
@@ -32,7 +31,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		super.viewDidLoad()
 		spinner = view.addNewSpinner()
 		spinner.stopAnimating()
-		
+
 		addGoogleLoginButton()
 
 		GIDSignIn.sharedInstance().uiDelegate = self

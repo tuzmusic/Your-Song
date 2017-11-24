@@ -10,48 +10,21 @@ import Foundation
 import RealmSwift
 
 extension Object {
+	
 	@objc dynamic var sortedName: String {
 		if let propertyName = self.objectSchema.properties.first?.name,
 			var startingName = self.value(forKey: propertyName) as? String
 		{
 			var editedName = startingName
-			let nameChars = editedName.characters
 			
 			repeat {
 				startingName = editedName
-				if editedName.hasPrefix("(") {
+				if editedName.hasPrefix("(") && editedName.contains(")") {
 					// Delete the parenthetical
-					editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
+					editedName = String(editedName[editedName.index(after: editedName.index(of: ")")!)..<editedName.endIndex])
 				} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
 					// Delete any punctuation, spaces, etc.
-					editedName.remove(at: nameChars.index(of: nameChars.first!)!)
-				} else if editedName.hasPrefix("The "), let range = editedName.range(of: "The ") {
-					// Delete "The"
-					editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
-				}
-			} while editedName != startingName
-			
-			return editedName
-		}
-		return ""
-	}
-	
-	// old version, which didn't work for its own reasons
-	func nameForSort() -> String {
-		if let propertyName = self.objectSchema.properties.first?.name,
-			var startingName = self.value(forKey: propertyName) as? String
-		{
-			var editedName = startingName
-			let nameChars = editedName.characters
-			
-			repeat {
-				startingName = editedName
-				if editedName.hasPrefix("(") {
-					// Delete the parenthetical
-					editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
-				} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
-					// Delete any punctuation, spaces, etc.
-					editedName.remove(at: nameChars.index(of: nameChars.first!)!)
+					editedName.remove(at: editedName.index(of: editedName.first!)!)
 				} else if editedName.hasPrefix("The "), let range = editedName.range(of: "The ") {
 					// Delete "The"
 					editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)

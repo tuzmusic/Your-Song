@@ -52,12 +52,15 @@ class GenresTableViewController: BrowserViewController {
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier! == Storyboard.ArtistsSongsSegue,
+		if segue.identifier! == Storyboard.GenresArtistsSegue,
 			let artistsVC = segue.destination as? ArtistsTableViewController,
 			let genre = sender as? Genre
 		{
+			artistsVC.title = genre.name
 			artistsVC.genreForArtists = genre
 			artistsVC.basePredicate = NSPredicate(format: "name in %@", genre.artists.map { $0.name })
+		} else {
+			segue.destination.title = "All Songs"
 		}
 	}
 }
