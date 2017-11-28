@@ -29,17 +29,16 @@ extension String {
 	func forSorting() -> String {
 		var startingName = self
 		var editedName = startingName
-		let nameChars = editedName.characters
 		
 		repeat {
 			startingName = editedName
-			if editedName.hasPrefix("(") {
+			if editedName.hasPrefix("(") && editedName.contains(")") {
 				// Delete the parenthetical
-				editedName = editedName.substring(from: nameChars.index(after: nameChars.index(of: ")")!))
+				editedName = String(editedName[editedName.index(after: editedName.index(of: ")")!)..<editedName.endIndex])
 			} else if !CharacterSet.alphanumerics.contains(editedName.unicodeScalars.first!) {
 				// Delete any punctuation, spaces, etc.
-				editedName.remove(at: nameChars.index(of: nameChars.first!)!)
-			} else if let range = editedName.range(of: "The ") {
+				editedName.remove(at: editedName.index(of: editedName.first!)!)
+			} else if editedName.hasPrefix("The "), let range = editedName.range(of: "The ") {
 				// Delete "The"
 				editedName = editedName.replacingOccurrences(of: "The ", with: "", options: [], range: range)
 			}
@@ -73,7 +72,7 @@ extension String {
 		}
 		
 		if fullString.hasSuffix("S") {
-			fullString = String(fullString.characters.dropLast()) + "s"
+			fullString = String(fullString.dropLast()) + "s"
 		}
 		
 		return fullString
