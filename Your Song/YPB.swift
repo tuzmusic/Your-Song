@@ -38,7 +38,6 @@ class YPB {
 	
 	class func setupRealm() {
 		
-		let onlineRealm = true
 		struct RealmConstants {
 			static let ec2ip = "54.205.63.24"
 			static let ec2ipDash = ec2ip.replacingOccurrences(of: ".", with: "-")
@@ -49,42 +48,8 @@ class YPB {
 			
 			static let userCred = SyncCredentials.usernamePassword(
 				username: "realm-admin", password: "")
-			//		username: "tuzmusic@gmail.com", password: "tuzrealm")
-			
-			struct CommentedInfo {
-				/*
-				• To SSH into EC2: (THIRD realm)
-				ssh -i /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff/KeyPairs/YourPianoBarKeyPair.pem ubuntu@ec2-54-159-244-247.compute-1.amazonaws.com
-				
-				• Finally installed ROS 2.0.18 onto server using:
-				curl -s https://raw.githubusercontent.com/realm/realm-object-server/master/install.sh | bash
-				However, "ros start" gives an error (i.e., it successfully starts to run, but fails).
-				The error is saying "you already have something running here!" which refers to ROS 1.8.3
-				Was able to free up the port (kill that task) by following this: https://stackoverflow.com/questions/47214593/realm-object-server-not-starting-on-digital-ocean
-				
-				• Starting a 3rd ec2 instance had the same problem, perhaps because the AMI already has a version of realm running.
-				However I'm not getting the "Cannot /GET" error or causing a response in terminal (like happened with the 2nd instance)
-				
-				• "Empty" Ubuntu AMI instance (54.205.63.24)
-				ros starts on first try, but gets to the same hanging spot.
-				
-				• THIRD Realm AMI instance
-				Created 11/15/17
-				IP 54.159.244.247
-				
-				• NEW Realm AMI instance
-				Created 11/10/17
-				IP 54.227.135.125
-				first login in Chrome, creating Realm creds tm, PW tuzrealm
-				*/
-			}
 		}
-		
-		guard onlineRealm else {
-			populateLocalRealmIfEmpty()
-			return
-		}
-		
+	
 		SyncUser.logIn(with: RealmConstants.userCred, server: RealmConstants.publicDNS) {
 			
 			// Log in the user. If not, use local Realm config. If unable, return nil.
@@ -105,20 +70,25 @@ class YPB {
 				YPB.realmSynced = try! Realm(configuration: configuration)
 				YPB.realm = realmSynced
 				
-				if YPB.realmLocal.objects(Song.self).isEmpty {
-					if YPB.realmSynced.objects(Song.self).count > 0 {
-						YPB.populateLocalRealmFromSyncedRealm()
-					} else {
-						SongImporter().importSongsToLocalRealm()
-						YPB.populateSyncedRealmFromLocalRealm()
-					}
-				} else {
-					// Local realm is all good, so do nothing.
-					// TO-DO: Note that this will never UPDATE a non-empty realm!
-				}
-				YPB.deleteDuplicateCategories(in: YPB.realmLocal)
+				manageRealmContents()				
+				
 			}
 		}
+	}
+	
+	class func manageRealmContents() {
+		if YPB.realmLocal.objects(Song.self).isEmpty {
+			if !YPB.realmSynced.objects(Song.self).isEmpty {
+				YPB.populateLocalRealmFromSyncedRealm()
+			} else {
+				SongImporter().importSongsToLocalRealm()
+				YPB.populateSyncedRealmFromLocalRealm()
+			}
+		} else {
+			// Local realm is all good, so do nothing.
+			// TO-DO: Note that this will never UPDATE a non-empty realm!
+		}
+		YPB.deleteDuplicateCategories(in: YPB.realm)
 	}
 	
 	class func populateLocalRealmFromSyncedRealm() {
