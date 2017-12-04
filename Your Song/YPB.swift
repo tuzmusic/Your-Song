@@ -69,7 +69,8 @@ class YPB {
 				
 				YPB.realmSynced = try! Realm(configuration: configuration)
 				YPB.realm = realmSynced
-				
+				let realmSet = NSNotification.Name("realm set")
+				NotificationCenter.default.post(name: realmSet, object: nil)
 				manageRealmContents()				
 				
 			}
@@ -107,12 +108,12 @@ class YPB {
 			}
 		}
 	}
+	
 	class func emptyLocalRealm() {
 		try! YPB.realmLocal.write {
 			YPB.realmLocal.deleteAll()
 		}
-	}
-	
+	}	
 }
 
 // Including this here because it's not finding the class in its own file for some reason.
