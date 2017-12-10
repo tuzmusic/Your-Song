@@ -9,8 +9,6 @@
 import UIKit
 import RealmSwift
 
-
-
 class CreateRequestTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
 	
 	var placeholderColor: UIColor = UIColor.lightGray
@@ -19,8 +17,12 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	// MARK: MODEL
 	
 	var realm: Realm? {
-		get { return YPB.realmSynced }
-		set { YPB.realmSynced = newValue }
+		get {
+			return YPB.realmSynced
+			
+		} set {
+				YPB.realmSynced = newValue
+		}
 	}
 	
 	var request: Request!
@@ -61,18 +63,26 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		}
 	}
 	
-	
+	var spinner: UIActivityIndicatorView {
+		let spinner = view.addNewSpinner()
+		if let navcon = self.navigationController {
+			spinner.frame.origin.y = navcon.view.frame.midY - 60
+		}
+		return spinner
+		
+	}
+
 	// MARK: Controller - loading the request/populating textViews
-	
+		
 	override func viewWillAppear(_ animated: Bool) {
-		if let request = self.request {
+		if let request = self.request {		// If we're entering the view from the song picker, and there's already a request started
 			textViewInfo.keys.forEach {
 				$0.text = request.value(forKey: textViewInfo[$0]!.keyPath) as! String
 				if $0.text.isEmpty {
 					$0.reset(with: textViewInfo[$0]!.placeholder, color: placeholderColor)
 				}
 			}
-		} else {
+		} else {	// If there's no request started
 			request = Request()
 			if let user = YPB.ypbUser {
 				request.user = user
@@ -174,21 +184,15 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		
 		// Store non-user-accessible request info
 		request.date = Date()
+
+		//spinner.startAnimating()
 		
 		do {
-			if let realm = realm {
+			if let realm = YPB.realmSynced {
 				try realm.write {
 					realm.add(request)
 				}
-				func confirmSubmittedRequest() {
-					var infoString = "Your Name: \(request.userString)" + "\r"
-					infoString += "Your Song: \(request.songString.replacingOccurrences(of: "\n", with: " "))" + "\r"
-					if !request.notes.isEmpty { infoString += "Your Notes: \(request.notes)" }
-					let alert = UIAlertController(title: "Request Sent!", message: infoString, preferredStyle: .alert)
-					alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in self.clearRequest() })
-					present(alert, animated: true, completion: nil)
-				}
-				confirmSubmittedRequest()
+				confirmSubmittedRequest(request)
 			} else {
 				let alert = UIAlertController(title: "Request Not Sent", message: "realm = nil", preferredStyle: .alert)
 				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -202,13 +206,36 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 			self.present(alert, animated: true, completion: nil)
 			return
 		}
+		spinner.stopAnimating()
+		spinner.removeFromSuperview()
 	}
+
 	
+	@IBAction func addSampleRequest(_ sender: Any) {
+		if !YPB.addSampleRequest() {
+			let alert = UIAlertController(title: "Can't add request", message: "realm = nil", preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+			present(alert, animated: true)
+		}
+	}
+		
 	func clearRequest () {
 		for view in textViewInfo.keys {
 			view.reset(with: textViewInfo[view]!.placeholder, color: placeholderColor)
 		}
 		request = Request()
+	}
+	
+	func confirmSubmittedRequest(_ request: Request) {
+		var infoString = """
+		Your Name: \(request.userString)
+		Your Song: \(request.songString.replacingOccurrences(of: "\n", with: " "))
+		
+		"""
+		if !request.notes.isEmpty { infoString += "Your Notes: \(request.notes)" }
+		let alert = UIAlertController(title: "Request Sent!", message: infoString, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in self.clearRequest() })
+		present(alert, animated: true, completion: nil)
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -7,34 +7,26 @@
 //
 
 import UIKit
-import GoogleSignIn
+//import GoogleSignIn
 
-class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
+class SignInTableViewController: UITableViewController//, GIDSignInUIDelegate
+{
 
 	// MARK: Outlets and variables
 	
 	var spinner: UIActivityIndicatorView!
 
-	let googleLoginButton = GIDSignInButton()
 	
 	@IBOutlet weak var contentViewForGoogleButton: UIView!
 
-	func addGoogleLoginButton() {
-		googleLoginButton.center = contentViewForGoogleButton.center
-		//googleLoginButton.bounds.size = CGSize(width: facebookLoginButton.bounds.width + 8, height: googleLoginButton.bounds.height)
-		
-		contentViewForGoogleButton.addSubview(googleLoginButton)
-	}
-	
 	override func viewDidLoad() {
 		
 		super.viewDidLoad()
 		spinner = view.addNewSpinner()
 		spinner.stopAnimating()
 
-		addGoogleLoginButton()
-
-		GIDSignIn.sharedInstance().uiDelegate = self
+//		addGoogleLoginButton()
+//		GIDSignIn.sharedInstance().uiDelegate = self
 
 		// Uncomment to automatically sign in the user.
 		/* GIDSignIn.sharedInstance().signInSilently()
@@ -44,7 +36,17 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		*/
 		
 	}
+	/* GOOGLE STUFF
+	let googleLoginButton = GIDSignInButton()
 	
+	func addGoogleLoginButton() {
+		googleLoginButton.center = contentViewForGoogleButton.center
+		//googleLoginButton.bounds.size = CGSize(width: facebookLoginButton.bounds.width + 8, height: googleLoginButton.bounds.height)
+		
+		contentViewForGoogleButton.addSubview(googleLoginButton)
+	}
+	
+
 	// MARK: Google Login Handler
 	func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
 		pr("GIDSignInUIDelegate signed-in method")
@@ -60,17 +62,18 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		
 		performSegue(withIdentifier: Storyboard.LoginSegue, sender: nil)
 	}
+	@IBAction func signIn(_ sender: Any) {
+	pr("signIn")
+	spinner.startAnimating()
+	}
 	
+	@IBAction func googleSignOut(_ sender: Any) {
+	GIDSignIn.sharedInstance().signOut()
+	}
+*/
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		spinner.stopAnimating()
 	}
 	
-	@IBAction func signIn(_ sender: Any) {
-		pr("signIn")
-		spinner.startAnimating()
-	}
 	
-	@IBAction func googleSignOut(_ sender: Any) {
-		GIDSignIn.sharedInstance().signOut()
-	}
 }

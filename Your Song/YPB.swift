@@ -22,7 +22,7 @@ class YPB {
 	
 	class func populateLocalRealmIfEmpty() {
 		if YPB.realmLocal.objects(Song.self).isEmpty {
-			SongImporter().importSongsToLocalRealm()
+			//SongImporter().importSongs()
 		}
 	}
 	
@@ -71,9 +71,27 @@ class YPB {
 				YPB.realm = realmSynced
 				let realmSet = NSNotification.Name("realm set")
 				NotificationCenter.default.post(name: realmSet, object: nil)
-				manageRealmContents()				
+				//manageRealmContents()
 				
 			}
+		}
+	}
+	
+	class func addSampleRequest() -> Bool {
+		if let realm = YPB.realmSynced {
+			let user1 = YpbUser.user(firstName: "Jonathan", lastName: "Tuzman", email: "tuzmusic@gmail.com", in: realm)
+			let request1 = Request()
+			let requestsInRealm = realm.objects(Request.self).count
+			request1.user = user1
+			request1.songObject = realm.objects(Song.self)[requestsInRealm]
+			request1.notes = "Sample request #\(requestsInRealm)"
+			
+			try! realm.write {
+				realm.create(Request.self, value: request1, update: false)
+			}
+			return true
+		} else {
+			return false
 		}
 	}
 	
@@ -82,7 +100,7 @@ class YPB {
 			if !YPB.realmSynced.objects(Song.self).isEmpty {
 				YPB.populateLocalRealmFromSyncedRealm()
 			} else {
-				SongImporter().importSongsToLocalRealm()
+				//SongImporter().importSongs()
 				YPB.populateSyncedRealmFromLocalRealm()
 			}
 		} else {
@@ -115,7 +133,7 @@ class YPB {
 		}
 	}	
 }
-
+/*
 // Including this here because it's not finding the class in its own file for some reason.
 class SongImporter {
 	
@@ -190,4 +208,4 @@ class SongImporter {
 	}
 	
 }
-
+*/

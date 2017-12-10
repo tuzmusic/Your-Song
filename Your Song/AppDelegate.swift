@@ -8,34 +8,38 @@
 
 import UIKit
 import RealmSwift
-import GoogleSignIn
-import GGLCore
+//import GoogleSignIn
+//import GGLCore
 //import FBSDKCoreKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate//, GIDSignInDelegate
+{
 	
 	var window: UIWindow?
 
-	func googleSignIn() {
-		// Initialize Google sign-in
-		var configureError: NSError?
-		GGLContext.sharedInstance().configureWithError(&configureError)
-		assert(configureError == nil, "Error configuring Google services: \(String(describing:configureError))")
-		GIDSignIn.sharedInstance().delegate = self
-		
-		// For automatic sign-in?
-		// GIDSignIn.sharedInstance().signInSilently()
-	}
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		print("Documents folder: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])")
 		
-		googleSignIn()
+		//googleSignIn()
 		
 		YPB.setupRealm()
 		
 		return true
+	}
+	/* GOOGLE STUFF
+
+	
+	func googleSignIn() {
+	// Initialize Google sign-in
+	var configureError: NSError?
+	GGLContext.sharedInstance().configureWithError(&configureError)
+	assert(configureError == nil, "Error configuring Google services: \(String(describing:configureError))")
+	GIDSignIn.sharedInstance().delegate = self
+	
+	// For automatic sign-in?
+	// GIDSignIn.sharedInstance().signInSilently()
 	}
 	
 	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -67,5 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 	func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
 		// ...
 	}
+*/
 }
 
