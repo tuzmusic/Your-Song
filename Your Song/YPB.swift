@@ -14,19 +14,9 @@ class YPB {
 	static var currentRequest: Request?
 	
 	static var realmSynced: Realm!
-	static var realmLocal = try! Realm() {
-		didSet {
-			populateLocalRealmIfEmpty()
-		}
-	}
-	
-	class func populateLocalRealmIfEmpty() {
-		if YPB.realmLocal.objects(Song.self).isEmpty {
-			//SongImporter().importSongs()
-		}
-	}
-	
-	static var realm = realmLocal
+	static var realmLocal = try! Realm()
+	static var realm: Realm!
+	static var realmConfig: Realm.Configuration!
 	
 	static var ypbUser: YpbUser!
 	
@@ -35,21 +25,23 @@ class YPB {
 		var lastName = ""
 		var email = ""
 	}
-	
+    
+    struct RealmConstants {
+        static let ec2ip = "54.205.63.24"
+        static let ec2ipDash = ec2ip.replacingOccurrences(of: ".", with: "-")
+        static let amazonAddress = "ec2-\(ec2ipDash).compute-1.amazonaws.com:9080"
+        static let localHTTP = URL(string:"http://" + ec2ip)!
+        static let publicDNS = URL(string:"http://" + amazonAddress)!
+        static let realmAddress = URL(string:"realm://" + amazonAddress + "/YourPianoBar/JonathanTuzman/")!
+        
+        static let userCred = SyncCredentials.usernamePassword(
+            username: "realm-admin", password: "")
+    }
+    
 	class func setupRealm() {
-		
-		struct RealmConstants {
-			static let ec2ip = "54.205.63.24"
-			static let ec2ipDash = ec2ip.replacingOccurrences(of: ".", with: "-")
-			static let amazonAddress = "ec2-\(ec2ipDash).compute-1.amazonaws.com:9080"
-			static let localHTTP = URL(string:"http://" + ec2ip)!
-			static let publicDNS = URL(string:"http://" + amazonAddress)!
-			static let realmAddress = URL(string:"realm://" + amazonAddress + "/YourPianoBar/JonathanTuzman/")!
-			
-			static let userCred = SyncCredentials.usernamePassword(
-				username: "realm-admin", password: "")
-		}
 	
+        // REWRITE THIS TO RETURN A REALM CONFIG. Or something.
+		
 		SyncUser.logIn(with: RealmConstants.userCred, server: RealmConstants.publicDNS) {
 			
 			// Log in the user. If not, use local Realm config. If unable, return nil.
@@ -57,37 +49,35 @@ class YPB {
 			guard let user = user else {
 				print("Could not access server. Using local Realm [default configuration]. Error:")
 				print(error!)
-				populateLocalRealmIfEmpty()
 				return
 			} // guard else
 			
 			DispatchQueue.main.async {
 				
 				// Open the online Realm
-				let syncConfig = SyncConfiguration (user: user, realmURL: RealmConstants.realmAddress)
-				let configuration = Realm.Configuration(syncConfiguration: syncConfig)
+				let syncConfig = SyncConfiguration(user: user, realmURL: RealmConstants.realmAddress)
+				realmConfig = Realm.Configuration(syncConfiguration: syncConfig)
 				
-				YPB.realmSynced = try! Realm(configuration: configuration)
+				YPB.realmSynced = try! Realm(configuration: YPB.realmConfig)
 				YPB.realm = realmSynced
-				let realmSet = NSNotification.Name("realm set")
-				NotificationCenter.default.post(name: realmSet, object: nil)
-				//manageRealmContents()
+				let realmSetNotification = NSNotification.Name("realm set")
+				NotificationCenter.default.post(name: realmSetNotification, object: nil)
 				
 			}
 		}
-	}
+    }
 	
 	class func addSampleRequest() -> Bool {
 		if let realm = YPB.realmSynced {
-			let user1 = YpbUser.user(firstName: "Jonathan", lastName: "Tuzman", email: "tuzmusic@gmail.com", in: realm)
-			let request1 = Request()
+			let user = YpbUser.user(firstName: "Jonathan", lastName: "Tuzman", email: "tuzmusic@gmail.com", in: realm)
+			let request = Request()
 			let requestsInRealm = realm.objects(Request.self).count
-			request1.user = user1
-			request1.songObject = realm.objects(Song.self)[requestsInRealm]
-			request1.notes = "Sample request #\(requestsInRealm)"
-			
+			request.user = user
+			request.songObject = realm.objects(Song.self)[requestsInRealm]
+            request.songString = request.songObject!.title
+			request.notes = "Sample request #\(requestsInRealm)"
 			try! realm.write {
-				realm.create(Request.self, value: request1, update: false)
+				realm.create(Request.self, value: request, update: false)
 			}
 			return true
 		} else {
@@ -133,79 +123,3 @@ class YPB {
 		}
 	}	
 }
-/*
-// Including this here because it's not finding the class in its own file for some reason.
-class SongImporter {
-	
-	typealias SongData = [String]
-	
-	func importSongsToLocalRealm() {
-		let fileName = "song list"
-		if let songData = songData(fromTSV: fileName) {
-			createSongsInLocalRealm(songData: songData)
-		}
-	}
-	
-	func songData (fromTSV fileName: String) -> [SongData]? {
-		
-		var songData = [[String]]()
-		
-		if let path = Bundle.main.path(forResource: fileName, ofType: "tsv") {
-			if let fullList = try? String(contentsOf: URL(fileURLWithPath: path)) {
-				let songList = fullList
-					.replacingOccurrences(of: "\r", with: "")
-					.components(separatedBy: "\n")
-				guard songList.count > 1 else { print("Song list cannot be used: no headers, or no listings!")
-					return nil }
-				for song in songList {
-					songData.append(song.components(separatedBy: "\t"))
-				}
-			}
-		}
-		return songData
-	}
-	
-	
-	func createSongsInLocalRealm(songData: [SongData]) {
-		
-		// Get the headers from the first entry in the database
-		guard let headers = songData.first?.map({$0.lowercased()}) else {
-			print("Song list is empty, could not extract headers.")
-			return
-		}
-		
-		YPB.realmLocal.beginWrite()
-		
-		for songComponents in songData where songComponents.map({$0.lowercased()}) != headers {
-			if let indices = headerIndices(from: headers) {
-				if let appIndex = headers.index(of: "app"), songComponents[appIndex] != "Y" {
-					continue
-				}
-				_ = Song.createSong(fromComponents: songComponents, with: indices, in: YPB.realmLocal)
-			}
-		}
-		
-		try! YPB.realmLocal.commitWrite()
-	}
-	
-	func headerIndices(from headers: [String]) -> (title: Int, artist: Int?, genre: Int?, year: Int?)? {
-		struct SongHeaderTags {
-			static let titleOptions = ["song", "title", "name"]
-			static let artist = "artist"
-			static let genre = "genre"
-			static let year = "year"
-		}
-		
-		guard let titleHeader = headers.first(where: { SongHeaderTags.titleOptions.contains($0) }) else {
-			print("Songs could not be created: Title field could not be found.")
-			return nil
-		}
-		let titleIndex = headers.index(of: titleHeader)!
-		let artistIndex = headers.index(of: SongHeaderTags.artist)
-		let genreIndex = headers.index(of: SongHeaderTags.genre)
-		let yearIndex = headers.index(of: SongHeaderTags.year)
-		return (titleIndex, artistIndex, genreIndex, yearIndex)
-	}
-	
-}
-*/

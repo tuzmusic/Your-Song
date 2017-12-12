@@ -19,8 +19,18 @@ extension UITableViewController {
 	}
 }
 
+func timeSince(time: Date) -> String {
+    
+    let now = Date()
+    let secondsAgo = DateInterval(start: time, end: now).duration
+    let minutesAgo = secondsAgo / 60
+    let hoursAgo = Int(minutesAgo / 60)
+    let timeAgo = "\(hoursAgo)h \(Int(minutesAgo.truncatingRemainder(dividingBy: 60)))m ago"
+    
+    return timeAgo
+}
+
 func pr(_ thing: Any) {
-	//print("\n***\n\(String(describing: thing))\n***\n")
 	print("\n\(String(describing: thing))\n")
 }
 
