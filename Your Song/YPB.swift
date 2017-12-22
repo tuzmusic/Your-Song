@@ -39,15 +39,13 @@ class YPB {
     }
     
 	class func setupRealm() {
-	
-        // REWRITE THIS TO RETURN A REALM CONFIG. Or something.
 		
 		SyncUser.logIn(with: RealmConstants.userCred, server: RealmConstants.publicDNS) {
 			
 			// Log in the user. If not, use local Realm config. If unable, return nil.
 			user, error in
 			guard let user = user else {
-				print("Could not access server. Using local Realm [default configuration]. Error:")
+				print("Could not access server. Error:")
 				print(error!)
 				return
 			} // guard else
@@ -60,8 +58,7 @@ class YPB {
 				
 				YPB.realmSynced = try! Realm(configuration: YPB.realmConfig)
 				YPB.realm = realmSynced
-				let realmSetNotification = NSNotification.Name("realm set")
-				NotificationCenter.default.post(name: realmSetNotification, object: nil)
+				NotificationCenter.default.post(name: NSNotification.Name("realm set"), object: nil)
 				
 			}
 		}
