@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import UserNotifications
 
 class YPB {
 	
@@ -63,6 +64,19 @@ class YPB {
 			}
 		}
     }
+	
+	class func notifyOf(_ request: Request) {
+		
+		let content = UNMutableNotificationContent()
+		content.title = "New Request!"
+		content.body = request.userString + " wants to hear \"" + (request.songObject?.title ?? request.songString) + "\""
+		content.setValue("YES", forKeyPath: "shouldAlwaysAlertWhileAppIsForeground")
+		
+		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+		let request = UNNotificationRequest(identifier: "oneSec", content: content, trigger: trigger)
+		let center = UNUserNotificationCenter.current()
+		center.add(request, withCompletionHandler: nil)
+	}
 	
 	class func addSampleRequest() -> Bool {
 		if let realm = YPB.realmSynced {
