@@ -13,12 +13,34 @@ class SongImporter {
 	
 	typealias SongData = [String]
 	
-	func importSongs() {
+	func importSongsTo(realm: Realm) {
 		let fileName = "song list"
-		if let songData = songData(fromTSV: fileName) {
-			createSongsInLocalRealm(songData: songData)
+		if let songListData = songData(fromTSV: fileName) {
+			createSongsIn(realm: realm, songData: songListData)
 		}
 	}	
+	
+	func createSongsIn(realm: Realm, songData: [SongData]) {
+		
+		// Get the headers from the first entry in the database
+		guard let headers = songData.first?.map({$0.lowercased()}) else {
+			print("Song list is empty, could not extract headers.")
+			return
+		}
+		
+		realm.beginWrite()
+		
+		for songComponents in songData where songComponents.map({$0.lowercased()}) != headers {
+			if let indices = headerIndices(from: headers) {
+				if let appIndex = headers.index(of: "app"), songComponents[appIndex] != "Y" {
+					continue // conditional written this way in case there's no "app" column.
+				}
+				_ = Song.createSong(fromComponents: songComponents, with: indices, in: realm)
+			}
+		}
+		
+		try! realm.commitWrite()
+	}
 	
 	func songData (fromTSV fileName: String) -> [SongData]? {
 		
@@ -39,29 +61,6 @@ class SongImporter {
 		return songData
 	}
 	
-	
-	func createSongsInLocalRealm(songData: [SongData]) {
-		
-		// Get the headers from the first entry in the database
-		guard let headers = songData.first?.map({$0.lowercased()}) else {
-			print("Song list is empty, could not extract headers.")
-			return
-		}
-		
-		YPB.realmLocal.beginWrite()
-		
-		for songComponents in songData where songComponents.map({$0.lowercased()}) != headers {
-			if let indices = headerIndices(from: headers) {
-				if let appIndex = headers.index(of: "app"), songComponents[appIndex] != "Y" {
-					continue
-				}
-				_ = Song.createSong(fromComponents: songComponents, with: indices, in: YPB.realmLocal)
-			}
-		}
-		
-		try! YPB.realmLocal.commitWrite()
-	}
-	
 	func headerIndices(from headers: [String]) -> (title: Int, artist: Int?, genre: Int?, year: Int?)? {
 		struct SongHeaderTags {
 			static let titleOptions = ["song", "title", "name"]
@@ -80,6 +79,6 @@ class SongImporter {
 		let yearIndex = headers.index(of: SongHeaderTags.year)
 		return (titleIndex, artistIndex, genreIndex, yearIndex)
 	}
-
+	
 }
 

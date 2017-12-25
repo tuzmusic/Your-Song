@@ -31,12 +31,12 @@
 		769D2E1B1EAE20CC0069FB30 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E1A1EAE20CC0069FB30 /* GoogleService-Info.plist */; };
 		769FFBF21EAA1AB800F5EB37 /* YPB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769FFBF11EAA1AB800F5EB37 /* YPB.swift */; };
 		76BE13AE1EC09340007A7348 /* Decade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE13AD1EC09340007A7348 /* Decade.swift */; };
+		76CD8E851FF063DB00081206 /* Requests - Realm Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CD8E841FF063DB00081206 /* Requests - Realm Classes.swift */; };
 		76CDBE781EDB297B005C9C56 /* String Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CDBE771EDB297B005C9C56 /* String Extensions.swift */; };
 		76DD71F91EC0601100AD3AEE /* BrowserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DD71F81EC0601100AD3AEE /* BrowserObject.swift */; };
 		76DD71FB1EC0636A00AD3AEE /* BrowserCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DD71FA1EC0636A00AD3AEE /* BrowserCategory.swift */; };
 		76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638231E9E99E8001BBFB1 /* Artist.swift */; };
 		76F638281E9E99E8001BBFB1 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638241E9E99E8001BBFB1 /* Genre.swift */; };
-		76F638291E9E99E8001BBFB1 /* Requests - Realm Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638251E9E99E8001BBFB1 /* Requests - Realm Classes.swift */; };
 		76F6382A1E9E99E8001BBFB1 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638261E9E99E8001BBFB1 /* Song.swift */; };
 		76F6382D1E9FD476001BBFB1 /* GenresTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6382C1E9FD476001BBFB1 /* GenresTableViewController.swift */; };
 		76F638311EA102B4001BBFB1 /* SongImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638301EA102B4001BBFB1 /* SongImporter.swift */; };
@@ -91,12 +91,12 @@
 		76ACB9AA1E95465300923D6F /* BebasNeue Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Thin.ttf"; sourceTree = "<group>"; };
 		76ACB9AB1E95982A00923D6F /* Bebas.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bebas.TTF; sourceTree = "<group>"; };
 		76BE13AD1EC09340007A7348 /* Decade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decade.swift; sourceTree = "<group>"; };
+		76CD8E841FF063DB00081206 /* Requests - Realm Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Requests - Realm Classes.swift"; path = "../../YourPianoBarPianist/YourPianoBarPianist/Requests - Realm Classes.swift"; sourceTree = "<group>"; };
 		76CDBE771EDB297B005C9C56 /* String Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String Extensions.swift"; sourceTree = "<group>"; };
 		76DD71F81EC0601100AD3AEE /* BrowserObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserObject.swift; sourceTree = "<group>"; };
 		76DD71FA1EC0636A00AD3AEE /* BrowserCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserCategory.swift; sourceTree = "<group>"; };
 		76F638231E9E99E8001BBFB1 /* Artist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		76F638241E9E99E8001BBFB1 /* Genre.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
-		76F638251E9E99E8001BBFB1 /* Requests - Realm Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Requests - Realm Classes.swift"; sourceTree = "<group>"; };
 		76F638261E9E99E8001BBFB1 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		76F6382C1E9FD476001BBFB1 /* GenresTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenresTableViewController.swift; sourceTree = "<group>"; };
 		76F638301EA102B4001BBFB1 /* SongImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongImporter.swift; sourceTree = "<group>"; };
@@ -245,7 +245,7 @@
 				76BE13AD1EC09340007A7348 /* Decade.swift */,
 				76F638231E9E99E8001BBFB1 /* Artist.swift */,
 				76F638241E9E99E8001BBFB1 /* Genre.swift */,
-				76F638251E9E99E8001BBFB1 /* Requests - Realm Classes.swift */,
+				76CD8E841FF063DB00081206 /* Requests - Realm Classes.swift */,
 				762F59521EAFCA3A000FE032 /* YpbUser.swift */,
 				76DD71FA1EC0636A00AD3AEE /* BrowserCategory.swift */,
 				76DD71F81EC0601100AD3AEE /* BrowserObject.swift */,
@@ -565,12 +565,12 @@
 				764FF2B61ED9DB1C00F8A6FC /* BlogXML.swift in Sources */,
 				7607666B1EA3920F00348171 /* ArtistsTableViewController.swift in Sources */,
 				76F638381EA221AA001BBFB1 /* SongsTableViewController.swift in Sources */,
-				76F638291E9E99E8001BBFB1 /* Requests - Realm Classes.swift in Sources */,
 				769FFBF21EAA1AB800F5EB37 /* YPB.swift in Sources */,
 				769D2E151EACE6510069FB30 /* SignInTableViewController.swift in Sources */,
 				76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */,
 				76F6382A1E9E99E8001BBFB1 /* Song.swift in Sources */,
 				7618CC761EC4DEFD000CE532 /* CategoryViewController.swift in Sources */,
+				76CD8E851FF063DB00081206 /* Requests - Realm Classes.swift in Sources */,
 				762F59531EAFCA3A000FE032 /* YpbUser.swift in Sources */,
 				764FF2AF1ED9D76C00F8A6FC /* Utility Functions.swift in Sources */,
 			);

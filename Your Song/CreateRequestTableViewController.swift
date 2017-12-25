@@ -212,7 +212,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 
 	
 	@IBAction func addSampleRequest(_ sender: Any) {
-		if !YPB.addSampleRequest() {
+		if !Request.addSampleRequest() {
 			let alert = UIAlertController(title: "Can't add request", message: "realm = nil", preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 			present(alert, animated: true)
