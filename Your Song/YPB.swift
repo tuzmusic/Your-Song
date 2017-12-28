@@ -31,6 +31,7 @@ class YPB {
 		didSet {
 			if realm != nil {
 				manageContents(of: realm!)
+				NotificationCenter.default.post(name: NSNotification.Name("realm set"), object: nil)
 			}
 		}
 	}
@@ -40,7 +41,7 @@ class YPB {
 		// TO-DO: Check for current user, to allow for some offline-first stuff (see question in realm forum)
 		SyncUser.logIn(with: RealmConstants.userCred, server: RealmConstants.publicDNS) {
 			
-			// Log in the user. If not, use local Realm config. If unable, return nil.
+			// Log in the user. If not, use local Realm config.
 			user, error in
 			guard let user = user else {
 				print("SyncUser.logIn failed. \r Using Local Realm. \r Error:")
@@ -63,21 +64,19 @@ class YPB {
 					YPB.realmLocal = try! Realm()
 					YPB.realm = realmLocal
 				}
-				
-				NotificationCenter.default.post(name: NSNotification.Name("realm set"), object: nil)
 			}
 		}
     }
 	
 	class func manageContents(of realm: Realm) {
-		
+
 		if realm.objects(Song.self).isEmpty {
 			SongImporter().importSongsTo(realm: realm)
 			deleteDuplicateCategories(in: realm)
 		}
 		
 		if realm.objects(Request.self).isEmpty {
-			Request.createUsers(in: realm)
+			YpbUser.createUsers(in: realm)
 			realm.beginWrite()
 			for _ in 1...40 {
 				let req = Request.randomRequest(in: realm)
@@ -119,6 +118,10 @@ class YPB {
 		
 		static let userCred = SyncCredentials.usernamePassword(
 			username: "realm-admin", password: "")
+        static let tuzCred = SyncCredentials.usernamePassword(
+            username: "tuzmusic", password: "***REMOVED***")
+
+		// NOTE: I've also created a "tuzmusic" user with my standard PW, also an admin. See what happens with this...
 	}
 	
 	struct UserInfo {
