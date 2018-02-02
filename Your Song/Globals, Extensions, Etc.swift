@@ -12,11 +12,20 @@ import RealmSwift
 
 var globalConfig: Realm.Configuration!
 
-extension UITableViewController {
-	open override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-		tableView.contentInset = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
-	}
+struct RealmConstants {
+	static let ec2ip = "54.205.63.24"
+	static let ec2ipDash = ec2ip.replacingOccurrences(of: ".", with: "-")
+	static let amazonAddress = "ec2-\(ec2ipDash).compute-1.amazonaws.com:9080"
+	static let localHTTP = URL(string:"http://" + ec2ip)!
+	static let publicDNS = URL(string:"http://" + amazonAddress)!
+	static let realmAddress = URL(string:"realm://" + amazonAddress + "/YourPianoBar/JonathanTuzman/")!
+	
+	static let userCred = SyncCredentials.usernamePassword(
+		username: "realm-admin", password: "")
+	static let tuzCred = SyncCredentials.usernamePassword(
+		username: "tuzmusic", password: "***REMOVED***")
+	
+	// NOTE: I've also created a "tuzmusic" user with my standard PW, also an admin. See what happens with this...
 }
 
 func timeSince(time: Date) -> String {

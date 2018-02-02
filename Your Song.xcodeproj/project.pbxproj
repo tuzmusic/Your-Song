@@ -8,15 +8,37 @@
 
 /* Begin PBXBuildFile section */
 		4B4A55CFCE0A73D3D38AF1C2 /* Pods_Your_SongTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E070915432A6D5E53ABF6D0E /* Pods_Your_SongTests.framework */; };
+		521A5A271FF56FF10056A11D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A5A261FF56FF10056A11D /* Event.swift */; };
+		521A5A291FF570820056A11D /* RandomRequestCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A5A281FF570820056A11D /* RandomRequestCreator.swift */; };
+		521A5A2B1FF570C20056A11D /* YpbUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A5A2A1FF570C20056A11D /* YpbUser.swift */; };
+		521A5A2D1FF5719D0056A11D /* Utility Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A5A2C1FF5719D0056A11D /* Utility Functions.swift */; };
+		521A5A2F1FF57B890056A11D /* UI Design for CreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A5A2E1FF57B890056A11D /* UI Design for CreateRequest.swift */; };
 		7607666B1EA3920F00348171 /* ArtistsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7607666A1EA3920F00348171 /* ArtistsTableViewController.swift */; };
+		760AACCE2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760AACCD2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift */; };
 		7618CC701EC46C75000CE532 /* DecadesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618CC6F1EC46C75000CE532 /* DecadesTableViewController.swift */; };
 		7618CC761EC4DEFD000CE532 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618CC751EC4DEFD000CE532 /* CategoryViewController.swift */; };
 		762A6AE51EB5D19300C6A115 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762A6AE41EB5D19300C6A115 /* BrowserViewController.swift */; };
 		762A6AE71EB9CA5700C6A115 /* SortedName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762A6AE61EB9CA5700C6A115 /* SortedName.swift */; };
-		762F59531EAFCA3A000FE032 /* YpbUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762F59521EAFCA3A000FE032 /* YpbUser.swift */; };
 		764FF2AD1ED981E200F8A6FC /* song list.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 764FF2AC1ED981E200F8A6FC /* song list.tsv */; };
-		764FF2AF1ED9D76C00F8A6FC /* Utility Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764FF2AE1ED9D76C00F8A6FC /* Utility Functions.swift */; };
 		764FF2B61ED9DB1C00F8A6FC /* BlogXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764FF2B51ED9DB1C00F8A6FC /* BlogXML.swift */; };
+		765D4B412002FD31003DB0DF /* Oswald-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B3C2002FC99003DB0DF /* Oswald-Bold.ttf */; };
+		765D4B422002FD31003DB0DF /* Oswald-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B372002FC93003DB0DF /* Oswald-BoldItalic.ttf */; };
+		765D4B432002FD31003DB0DF /* Oswald-Demi-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B3A2002FC97003DB0DF /* Oswald-Demi-BoldItalic.ttf */; };
+		765D4B442002FD31003DB0DF /* Oswald-DemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B3B2002FC98003DB0DF /* Oswald-DemiBold.ttf */; };
+		765D4B452002FD31003DB0DF /* Oswald-Extra-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B362002FC92003DB0DF /* Oswald-Extra-LightItalic.ttf */; };
+		765D4B462002FD31003DB0DF /* Oswald-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B392002FC95003DB0DF /* Oswald-ExtraLight.ttf */; };
+		765D4B472002FD31003DB0DF /* Oswald-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B3D2002FC9A003DB0DF /* Oswald-Heavy.ttf */; };
+		765D4B482002FD31003DB0DF /* Oswald-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B322002FC8E003DB0DF /* Oswald-HeavyItalic.ttf */; };
+		765D4B492002FD31003DB0DF /* Oswald-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B352002FC91003DB0DF /* Oswald-Light.ttf */; };
+		765D4B4A2002FD31003DB0DF /* Oswald-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B312002FC8D003DB0DF /* Oswald-LightItalic.ttf */; };
+		765D4B4B2002FD31003DB0DF /* Oswald-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B382002FC94003DB0DF /* Oswald-Medium.ttf */; };
+		765D4B4C2002FD31003DB0DF /* Oswald-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B332002FC8F003DB0DF /* Oswald-MediumItalic.ttf */; };
+		765D4B4D2002FD31003DB0DF /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B3E2002FC9B003DB0DF /* Oswald-Regular.ttf */; };
+		765D4B4E2002FD31003DB0DF /* Oswald-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B302002FC8C003DB0DF /* Oswald-RegularItalic.ttf */; };
+		765D4B4F2002FD31003DB0DF /* Oswald-Stencil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 765D4B342002FC90003DB0DF /* Oswald-Stencil.ttf */; };
+		767551AA201CD4E600EEC9C8 /* Google SignIn from App Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767551A9201CD4E600EEC9C8 /* Google SignIn from App Delegate.swift */; };
+		767551AD201D013800EEC9C8 /* SongFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767551AC201D013800EEC9C8 /* SongFinder.swift */; };
+		767551AF201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767551AE201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift */; };
 		768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235AE1E856ECF006186D7 /* AppDelegate.swift */; };
 		768235B61E856ED0006186D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 768235B51E856ED0006186D7 /* Assets.xcassets */; };
 		768235B91E856ED0006186D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235B71E856ED0006186D7 /* LaunchScreen.storyboard */; };
@@ -25,12 +47,15 @@
 		768235E81E856FF7006186D7 /* CreateRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */; };
 		768235E91E856FF7006186D7 /* Globals, Extensions, Etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */; };
 		768235EE1E857044006186D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235ED1E857044006186D7 /* Main.storyboard */; };
-		769D2E151EACE6510069FB30 /* SignInTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769D2E141EACE6510069FB30 /* SignInTableViewController.swift */; };
+		769D2E151EACE6510069FB30 /* SignInTableViewControllerOLD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769D2E141EACE6510069FB30 /* SignInTableViewControllerOLD.swift */; };
 		769D2E171EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E161EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png */; };
 		769D2E191EAE20BC0069FB30 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E181EAE20BC0069FB30 /* GoogleService-Info.plist */; };
 		769D2E1B1EAE20CC0069FB30 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E1A1EAE20CC0069FB30 /* GoogleService-Info.plist */; };
+		769E28E92014F8ED0014D7F4 /* Font Extensions for Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769E28E82014F8ED0014D7F4 /* Font Extensions for Views.swift */; };
+		769E28EB2016CA9C0014D7F4 /* UIFont Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769E28EA2016CA9C0014D7F4 /* UIFont Extensions.swift */; };
 		769FFBF21EAA1AB800F5EB37 /* YPB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769FFBF11EAA1AB800F5EB37 /* YPB.swift */; };
 		76BE13AE1EC09340007A7348 /* Decade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE13AD1EC09340007A7348 /* Decade.swift */; };
+		76C9C25520239B0900CE127A /* SignInTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C9C25420239B0900CE127A /* SignInTableViewController.swift */; };
 		76CD8E851FF063DB00081206 /* Requests - Realm Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CD8E841FF063DB00081206 /* Requests - Realm Classes.swift */; };
 		76CDBE781EDB297B005C9C56 /* String Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CDBE771EDB297B005C9C56 /* String Extensions.swift */; };
 		76DD71F91EC0601100AD3AEE /* BrowserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DD71F81EC0601100AD3AEE /* BrowserObject.swift */; };
@@ -56,17 +81,39 @@
 
 /* Begin PBXFileReference section */
 		0ABF8950A55681E642CF9CD7 /* Pods_Your_Song.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Your_Song.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		521A5A261FF56FF10056A11D /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Event.swift; path = ../../YourPianoBarPianist/YourPianoBarPianist/Event.swift; sourceTree = "<group>"; };
+		521A5A281FF570820056A11D /* RandomRequestCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomRequestCreator.swift; path = ../../YourPianoBarPianist/YourPianoBarPianist/RandomRequestCreator.swift; sourceTree = "<group>"; };
+		521A5A2A1FF570C20056A11D /* YpbUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YpbUser.swift; path = ../../YourPianoBarPianist/YourPianoBarPianist/YpbUser.swift; sourceTree = "<group>"; };
+		521A5A2C1FF5719D0056A11D /* Utility Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Utility Functions.swift"; path = "../../YourPianoBarPianist/YourPianoBarPianist/Utility Functions.swift"; sourceTree = "<group>"; };
+		521A5A2E1FF57B890056A11D /* UI Design for CreateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI Design for CreateRequest.swift"; sourceTree = "<group>"; };
 		643AB7A2DF887E275FC98C39 /* Pods-Your Song.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Your Song.release.xcconfig"; path = "Pods/Target Support Files/Pods-Your Song/Pods-Your Song.release.xcconfig"; sourceTree = "<group>"; };
 		7607666A1EA3920F00348171 /* ArtistsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistsTableViewController.swift; sourceTree = "<group>"; };
+		760AACCD2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController Extension, changing fonts.swift"; sourceTree = "<group>"; };
 		7618CC6F1EC46C75000CE532 /* DecadesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecadesTableViewController.swift; sourceTree = "<group>"; };
 		7618CC751EC4DEFD000CE532 /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		762A6AE41EB5D19300C6A115 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		762A6AE61EB9CA5700C6A115 /* SortedName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedName.swift; sourceTree = "<group>"; };
-		762F59521EAFCA3A000FE032 /* YpbUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YpbUser.swift; sourceTree = "<group>"; };
 		76321C641EAEB101001C860C /* Your Song-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Your Song-Bridging-Header.h"; sourceTree = "<group>"; };
 		764FF2AC1ED981E200F8A6FC /* song list.tsv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "song list.tsv"; sourceTree = "<group>"; };
-		764FF2AE1ED9D76C00F8A6FC /* Utility Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Utility Functions.swift"; sourceTree = "<group>"; };
 		764FF2B51ED9DB1C00F8A6FC /* BlogXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlogXML.swift; sourceTree = "<group>"; };
+		765D4B302002FC8C003DB0DF /* Oswald-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-RegularItalic.ttf"; sourceTree = "<group>"; };
+		765D4B312002FC8D003DB0DF /* Oswald-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-LightItalic.ttf"; sourceTree = "<group>"; };
+		765D4B322002FC8E003DB0DF /* Oswald-HeavyItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-HeavyItalic.ttf"; sourceTree = "<group>"; };
+		765D4B332002FC8F003DB0DF /* Oswald-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-MediumItalic.ttf"; sourceTree = "<group>"; };
+		765D4B342002FC90003DB0DF /* Oswald-Stencil.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Stencil.ttf"; sourceTree = "<group>"; };
+		765D4B352002FC91003DB0DF /* Oswald-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Light.ttf"; sourceTree = "<group>"; };
+		765D4B362002FC92003DB0DF /* Oswald-Extra-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Extra-LightItalic.ttf"; sourceTree = "<group>"; };
+		765D4B372002FC93003DB0DF /* Oswald-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-BoldItalic.ttf"; sourceTree = "<group>"; };
+		765D4B382002FC94003DB0DF /* Oswald-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Medium.ttf"; sourceTree = "<group>"; };
+		765D4B392002FC95003DB0DF /* Oswald-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-ExtraLight.ttf"; sourceTree = "<group>"; };
+		765D4B3A2002FC97003DB0DF /* Oswald-Demi-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Demi-BoldItalic.ttf"; sourceTree = "<group>"; };
+		765D4B3B2002FC98003DB0DF /* Oswald-DemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-DemiBold.ttf"; sourceTree = "<group>"; };
+		765D4B3C2002FC99003DB0DF /* Oswald-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Bold.ttf"; sourceTree = "<group>"; };
+		765D4B3D2002FC9A003DB0DF /* Oswald-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Heavy.ttf"; sourceTree = "<group>"; };
+		765D4B3E2002FC9B003DB0DF /* Oswald-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Regular.ttf"; sourceTree = "<group>"; };
+		767551A9201CD4E600EEC9C8 /* Google SignIn from App Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Google SignIn from App Delegate.swift"; path = "../New Group/Google SignIn from App Delegate.swift"; sourceTree = "<group>"; };
+		767551AC201D013800EEC9C8 /* SongFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongFinder.swift; sourceTree = "<group>"; };
+		767551AE201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongFinderTestsTableViewController.swift; sourceTree = "<group>"; };
 		768235AB1E856ECF006186D7 /* Your Song.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Your Song.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		768235AE1E856ECF006186D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		768235B51E856ED0006186D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -79,10 +126,12 @@
 		768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateRequestTableViewController.swift; sourceTree = "<group>"; };
 		768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Globals, Extensions, Etc.swift"; sourceTree = "<group>"; };
 		768235ED1E857044006186D7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		769D2E141EACE6510069FB30 /* SignInTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInTableViewController.swift; sourceTree = "<group>"; };
+		769D2E141EACE6510069FB30 /* SignInTableViewControllerOLD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInTableViewControllerOLD.swift; sourceTree = "<group>"; };
 		769D2E161EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "!your-piano-bar-logo-tagline-final.png"; sourceTree = "<group>"; };
 		769D2E181EAE20BC0069FB30 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		769D2E1A1EAE20CC0069FB30 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		769E28E82014F8ED0014D7F4 /* Font Extensions for Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font Extensions for Views.swift"; sourceTree = "<group>"; };
+		769E28EA2016CA9C0014D7F4 /* UIFont Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont Extensions.swift"; sourceTree = "<group>"; };
 		769FFBF11EAA1AB800F5EB37 /* YPB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPB.swift; sourceTree = "<group>"; };
 		76ACB9A61E95465300923D6F /* BebasNeue Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Bold.ttf"; sourceTree = "<group>"; };
 		76ACB9A71E95465300923D6F /* BebasNeue Book.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Book.ttf"; sourceTree = "<group>"; };
@@ -91,6 +140,7 @@
 		76ACB9AA1E95465300923D6F /* BebasNeue Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Thin.ttf"; sourceTree = "<group>"; };
 		76ACB9AB1E95982A00923D6F /* Bebas.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bebas.TTF; sourceTree = "<group>"; };
 		76BE13AD1EC09340007A7348 /* Decade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decade.swift; sourceTree = "<group>"; };
+		76C9C25420239B0900CE127A /* SignInTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTableViewController.swift; sourceTree = "<group>"; };
 		76CD8E841FF063DB00081206 /* Requests - Realm Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Requests - Realm Classes.swift"; path = "../../YourPianoBarPianist/YourPianoBarPianist/Requests - Realm Classes.swift"; sourceTree = "<group>"; };
 		76CDBE771EDB297B005C9C56 /* String Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String Extensions.swift"; sourceTree = "<group>"; };
 		76DD71F81EC0601100AD3AEE /* BrowserObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserObject.swift; sourceTree = "<group>"; };
@@ -138,14 +188,68 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		760AACCC2017AE0100F1C97A /* UI Design */ = {
+			isa = PBXGroup;
+			children = (
+				521A5A2E1FF57B890056A11D /* UI Design for CreateRequest.swift */,
+				769E28E82014F8ED0014D7F4 /* Font Extensions for Views.swift */,
+				769E28EA2016CA9C0014D7F4 /* UIFont Extensions.swift */,
+				760AACCD2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift */,
+			);
+			name = "UI Design";
+			sourceTree = "<group>";
+		};
 		764FF2B01ED9DABE00F8A6FC /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				764FF2AE1ED9D76C00F8A6FC /* Utility Functions.swift */,
+				521A5A2C1FF5719D0056A11D /* Utility Functions.swift */,
 				764FF2B51ED9DB1C00F8A6FC /* BlogXML.swift */,
 				76CDBE771EDB297B005C9C56 /* String Extensions.swift */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		765D4B2F2002FC6E003DB0DF /* Bebas */ = {
+			isa = PBXGroup;
+			children = (
+				76ACB9AB1E95982A00923D6F /* Bebas.TTF */,
+				76ACB9A61E95465300923D6F /* BebasNeue Bold.ttf */,
+				76ACB9A71E95465300923D6F /* BebasNeue Book.ttf */,
+				76ACB9A81E95465300923D6F /* BebasNeue Light.ttf */,
+				76ACB9A91E95465300923D6F /* BebasNeue Regular.ttf */,
+				76ACB9AA1E95465300923D6F /* BebasNeue Thin.ttf */,
+			);
+			name = Bebas;
+			sourceTree = "<group>";
+		};
+		765D4B402002FCBC003DB0DF /* Oswald */ = {
+			isa = PBXGroup;
+			children = (
+				765D4B3C2002FC99003DB0DF /* Oswald-Bold.ttf */,
+				765D4B372002FC93003DB0DF /* Oswald-BoldItalic.ttf */,
+				765D4B3A2002FC97003DB0DF /* Oswald-Demi-BoldItalic.ttf */,
+				765D4B3B2002FC98003DB0DF /* Oswald-DemiBold.ttf */,
+				765D4B362002FC92003DB0DF /* Oswald-Extra-LightItalic.ttf */,
+				765D4B392002FC95003DB0DF /* Oswald-ExtraLight.ttf */,
+				765D4B3D2002FC9A003DB0DF /* Oswald-Heavy.ttf */,
+				765D4B322002FC8E003DB0DF /* Oswald-HeavyItalic.ttf */,
+				765D4B352002FC91003DB0DF /* Oswald-Light.ttf */,
+				765D4B312002FC8D003DB0DF /* Oswald-LightItalic.ttf */,
+				765D4B382002FC94003DB0DF /* Oswald-Medium.ttf */,
+				765D4B332002FC8F003DB0DF /* Oswald-MediumItalic.ttf */,
+				765D4B3E2002FC9B003DB0DF /* Oswald-Regular.ttf */,
+				765D4B302002FC8C003DB0DF /* Oswald-RegularItalic.ttf */,
+				765D4B342002FC90003DB0DF /* Oswald-Stencil.ttf */,
+			);
+			name = Oswald;
+			sourceTree = "<group>";
+		};
+		767551AB201CD51200EEC9C8 /* Backups */ = {
+			isa = PBXGroup;
+			children = (
+				767551A9201CD4E600EEC9C8 /* Google SignIn from App Delegate.swift */,
+			);
+			path = Backups;
 			sourceTree = "<group>";
 		};
 		768235A21E856ECF006186D7 = {
@@ -175,9 +279,13 @@
 				76D1A22E1EDED106002EE3E7 /* YPB Universal */,
 				768235DA1E856FAA006186D7 /* Browser */,
 				768235ED1E857044006186D7 /* Main.storyboard */,
-				769D2E141EACE6510069FB30 /* SignInTableViewController.swift */,
+				769D2E141EACE6510069FB30 /* SignInTableViewControllerOLD.swift */,
+				76C9C25420239B0900CE127A /* SignInTableViewController.swift */,
 				768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */,
 				768235AE1E856ECF006186D7 /* AppDelegate.swift */,
+				767551AC201D013800EEC9C8 /* SongFinder.swift */,
+				767551AE201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift */,
+				760AACCC2017AE0100F1C97A /* UI Design */,
 			);
 			path = "Your Song";
 			sourceTree = "<group>";
@@ -201,6 +309,7 @@
 				768235B51E856ED0006186D7 /* Assets.xcassets */,
 				768235B71E856ED0006186D7 /* LaunchScreen.storyboard */,
 				76321C641EAEB101001C860C /* Your Song-Bridging-Header.h */,
+				767551AB201CD51200EEC9C8 /* Backups */,
 			);
 			name = "Supporting Files";
 			path = "Your Song";
@@ -227,12 +336,8 @@
 		76ACB9A51E95464700923D6F /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				76ACB9AB1E95982A00923D6F /* Bebas.TTF */,
-				76ACB9A61E95465300923D6F /* BebasNeue Bold.ttf */,
-				76ACB9A71E95465300923D6F /* BebasNeue Book.ttf */,
-				76ACB9A81E95465300923D6F /* BebasNeue Light.ttf */,
-				76ACB9A91E95465300923D6F /* BebasNeue Regular.ttf */,
-				76ACB9AA1E95465300923D6F /* BebasNeue Thin.ttf */,
+				765D4B402002FCBC003DB0DF /* Oswald */,
+				765D4B2F2002FC6E003DB0DF /* Bebas */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -240,13 +345,15 @@
 		76ACB9AF1E9A552400923D6F /* Realm Object Classes */ = {
 			isa = PBXGroup;
 			children = (
+				521A5A261FF56FF10056A11D /* Event.swift */,
 				762A6AE61EB9CA5700C6A115 /* SortedName.swift */,
 				76F638261E9E99E8001BBFB1 /* Song.swift */,
 				76BE13AD1EC09340007A7348 /* Decade.swift */,
 				76F638231E9E99E8001BBFB1 /* Artist.swift */,
 				76F638241E9E99E8001BBFB1 /* Genre.swift */,
+				521A5A281FF570820056A11D /* RandomRequestCreator.swift */,
 				76CD8E841FF063DB00081206 /* Requests - Realm Classes.swift */,
-				762F59521EAFCA3A000FE032 /* YpbUser.swift */,
+				521A5A2A1FF570C20056A11D /* YpbUser.swift */,
 				76DD71FA1EC0636A00AD3AEE /* BrowserCategory.swift */,
 				76DD71F81EC0601100AD3AEE /* BrowserObject.swift */,
 			);
@@ -389,13 +496,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				765D4B4A2002FD31003DB0DF /* Oswald-LightItalic.ttf in Resources */,
 				769D2E171EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png in Resources */,
 				769D2E191EAE20BC0069FB30 /* GoogleService-Info.plist in Resources */,
+				765D4B452002FD31003DB0DF /* Oswald-Extra-LightItalic.ttf in Resources */,
 				764FF2AD1ED981E200F8A6FC /* song list.tsv in Resources */,
+				765D4B472002FD31003DB0DF /* Oswald-Heavy.ttf in Resources */,
+				765D4B4E2002FD31003DB0DF /* Oswald-RegularItalic.ttf in Resources */,
+				765D4B462002FD31003DB0DF /* Oswald-ExtraLight.ttf in Resources */,
+				765D4B482002FD31003DB0DF /* Oswald-HeavyItalic.ttf in Resources */,
+				765D4B4F2002FD31003DB0DF /* Oswald-Stencil.ttf in Resources */,
+				765D4B412002FD31003DB0DF /* Oswald-Bold.ttf in Resources */,
 				768235B91E856ED0006186D7 /* LaunchScreen.storyboard in Resources */,
+				765D4B4C2002FD31003DB0DF /* Oswald-MediumItalic.ttf in Resources */,
 				768235EE1E857044006186D7 /* Main.storyboard in Resources */,
+				765D4B432002FD31003DB0DF /* Oswald-Demi-BoldItalic.ttf in Resources */,
+				765D4B492002FD31003DB0DF /* Oswald-Light.ttf in Resources */,
 				768235B61E856ED0006186D7 /* Assets.xcassets in Resources */,
+				765D4B4D2002FD31003DB0DF /* Oswald-Regular.ttf in Resources */,
 				768235D91E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png in Resources */,
+				765D4B4B2002FD31003DB0DF /* Oswald-Medium.ttf in Resources */,
+				765D4B422002FD31003DB0DF /* Oswald-BoldItalic.ttf in Resources */,
+				765D4B442002FD31003DB0DF /* Oswald-DemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,20 +681,30 @@
 				76F638311EA102B4001BBFB1 /* SongImporter.swift in Sources */,
 				768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */,
 				76F6382D1E9FD476001BBFB1 /* GenresTableViewController.swift in Sources */,
+				769E28E92014F8ED0014D7F4 /* Font Extensions for Views.swift in Sources */,
 				76BE13AE1EC09340007A7348 /* Decade.swift in Sources */,
+				521A5A2B1FF570C20056A11D /* YpbUser.swift in Sources */,
 				7618CC701EC46C75000CE532 /* DecadesTableViewController.swift in Sources */,
 				76DD71F91EC0601100AD3AEE /* BrowserObject.swift in Sources */,
 				764FF2B61ED9DB1C00F8A6FC /* BlogXML.swift in Sources */,
 				7607666B1EA3920F00348171 /* ArtistsTableViewController.swift in Sources */,
 				76F638381EA221AA001BBFB1 /* SongsTableViewController.swift in Sources */,
 				769FFBF21EAA1AB800F5EB37 /* YPB.swift in Sources */,
-				769D2E151EACE6510069FB30 /* SignInTableViewController.swift in Sources */,
+				769D2E151EACE6510069FB30 /* SignInTableViewControllerOLD.swift in Sources */,
+				521A5A2F1FF57B890056A11D /* UI Design for CreateRequest.swift in Sources */,
 				76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */,
+				521A5A291FF570820056A11D /* RandomRequestCreator.swift in Sources */,
 				76F6382A1E9E99E8001BBFB1 /* Song.swift in Sources */,
+				521A5A2D1FF5719D0056A11D /* Utility Functions.swift in Sources */,
 				7618CC761EC4DEFD000CE532 /* CategoryViewController.swift in Sources */,
+				767551AD201D013800EEC9C8 /* SongFinder.swift in Sources */,
+				769E28EB2016CA9C0014D7F4 /* UIFont Extensions.swift in Sources */,
 				76CD8E851FF063DB00081206 /* Requests - Realm Classes.swift in Sources */,
-				762F59531EAFCA3A000FE032 /* YpbUser.swift in Sources */,
-				764FF2AF1ED9D76C00F8A6FC /* Utility Functions.swift in Sources */,
+				767551AA201CD4E600EEC9C8 /* Google SignIn from App Delegate.swift in Sources */,
+				760AACCE2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift in Sources */,
+				767551AF201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift in Sources */,
+				521A5A271FF56FF10056A11D /* Event.swift in Sources */,
+				76C9C25520239B0900CE127A /* SignInTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

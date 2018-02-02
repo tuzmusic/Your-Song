@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import Realm
 import UserNotifications
 
 class YPB {
@@ -38,6 +39,10 @@ class YPB {
 
 	class func setupRealm() {
 		
+        if let user = SyncUser.current {
+            
+        }
+        
 		// TO-DO: Check for current user, to allow for some offline-first stuff (see question in realm forum)
 		SyncUser.logIn(with: RealmConstants.userCred, server: RealmConstants.publicDNS) {
 			
@@ -108,21 +113,7 @@ class YPB {
 		
 	}
 	
-	struct RealmConstants {
-		static let ec2ip = "54.205.63.24"
-		static let ec2ipDash = ec2ip.replacingOccurrences(of: ".", with: "-")
-		static let amazonAddress = "ec2-\(ec2ipDash).compute-1.amazonaws.com:9080"
-		static let localHTTP = URL(string:"http://" + ec2ip)!
-		static let publicDNS = URL(string:"http://" + amazonAddress)!
-		static let realmAddress = URL(string:"realm://" + amazonAddress + "/YourPianoBar/JonathanTuzman/")!
-		
-		static let userCred = SyncCredentials.usernamePassword(
-			username: "realm-admin", password: "")
-        static let tuzCred = SyncCredentials.usernamePassword(
-            username: "tuzmusic", password: "***REMOVED***")
-
-		// NOTE: I've also created a "tuzmusic" user with my standard PW, also an admin. See what happens with this...
-	}
+	
 	
 	struct UserInfo {
 		var firstName = ""

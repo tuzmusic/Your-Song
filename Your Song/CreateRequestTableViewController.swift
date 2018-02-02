@@ -18,10 +18,9 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	
 	var realm: Realm? {
 		get {
-			return YPB.realmSynced
-			
+			return YPB.realmSynced			
 		} set {
-				YPB.realmSynced = newValue
+			YPB.realmSynced = newValue
 		}
 	}
 	
@@ -74,7 +73,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 
 	// MARK: Controller - loading the request/populating textViews
 		
-	override func viewWillAppear(_ animated: Bool) {
+	fileprivate func populateRequestFields() {
 		if let request = self.request {		// If we're entering the view from the song picker, and there's already a request started
 			textViewInfo.keys.forEach {
 				$0.text = request.value(forKey: textViewInfo[$0]!.keyPath) as! String
@@ -98,8 +97,13 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		}
 	}
 	
-	// MARK: Text field/view outlets and delegate methods
+	override func viewWillAppear(_ animated: Bool) {
+		populateRequestFields()
+	}
 	
+	// MARK: Text field/view outlets and delegate methods
+
+	// TO-DO: I'm doing a lot of "active" placeholdering. There's probably a way to clear a text field/view to get the placeholder back.
 	var textViewInfo: [UITextView : (placeholder: String, keyPath: String)] {
 		return [nameTextView : (TextViewStrings.placeholders.user, "userString"),
 			   songTextView : (TextViewStrings.placeholders.song, "songString"),
@@ -132,40 +136,6 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 			}
 		}
 	}
-	
-	// Design for headers
-	/*
-	override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-	// Set text for section header
-	var string = ""
-	switch section {
-	case 0: string = " Your Name"
-	case 1: string = " Your Song"
-	case 2: string = " Your Notes/Dedication"
-	default: break
-	}
-	
-	// Create view and format text
-	let label = UILabel()
-	let fullRange = NSRange(location: 0, length: string.characters.count)
-	let header = NSMutableAttributedString(string: string)
-	
-	let boldTrait = [UIFontWeightTrait : UIFontWeightBold]
-	let descriptors = UIFontDescriptor(fontAttributes:
-	[UIFontDescriptorNameAttribute : "BebasNeue",
-	UIFontDescriptorTraitsAttribute : boldTrait ])
-	let font = UIFont(descriptor: descriptors, size: 18)
-	
-	//header.addAttribute(NSFontAttributeName, value: UIFont(name: "BebasNeue", size: 18)!, range: fullRange)
-	header.addAttribute(NSFontAttributeName, value:font, range: fullRange)
-	header.addAttribute(NSKernAttributeName, value: 2, range: fullRange)
-	header.addAttribute(NSForegroundColorAttributeName, value: ypbOrange, range: fullRange)
-	//header.addAttribute(NSBackgroundColorAttributeName, value: ypbBlack, range: fullRange)
-	
-	label.attributedText = header
-	return label
-	}
-	*/
 	
 	// MARK: Submitting the request
 	
@@ -209,11 +179,10 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		spinner.stopAnimating()
 		spinner.removeFromSuperview()
 	}
-
 	
 	@IBAction func addSampleRequest(_ sender: Any) {
 		if !Request.addSampleRequest() {
-			let alert = UIAlertController(title: "Can't add request", message: "realm = nil", preferredStyle: .alert)
+			let alert = UIAlertController(title: "Can't add request", message: nil, preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 			present(alert, animated: true)
 		}
@@ -237,13 +206,5 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 		alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in self.clearRequest() })
 		present(alert, animated: true, completion: nil)
 	}
-	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-	/*
-		// This applies to the Tab Bar Controller!
-		if segue.identifier == "Browse Songs Segue" {
-			segue.destination.title = "All Songs"
-		}
-		*/
-	}
+		
 }

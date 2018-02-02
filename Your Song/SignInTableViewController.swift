@@ -2,78 +2,79 @@
 //  SignInTableViewController.swift
 //  Your Song
 //
-//  Created by Jonathan Tuzman on 4/23/17.
-//  Copyright © 2017 Jonathan Tuzman. All rights reserved.
+//  Created by Jonathan Tuzman on 2/1/18.
+//  Copyright © 2018 Jonathan Tuzman. All rights reserved.
 //
 
 import UIKit
-//import GoogleSignIn
+import Realm
+import RealmSwift
 
-class SignInTableViewController: UITableViewController//, GIDSignInUIDelegate
-{
-
-	// MARK: Outlets and variables
+class SignInTableViewController: UITableViewController {
 	
-	var spinner: UIActivityIndicatorView!
-
+	@IBOutlet weak var userNameField: UITextField!
+	@IBOutlet weak var passwordField: UITextField!
 	
-	@IBOutlet weak var contentViewForGoogleButton: UIView!
-
-	override func viewDidLoad() {
-		
-		super.viewDidLoad()
-		spinner = view.addNewSpinner()
-		spinner.stopAnimating()
-
-//		addGoogleLoginButton()
-//		GIDSignIn.sharedInstance().uiDelegate = self
-
-		// Uncomment to automatically sign in the user.
-		/* GIDSignIn.sharedInstance().signInSilently()
-		
-		// TODO(developer) Configure the sign-in button look/feel
-		// ...
-		*/
-		
-	}
-	/* GOOGLE STUFF
-	let googleLoginButton = GIDSignInButton()
-	
-	func addGoogleLoginButton() {
-		googleLoginButton.center = contentViewForGoogleButton.center
-		//googleLoginButton.bounds.size = CGSize(width: facebookLoginButton.bounds.width + 8, height: googleLoginButton.bounds.height)
-		
-		contentViewForGoogleButton.addSubview(googleLoginButton)
-	}
-	
-
-	// MARK: Google Login Handler
-	func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
-		pr("GIDSignInUIDelegate signed-in method")
-
-		// If not already signed in, present sign-in results
-		guard GIDSignIn.sharedInstance().currentUser != nil else {
-			let alert = UIAlertController(title: "Google Login Failed", message: "Not signed in", preferredStyle: .alert)
-			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil ))
-			present(alert, animated: true, completion: nil)
-			spinner.stopAnimating()
-			return
+	var realm: Realm? {
+		didSet {
+			pr("Realm is set. \(self.realm!.objects(Song.self).count) Songs.")
 		}
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		if let user = SyncUser.current {
+			pr("Current user!")
+			openRealmWithUser(user: user)
+		}
+	}
+	
+	@IBAction func loginButtonTapped(_ sender: Any) {
 		
-		performSegue(withIdentifier: Storyboard.LoginSegue, sender: nil)
-	}
-	@IBAction func signIn(_ sender: Any) {
-	pr("signIn")
-	spinner.startAnimating()
-	}
-	
-	@IBAction func googleSignOut(_ sender: Any) {
-	GIDSignIn.sharedInstance().signOut()
-	}
-*/
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		spinner.stopAnimating()
+		// add protection for if someone is already logged in
+		
+		if let username = userNameField.text where !username.isEmpty, let password = passwordField.text where !password.isEmpty {
+			realmLogin(username: username, password: password, register: false)
+		}
 	}
 	
+	@IBAction func registerButtonTapped(_ sender: Any) {
+		if let username = userNameField.text, let password = passwordField.text {
+			realmLogin(username: username, password: password, register: true)
+		}
+	}
 	
+	func openRealmWithUser(user: SyncUser) {
+		DispatchQueue.main.async {
+			// Open the online Realm
+			let syncConfig = SyncConfiguration(user: user, realmURL: RealmConstants.realmAddress)
+			let realmConfig = Realm.Configuration(syncConfiguration: syncConfig)
+			
+			do {
+				self.realm = try Realm(configuration: realmConfig)
+			} catch {
+				print(error)
+			}
+		}
+	}
+	
+	func realmLogin(username: String, password: String, register: Bool) {
+		
+		let cred = SyncCredentials.usernamePassword(username: username, password: password, register: register)
+		
+		SyncUser.logIn(with: cred, server: RealmConstants.publicDNS) {
+			(user, error) in
+			guard let user = user else {
+				print("Error: \(error!)")
+				return
+			}
+			self.openRealmWithUser(user: user)
+		}
+	}
+	
+	
+	@IBAction func logOutAll(_ sender: Any) {
+		for user in SyncUser.all {
+			user.value.logOut()
+		}
+	}
 }
