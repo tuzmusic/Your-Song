@@ -52,6 +52,7 @@ struct Storyboard {
 	static let SelectSongSegue = "Select Song Segue"
 	static let AllSongsSegue = "All Songs Segue"
 	static let LoginSegue = "Log In Segue"
+	static let LoginToNewRequestSegue = "Login to New Request Segue"
 }
 
 

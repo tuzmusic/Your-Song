@@ -8,27 +8,26 @@
 
 import UIKit
 import RealmSwift
-//import GoogleSignIn
+import GoogleSignIn
 //import GGLCore
 //import FBSDKCoreKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate//, GIDSignInDelegate
+class AppDelegate: UIResponder, UIApplicationDelegate
 {
 	
 	var window: UIWindow?
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        //print("Documents folder: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])")
-		//googleSignIn()
-        //YPB.setupRealm()
-		//customizeFonts()
+		
+		GIDSignIn.sharedInstance().clientID = "111693765997-vbcs27e46c6fdh6osh4494dvjfsacmut.apps.googleusercontent.com"
+		GIDSignIn.sharedInstance().delegate = self
+		
 		return true
 	}
 	
-	func customizeFonts() {
-		UILabel.appearance().font = UIFont(name: "Oswald-Regular", size: UIFont.labelFontSize)
-	}
+	
+	
 }
 
 

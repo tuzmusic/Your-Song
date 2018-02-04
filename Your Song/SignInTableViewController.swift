@@ -9,11 +9,25 @@
 import UIKit
 import Realm
 import RealmSwift
+import GoogleSignIn
 
-class SignInTableViewController: UITableViewController {
+class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	
 	@IBOutlet weak var userNameField: UITextField!
 	@IBOutlet weak var passwordField: UITextField!
+	@IBOutlet var realmLoginButtons: [UIButton]!
+	
+	fileprivate func toggleRealmLoggedOut() {
+		realmLoginButtons[0].isEnabled = true
+		realmLoginButtons[1].isEnabled = true
+		realmLoginButtons[2].isEnabled = false
+	}
+	
+	fileprivate func toggleRealmLoggedIn() {
+		realmLoginButtons[0].isEnabled = false
+		realmLoginButtons[1].isEnabled = false
+		realmLoginButtons[2].isEnabled = true
+	}
 	
 	var realm: Realm? {
 		didSet {
@@ -21,25 +35,75 @@ class SignInTableViewController: UITableViewController {
 		}
 	}
 	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		GIDSignIn.sharedInstance().uiDelegate = self
+		
+		// Uncomment to automatically sign in the user.
+		// GIDSignIn.sharedInstance().signInSilently()
+	}
+	
 	override func viewDidAppear(_ animated: Bool) {
 		if let user = SyncUser.current {
-			pr("Current user!")
+			toggleRealmLoggedIn()
+			pr("Current user! \(user)")
 			openRealmWithUser(user: user)
+		} else {
+			toggleRealmLoggedOut()
 		}
 	}
 	
-	@IBAction func loginButtonTapped(_ sender: Any) {
+	// MARK: Google sign-in
+	
+	func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
+		// If not already signed in, present sign-in results
+		guard let googleUser = GIDSignIn.sharedInstance().currentUser else {
+			pr("Error: \(error)"); return
+		}
 		
-		// add protection for if someone is already logged in
+		let cred = SyncCredentials.google(token: googleUser.authentication.idToken)
+		realmLogin(cred: cred)
 		
-		if let username = userNameField.text where !username.isEmpty, let password = passwordField.text where !password.isEmpty {
-			realmLogin(username: username, password: password, register: false)
+	}
+	
+	// MARK: Realm sign-in
+	
+	@IBAction func loginButtonTapped(_ sender: UIButton) {
+		
+		let creds = ["realm-admin":"", "tuzmusic":"***REMOVED***", "testUser1":"1234"]
+		
+		if SyncUser.current == nil {
+			
+			if let username = sender.titleLabel?.text, let password = creds[username] {
+				let cred = SyncCredentials.usernamePassword(username: username, password: password)
+				realmLogin(cred: cred)
+			}
+			
+			else if let username = userNameField.text, let password = passwordField.text {
+				let cred = SyncCredentials.usernamePassword(username: username, password: password)
+				realmLogin(cred: cred)
+			}
 		}
 	}
 	
 	@IBAction func registerButtonTapped(_ sender: Any) {
-		if let username = userNameField.text, let password = passwordField.text {
-			realmLogin(username: username, password: password, register: true)
+		if SyncUser.current == nil {
+			if let username = userNameField.text, let password = passwordField.text {
+				let cred = SyncCredentials.usernamePassword(username: username, password: password, register: true)
+				realmLogin(cred: cred)
+			}
+		}
+	}
+	
+	func realmLogin(cred: SyncCredentials) {		
+		SyncUser.logIn(with: cred, server: RealmConstants.publicDNS) {
+			(user, error) in
+			guard let user = user else {
+				pr("SyncUser.login Error: \(error!)"); return
+			}
+			self.toggleRealmLoggedIn()
+			pr("Realm user logged in: \(cred)")
+			self.openRealmWithUser(user: user)
 		}
 	}
 	
@@ -51,30 +115,19 @@ class SignInTableViewController: UITableViewController {
 			
 			do {
 				self.realm = try Realm(configuration: realmConfig)
+				// self.performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
 			} catch {
-				print(error)
+				print("Open realm: \(error)")
 			}
 		}
 	}
-	
-	func realmLogin(username: String, password: String, register: Bool) {
-		
-		let cred = SyncCredentials.usernamePassword(username: username, password: password, register: register)
-		
-		SyncUser.logIn(with: cred, server: RealmConstants.publicDNS) {
-			(user, error) in
-			guard let user = user else {
-				print("Error: \(error!)")
-				return
-			}
-			self.openRealmWithUser(user: user)
-		}
-	}
-	
 	
 	@IBAction func logOutAll(_ sender: Any) {
 		for user in SyncUser.all {
 			user.value.logOut()
+			toggleRealmLoggedOut()
 		}
 	}
+	
+	
 }

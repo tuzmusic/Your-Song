@@ -17,6 +17,7 @@
 		760AACCE2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760AACCD2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift */; };
 		7618CC701EC46C75000CE532 /* DecadesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618CC6F1EC46C75000CE532 /* DecadesTableViewController.swift */; };
 		7618CC761EC4DEFD000CE532 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618CC751EC4DEFD000CE532 /* CategoryViewController.swift */; };
+		762183C5202792D800592148 /* SignIn Utility Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762183C4202792D800592148 /* SignIn Utility Extensions.swift */; };
 		762A6AE51EB5D19300C6A115 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762A6AE41EB5D19300C6A115 /* BrowserViewController.swift */; };
 		762A6AE71EB9CA5700C6A115 /* SortedName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762A6AE61EB9CA5700C6A115 /* SortedName.swift */; };
 		764FF2AD1ED981E200F8A6FC /* song list.tsv in Resources */ = {isa = PBXBuildFile; fileRef = 764FF2AC1ED981E200F8A6FC /* song list.tsv */; };
@@ -60,6 +61,7 @@
 		76CDBE781EDB297B005C9C56 /* String Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CDBE771EDB297B005C9C56 /* String Extensions.swift */; };
 		76DD71F91EC0601100AD3AEE /* BrowserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DD71F81EC0601100AD3AEE /* BrowserObject.swift */; };
 		76DD71FB1EC0636A00AD3AEE /* BrowserCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DD71FA1EC0636A00AD3AEE /* BrowserCategory.swift */; };
+		76E6FDD32024C96700FA1B8C /* AppDelegate GoogleSignIn extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E6FDD22024C96700FA1B8C /* AppDelegate GoogleSignIn extension.swift */; };
 		76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638231E9E99E8001BBFB1 /* Artist.swift */; };
 		76F638281E9E99E8001BBFB1 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638241E9E99E8001BBFB1 /* Genre.swift */; };
 		76F6382A1E9E99E8001BBFB1 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638261E9E99E8001BBFB1 /* Song.swift */; };
@@ -91,6 +93,7 @@
 		760AACCD2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController Extension, changing fonts.swift"; sourceTree = "<group>"; };
 		7618CC6F1EC46C75000CE532 /* DecadesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecadesTableViewController.swift; sourceTree = "<group>"; };
 		7618CC751EC4DEFD000CE532 /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		762183C4202792D800592148 /* SignIn Utility Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignIn Utility Extensions.swift"; sourceTree = "<group>"; };
 		762A6AE41EB5D19300C6A115 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		762A6AE61EB9CA5700C6A115 /* SortedName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedName.swift; sourceTree = "<group>"; };
 		76321C641EAEB101001C860C /* Your Song-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Your Song-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -145,6 +148,7 @@
 		76CDBE771EDB297B005C9C56 /* String Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String Extensions.swift"; sourceTree = "<group>"; };
 		76DD71F81EC0601100AD3AEE /* BrowserObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserObject.swift; sourceTree = "<group>"; };
 		76DD71FA1EC0636A00AD3AEE /* BrowserCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserCategory.swift; sourceTree = "<group>"; };
+		76E6FDD22024C96700FA1B8C /* AppDelegate GoogleSignIn extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate GoogleSignIn extension.swift"; sourceTree = "<group>"; };
 		76F638231E9E99E8001BBFB1 /* Artist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		76F638241E9E99E8001BBFB1 /* Genre.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		76F638261E9E99E8001BBFB1 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
@@ -281,8 +285,10 @@
 				768235ED1E857044006186D7 /* Main.storyboard */,
 				769D2E141EACE6510069FB30 /* SignInTableViewControllerOLD.swift */,
 				76C9C25420239B0900CE127A /* SignInTableViewController.swift */,
+				762183C4202792D800592148 /* SignIn Utility Extensions.swift */,
 				768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */,
 				768235AE1E856ECF006186D7 /* AppDelegate.swift */,
+				76E6FDD22024C96700FA1B8C /* AppDelegate GoogleSignIn extension.swift */,
 				767551AC201D013800EEC9C8 /* SongFinder.swift */,
 				767551AE201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift */,
 				760AACCC2017AE0100F1C97A /* UI Design */,
@@ -689,8 +695,10 @@
 				764FF2B61ED9DB1C00F8A6FC /* BlogXML.swift in Sources */,
 				7607666B1EA3920F00348171 /* ArtistsTableViewController.swift in Sources */,
 				76F638381EA221AA001BBFB1 /* SongsTableViewController.swift in Sources */,
+				762183C5202792D800592148 /* SignIn Utility Extensions.swift in Sources */,
 				769FFBF21EAA1AB800F5EB37 /* YPB.swift in Sources */,
 				769D2E151EACE6510069FB30 /* SignInTableViewControllerOLD.swift in Sources */,
+				76E6FDD32024C96700FA1B8C /* AppDelegate GoogleSignIn extension.swift in Sources */,
 				521A5A2F1FF57B890056A11D /* UI Design for CreateRequest.swift in Sources */,
 				76F638271E9E99E8001BBFB1 /* Artist.swift in Sources */,
 				521A5A291FF570820056A11D /* RandomRequestCreator.swift in Sources */,
