@@ -17,18 +17,6 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	@IBOutlet weak var passwordField: UITextField!
 	@IBOutlet var realmLoginButtons: [UIButton]!
 	
-	fileprivate func toggleRealmLoggedOut() {
-		realmLoginButtons[0].isEnabled = true
-		realmLoginButtons[1].isEnabled = true
-		realmLoginButtons[2].isEnabled = false
-	}
-	
-	fileprivate func toggleRealmLoggedIn() {
-		realmLoginButtons[0].isEnabled = false
-		realmLoginButtons[1].isEnabled = false
-		realmLoginButtons[2].isEnabled = true
-	}
-	
 	var realm: Realm? {
 		didSet {
 			pr("Realm is set. \(self.realm!.objects(Song.self).count) Songs.")
@@ -53,6 +41,19 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		}
 	}
 	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let id = segue.identifier {
+			switch id {
+			case "Register Segue":
+				if let vc = segue.destination as? RegisterTableViewController {
+					vc.email = userNameField.text
+					vc.password = passwordField.text
+				}
+			default: break
+			}
+		}
+	}
+	
 	// MARK: Google sign-in
 	
 	func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
@@ -66,20 +67,12 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		
 	}
 	
-	// MARK: Realm sign-in
+	// MARK: Realm-cred sign-in
 	
 	@IBAction func loginButtonTapped(_ sender: UIButton) {
 		
-		let creds = ["realm-admin":"", "tuzmusic":"***REMOVED***", "testUser1":"1234"]
-		
 		if SyncUser.current == nil {
-			
-			if let username = sender.titleLabel?.text, let password = creds[username] {
-				let cred = SyncCredentials.usernamePassword(username: username, password: password)
-				realmLogin(cred: cred)
-			}
-			
-			else if let username = userNameField.text, let password = passwordField.text {
+			if let username = userNameField.text, let password = passwordField.text {
 				let cred = SyncCredentials.usernamePassword(username: username, password: password)
 				realmLogin(cred: cred)
 			}
@@ -87,13 +80,28 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	}
 	
 	@IBAction func registerButtonTapped(_ sender: Any) {
-		if SyncUser.current == nil {
-			if let username = userNameField.text, let password = passwordField.text {
-				let cred = SyncCredentials.usernamePassword(username: username, password: password, register: true)
+	/*	if SyncUser.current == nil {
+			if let email = userNameField.text, let password = passwordField.text {
+				guard email.isValidEmailAddress() else {
+					presentInvalidEmailAlert()
+					return
+				}
+				let cred = SyncCredentials.usernamePassword(username: email, password: password, register: true)
 				realmLogin(cred: cred)
 			}
 		}
+		*/
 	}
+	
+	@IBAction func loginSampleUser(_ sender: UIButton) {
+		let creds = ["realm-admin":"", "tuzmusic":"***REMOVED***", "testUser1":"1234"]
+		if let username = sender.titleLabel?.text, let password = creds[username] {
+			let cred = SyncCredentials.usernamePassword(username: username, password: password)
+			realmLogin(cred: cred)
+		}
+	}
+	
+	// YPB Realm login
 	
 	func realmLogin(cred: SyncCredentials) {		
 		SyncUser.logIn(with: cred, server: RealmConstants.publicDNS) {
@@ -102,7 +110,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 				pr("SyncUser.login Error: \(error!)"); return
 			}
 			self.toggleRealmLoggedIn()
-			pr("Realm user logged in: \(cred)")
+			pr("SyncUser logged in: \(cred)")
 			self.openRealmWithUser(user: user)
 		}
 	}
@@ -129,5 +137,23 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		}
 	}
 	
+	// MARK: Utility functions
 	
+	fileprivate func toggleRealmLoggedOut() {
+		realmLoginButtons[0].isEnabled = true
+		realmLoginButtons[1].isEnabled = true
+		realmLoginButtons[2].isEnabled = false
+	}
+	
+	fileprivate func toggleRealmLoggedIn() {
+		realmLoginButtons[0].isEnabled = false
+		realmLoginButtons[1].isEnabled = false
+		realmLoginButtons[2].isEnabled = true
+	}
+	
+	func presentInvalidEmailAlert () {
+		let alert = UIAlertController(title: "Invalid email", message: "Please enter a valid email address.", preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+		present(alert, animated: true, completion: nil)
+	}	
 }

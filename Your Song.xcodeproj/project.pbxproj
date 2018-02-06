@@ -68,6 +68,7 @@
 		76F6382D1E9FD476001BBFB1 /* GenresTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6382C1E9FD476001BBFB1 /* GenresTableViewController.swift */; };
 		76F638311EA102B4001BBFB1 /* SongImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638301EA102B4001BBFB1 /* SongImporter.swift */; };
 		76F638381EA221AA001BBFB1 /* SongsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F638371EA221AA001BBFB1 /* SongsTableViewController.swift */; };
+		76F6EB29202A05D1003D9731 /* RegisterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F6EB28202A05D1003D9731 /* RegisterTableViewController.swift */; };
 		E7A9ADEDE4698EC8280B0112 /* Pods_Your_Song.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ABF8950A55681E642CF9CD7 /* Pods_Your_Song.framework */; };
 /* End PBXBuildFile section */
 
@@ -155,6 +156,7 @@
 		76F6382C1E9FD476001BBFB1 /* GenresTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenresTableViewController.swift; sourceTree = "<group>"; };
 		76F638301EA102B4001BBFB1 /* SongImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongImporter.swift; sourceTree = "<group>"; };
 		76F638371EA221AA001BBFB1 /* SongsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongsTableViewController.swift; sourceTree = "<group>"; };
+		76F6EB28202A05D1003D9731 /* RegisterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTableViewController.swift; sourceTree = "<group>"; };
 		936553EFC12639F0F34BEB95 /* Pods-Your SongTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Your SongTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Your SongTests/Pods-Your SongTests.release.xcconfig"; sourceTree = "<group>"; };
 		A2D710B998525B1ABFB931E6 /* Pods-Your SongTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Your SongTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Your SongTests/Pods-Your SongTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E070915432A6D5E53ABF6D0E /* Pods_Your_SongTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Your_SongTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +288,7 @@
 				769D2E141EACE6510069FB30 /* SignInTableViewControllerOLD.swift */,
 				76C9C25420239B0900CE127A /* SignInTableViewController.swift */,
 				762183C4202792D800592148 /* SignIn Utility Extensions.swift */,
+				76F6EB28202A05D1003D9731 /* RegisterTableViewController.swift */,
 				768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */,
 				768235AE1E856ECF006186D7 /* AppDelegate.swift */,
 				76E6FDD22024C96700FA1B8C /* AppDelegate GoogleSignIn extension.swift */,
@@ -683,6 +686,7 @@
 				768235E81E856FF7006186D7 /* CreateRequestTableViewController.swift in Sources */,
 				762A6AE71EB9CA5700C6A115 /* SortedName.swift in Sources */,
 				76CDBE781EDB297B005C9C56 /* String Extensions.swift in Sources */,
+				76F6EB29202A05D1003D9731 /* RegisterTableViewController.swift in Sources */,
 				76F638281E9E99E8001BBFB1 /* Genre.swift in Sources */,
 				76F638311EA102B4001BBFB1 /* SongImporter.swift in Sources */,
 				768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */,

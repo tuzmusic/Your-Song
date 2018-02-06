@@ -98,11 +98,38 @@ extension String {
 			return self.lowercased() + "s"
 		}
 	}
+
+	func isValidEmailAddress(alert: Bool = true) -> Bool {
+		
+		var isValid = true
+		let emailRegEx = "[A-Z0-9a-z.-_]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,3}"
+		
+		do {
+			let regex = try NSRegularExpression(pattern: emailRegEx)
+			let nsString = self as NSString
+			let results = regex.matches(in: self, range: NSRange(location: 0, length: nsString.length))
+			
+			if results.count == 0 {
+				isValid = false
+			}
+		} catch let error as NSError {
+			print("invalid regex: \(error.localizedDescription)")
+			isValid = false
+		}
+		
+		return isValid
+	}
 }
 
-// This isn't working, but, one day, maybe, whatever.
-protocol CategoryBrowser {
-	func viewDidLoad()
+extension UIAlertController {
+	class func basic(title: String?, message: String?) -> UIAlertController {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+		let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		alert.addAction(ok)
+		alert.addAction(cancel)
+		return alert
+	}
 }
 
 /* NOTES
