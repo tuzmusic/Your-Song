@@ -290,11 +290,11 @@
 				762183C4202792D800592148 /* SignIn Utility Extensions.swift */,
 				76F6EB28202A05D1003D9731 /* RegisterTableViewController.swift */,
 				768235E51E856FF7006186D7 /* CreateRequestTableViewController.swift */,
+				760AACCC2017AE0100F1C97A /* UI Design */,
 				768235AE1E856ECF006186D7 /* AppDelegate.swift */,
 				76E6FDD22024C96700FA1B8C /* AppDelegate GoogleSignIn extension.swift */,
 				767551AC201D013800EEC9C8 /* SongFinder.swift */,
 				767551AE201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift */,
-				760AACCC2017AE0100F1C97A /* UI Design */,
 			);
 			path = "Your Song";
 			sourceTree = "<group>";

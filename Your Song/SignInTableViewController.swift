@@ -19,26 +19,26 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	
 	var realm: Realm? {
 		didSet {
-			pr("Realm is set. \(self.realm!.objects(Song.self).count) Songs.")
+			toggleRealmButtons(signedIn: (realm == nil ? false : true))
+			if realm != nil {
+				print("Realm opened. \(self.realm!.objects(Song.self).count) Songs.")
+				self.performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
+			}
 		}
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
 		GIDSignIn.sharedInstance().uiDelegate = self
 		
-		// Uncomment to automatically sign in the user.
-		// GIDSignIn.sharedInstance().signInSilently()
-	}
-	
-	override func viewDidAppear(_ animated: Bool) {
 		if let user = SyncUser.current {
-			toggleRealmLoggedIn()
-			pr("Current user! \(user)")
 			openRealmWithUser(user: user)
 		} else {
-			toggleRealmLoggedOut()
+			toggleRealmButtons(signedIn: false)
 		}
+		// Uncomment to automatically sign in the user.
+		// GIDSignIn.sharedInstance().signInSilently()
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -48,6 +48,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 				if let vc = segue.destination as? RegisterTableViewController {
 					vc.email = userNameField.text
 					vc.password = passwordField.text
+					vc.delegate = self
 				}
 			default: break
 			}
@@ -63,7 +64,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		}
 		
 		let cred = SyncCredentials.google(token: googleUser.authentication.idToken)
-		realmLogin(cred: cred)
+		realmCredLogin(cred: cred)
 		
 	}
 	
@@ -74,43 +75,29 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		if SyncUser.current == nil {
 			if let username = userNameField.text, let password = passwordField.text {
 				let cred = SyncCredentials.usernamePassword(username: username, password: password)
-				realmLogin(cred: cred)
+				realmCredLogin(cred: cred)
 			}
 		}
-	}
-	
-	@IBAction func registerButtonTapped(_ sender: Any) {
-	/*	if SyncUser.current == nil {
-			if let email = userNameField.text, let password = passwordField.text {
-				guard email.isValidEmailAddress() else {
-					presentInvalidEmailAlert()
-					return
-				}
-				let cred = SyncCredentials.usernamePassword(username: email, password: password, register: true)
-				realmLogin(cred: cred)
-			}
-		}
-		*/
 	}
 	
 	@IBAction func loginSampleUser(_ sender: UIButton) {
 		let creds = ["realm-admin":"", "tuzmusic":"***REMOVED***", "testUser1":"1234"]
-		if let username = sender.titleLabel?.text, let password = creds[username] {
-			let cred = SyncCredentials.usernamePassword(username: username, password: password)
-			realmLogin(cred: cred)
+		if SyncUser.current == nil {
+			if let username = sender.titleLabel?.text, let password = creds[username] {
+				let cred = SyncCredentials.usernamePassword(username: username, password: password)
+				realmCredLogin(cred: cred)
+			}
 		}
 	}
 	
 	// YPB Realm login
 	
-	func realmLogin(cred: SyncCredentials) {		
-		SyncUser.logIn(with: cred, server: RealmConstants.publicDNS) {
-			(user, error) in
+	func realmCredLogin(cred: SyncCredentials) {		
+		SyncUser.logIn(with: cred, server: RealmConstants.publicDNS) { (user, error) in
 			guard let user = user else {
 				pr("SyncUser.login Error: \(error!)"); return
 			}
-			self.toggleRealmLoggedIn()
-			pr("SyncUser logged in: \(cred)")
+			pr("SyncUser logged in: \(user)")
 			self.openRealmWithUser(user: user)
 		}
 	}
@@ -123,32 +110,23 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 			
 			do {
 				self.realm = try Realm(configuration: realmConfig)
-				// self.performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
 			} catch {
-				print("Open realm: \(error)")
+				print("SyncUser logged in but couldn't open realm: Error: \(error)")
 			}
 		}
 	}
 	
 	@IBAction func logOutAll(_ sender: Any) {
-		for user in SyncUser.all {
-			user.value.logOut()
-			toggleRealmLoggedOut()
-		}
+		SyncUser.current?.logOut()
+		realm = nil
 	}
 	
 	// MARK: Utility functions
 	
-	fileprivate func toggleRealmLoggedOut() {
-		realmLoginButtons[0].isEnabled = true
-		realmLoginButtons[1].isEnabled = true
-		realmLoginButtons[2].isEnabled = false
-	}
-	
-	fileprivate func toggleRealmLoggedIn() {
-		realmLoginButtons[0].isEnabled = false
-		realmLoginButtons[1].isEnabled = false
-		realmLoginButtons[2].isEnabled = true
+	fileprivate func toggleRealmButtons (signedIn: Bool) {
+		realmLoginButtons[0].isEnabled = signedIn ? false : true
+		realmLoginButtons[1].isEnabled = signedIn ? false : true
+		realmLoginButtons[2].isEnabled = signedIn ? true : false
 	}
 	
 	func presentInvalidEmailAlert () {

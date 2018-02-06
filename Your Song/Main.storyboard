@@ -348,7 +348,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pu4-yc-Jrb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1736.25" y="829.22535211267609"/>
+            <point key="canvasLocation" x="-2434" y="-1214"/>
         </scene>
         <!--Songs-->
         <scene sceneID="KrQ-SK-zjp">
@@ -405,25 +405,20 @@
             <point key="canvasLocation" x="-670" y="823"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="lxE-8e-xlO">
+        <scene sceneID="3g1-Og-JiS">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KuP-g6-YzW" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bnl-yr-0bj">
+                <navigationController id="qed-O1-kHV" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="OAW-uT-Cau">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" red="0.26262953367875652" green="0.18557340625426863" blue="0.084967978967855518" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        </textAttributes>
                     </navigationBar>
-                    <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="mjM-pz-9YD" kind="relationship" relationship="rootViewController" id="pDg-7u-nDX"/>
+                        <segue destination="OUq-h2-fFb" kind="relationship" relationship="rootViewController" id="MS8-7e-Cxd"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IeV-wr-lOS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sh3-c5-bnm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-655" y="-36"/>
+            <point key="canvasLocation" x="-2385" y="-67"/>
         </scene>
         <!--Register Table View Controller-->
         <scene sceneID="rnO-CJ-5Go">
@@ -586,16 +581,17 @@
                         <outletCollection property="textFields" destination="TSC-Yf-h3f" collectionClass="NSMutableArray" id="0K3-TO-zal"/>
                         <outletCollection property="textFields" destination="d9E-CY-pKM" collectionClass="NSMutableArray" id="MjU-2D-9ny"/>
                         <outletCollection property="textFields" destination="Cp2-fD-jlq" collectionClass="NSMutableArray" id="mhw-Hu-BIt"/>
+                        <segue destination="mjM-pz-9YD" kind="show" identifier="Register to New Request Segue" id="Mzy-wA-8cF"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fiv-AS-2ss" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3369.375" y="-373.94366197183098"/>
+            <point key="canvasLocation" x="-761" y="-730"/>
         </scene>
-        <!--Sign In Table View Controller-->
+        <!--Login-->
         <scene sceneID="mOr-MJ-8ol">
             <objects>
-                <tableViewController id="OUq-h2-fFb" customClass="SignInTableViewController" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Login" id="OUq-h2-fFb" customClass="SignInTableViewController" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="WAj-PE-sIb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -708,7 +704,6 @@
                                                             <rect key="frame" x="106.5" y="0.0" width="107" height="30"/>
                                                             <state key="normal" title="Register"/>
                                                             <connections>
-                                                                <action selector="registerButtonTapped:" destination="OUq-h2-fFb" eventType="touchUpInside" id="ur2-Oi-9Wq"/>
                                                                 <segue destination="MLl-dE-hdR" kind="show" identifier="Register Segue" id="lSG-PR-8en"/>
                                                             </connections>
                                                         </button>
@@ -861,12 +856,12 @@
                         <outletCollection property="realmLoginButtons" destination="vE3-iL-pss" collectionClass="NSMutableArray" id="lQq-OZ-N51"/>
                         <outletCollection property="realmLoginButtons" destination="PeQ-SA-98h" collectionClass="NSMutableArray" id="wTq-gY-3kK"/>
                         <outletCollection property="realmLoginButtons" destination="3xY-h1-Ocn" collectionClass="NSMutableArray" id="yJe-SY-6Zb"/>
-                        <segue destination="KuP-g6-YzW" kind="show" identifier="Login to New Request Segue" id="BSv-BB-gQo"/>
+                        <segue destination="mjM-pz-9YD" kind="show" identifier="Login to New Request Segue" id="EiD-Ce-csc"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="13Y-4g-TmD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2576" y="57"/>
+            <point key="canvasLocation" x="-1538" y="-38"/>
         </scene>
         <!--Sign In Table View ControllerOLD-->
         <scene sceneID="9Bv-ge-H31">
@@ -975,12 +970,11 @@
                     </tableView>
                     <connections>
                         <outlet property="contentViewForGoogleButton" destination="q18-Z1-BZr" id="DKW-ce-QPx"/>
-                        <segue destination="KuP-g6-YzW" kind="show" identifier="Log In Segue" id="awu-eu-RiJ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="73a-kG-LWn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1626" y="-284"/>
+            <point key="canvasLocation" x="-3133" y="-1213"/>
         </scene>
     </scenes>
     <resources>
@@ -988,8 +982,8 @@
         <image name="your-piano-bar-blank piano only tab bar item size.png" width="24" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="BSv-BB-gQo"/>
         <segue reference="yXb-cc-y7v"/>
         <segue reference="JVt-ag-feB"/>
+        <segue reference="EiD-Ce-csc"/>
     </inferredMetricsTieBreakers>
 </document>
