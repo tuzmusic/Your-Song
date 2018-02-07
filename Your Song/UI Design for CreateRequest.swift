@@ -25,20 +25,6 @@ extension CreateRequestTableViewController {
 		return font
 	}
 	
-	/*override func viewDidLoad() {
-        super.viewDidLoad()
-		if let navBar = navigationController?.navigationBar {
-			navBar.titleTextAttributes = [
-				NSAttributedStringKey.font : getFont(called: "BebasNeue", size: 22, bold: true),
-				NSAttributedStringKey.kern : 2
-			]
-		}
-//		UILabel.appearance().subFontName = "Oswald-Regular"
-//		UITextView.appearance().subFontName = "Oswald-Regular"
-//		UITextField.appearance().subFontName = "Oswald-Regular"
-		
-	}*/
-	
 	func attributedString(string: String) -> NSMutableAttributedString {
 		let attrString = NSMutableAttributedString(string: string)
 		

@@ -12,7 +12,7 @@ import RealmSwift
 
 class RegisterTableViewController: UITableViewController {
 
-	var delegate: SignInTableViewController!
+	var loginDelegate: SignInTableViewController!
 	
 	var email, password, firstName, lastName: String?
 	
@@ -36,14 +36,12 @@ class RegisterTableViewController: UITableViewController {
 		
 		email = textFields[0].text!
 		password = textFields[1].text!
-		firstName = textFields[2].text!
-		lastName = textFields[3].text
 		
+		loginDelegate.proposedUser = YpbUser.user(id: nil, email: email!,
+						    firstName: textFields[2].text!,
+						    lastName: textFields[3].text ?? "")
 		let cred = SyncCredentials.usernamePassword(username: email!, password: password!, register: true)
-		
-		delegate.realmCredLogin(cred: cred)
-		
-		// segue back to the login vc? or just login here? the only question is how to make the code more efficient (i.e., currently, logging in here would mean copying the functions to this VC which is redundant. Put them in YPB? I'm not really using that very much these days... (should be passing realm around, like to this VC from Login VC)
+		loginDelegate.realmCredLogin(cred: cred)
 	}
 	
 	fileprivate func checkForEmptyFields () -> Bool {

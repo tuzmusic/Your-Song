@@ -16,13 +16,7 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	
 	// MARK: MODEL
 	
-	var realm: Realm? {
-		get {
-			return YPB.realmSynced			
-		} set {
-			YPB.realmSynced = newValue
-		}
-	}
+	var realm: Realm? 
 	
 	var request: Request!
 	
@@ -72,7 +66,17 @@ class CreateRequestTableViewController: UITableViewController, UITextFieldDelega
 	}
 
 	// MARK: Controller - loading the request/populating textViews
-		
+	
+	override func viewDidLoad() {
+		navigationItem.hidesBackButton = true
+		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOut))
+	}
+	
+	@objc fileprivate func logOut () {
+		SyncUser.current?.logOut()
+		navigationController?.popToRootViewController(animated: true)
+	}
+	
 	fileprivate func populateRequestFields() {
 		if let request = self.request {		// If we're entering the view from the song picker, and there's already a request started
 			textViewInfo.keys.forEach {
