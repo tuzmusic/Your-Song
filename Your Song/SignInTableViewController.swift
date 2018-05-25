@@ -11,36 +11,47 @@ import Realm
 import RealmSwift
 import GoogleSignIn
 
-class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
+extension YpbUser {
+	class func existingUser (for user: SyncUser, in realm: Realm) -> YpbUser? {
+		let id = user.identity!
+		return realm.objects(YpbUser.self).filter("id = %@", id).first
+	}
+}
+
+class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, RealmDelegate {
 	
 	@IBOutlet weak var userNameField: UITextField!
 	@IBOutlet weak var passwordField: UITextField!
 	@IBOutlet var realmLoginButtons: [UIButton]!
 	
-	var proposedUser: YpbUser?
+	override func viewWillAppear(_ animated: Bool) {
+		userNameField.text = ""
+		passwordField.text = ""
+		super.viewWillAppear(true)
+	}
 	
+	var spinner = UIActivityIndicatorView()
+	var proposedUser: YpbUser?
 	var realm: Realm? {
 		didSet {
 			if let realm = realm {
-				print("Realm opened. \(realm.objects(Song.self).count) Songs.")
+				pr("Realm opened. \(realm.objects(Song.self).count) Songs. \(realm.objects(YpbUser.self).count) YpbUsers")
 				
-				if let user = realm.objects(YpbUser.self).filter("id = %@", SyncUser.current!.identity!).first {
-					
-					// TO-DO: If we changed this to check against email (of the proposedUser, or from the SyncUser credentials) inste
-					
-					try! realm.write { YpbUser.current = user }
-					print("YpbUser found: \(user.firstName) \(user.lastName) (\(user.email)). Set as YpbUser.current.")
-					
+				if let user = YpbUser.existingUser(for: SyncUser.current!, in: realm) { // If we find the YpbUser:
+					try! realm.write {
+						YpbUser.current = user
+						pr("YpbUser found: \(user.firstName) \(user.lastName) (\(user.email)). Set as YpbUser.current.")
+					}
 				} else {
-					print("YpbUser not found. Creating new user.")
+					pr("YpbUser not found.") // i.e., Realm user found, but not YpbUser. Not sure when this would happen. (Well, it happens when we open an empty realm for some reason)
 					if let info = proposedUser {
-						let newYpbUser = YpbUser.user(id: SyncUser.current!.identity, email: info.email, firstName: info.firstName, lastName: info.lastName)
+						pr("Creating new user.")
+						let newYpbUser = YpbUser.user(id: SyncUser.current!.identity, email: info.email,
+																firstName: info.firstName, lastName: info.lastName)
 						try! realm.write {
 							realm.add(newYpbUser)
 							YpbUser.current = newYpbUser
-						}
-						if let user = YpbUser.current {
-							print("YpbUser created: \(user.firstName) \(user.lastName) (\(user.email)). Set as YpbUser.current.")
+							pr("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
 						}
 					} else {
 						// we're using a sample user. loginSampleUser doesn't assign a proposed user, so we end up in this else clause, we don't look for or assign YpbUser.current
@@ -57,25 +68,22 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 		
 		GIDSignIn.sharedInstance().uiDelegate = self
 		
-		// Uncomment to automatically sign in the user.
-		// GIDSignIn.sharedInstance().signInSilently()
-	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		super .viewWillAppear(true)
 		if let user = SyncUser.current {
 			openRealmWithUser(user: user)
 		} else {
 			realm = nil
 		}
+		// Uncomment to automatically sign in the user.
+		// GIDSignIn.sharedInstance().signInSilently()
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let vc = segue.destination as? RegisterTableViewController {
+		spinner.stopAnimating()
+		if let vc = segue.destination as? RegisterTableViewController {	// prepare for Register segue
 			vc.email = userNameField.text
 			vc.password = passwordField.text
 			vc.loginDelegate = self
-		} else if let vc = segue.destination as? CreateRequestTableViewController {
+		} else if let vc = segue.destination as? CreateRequestTableViewController { // prepare for CreateRequest segue
 			vc.realm = self.realm
 		}
 	}
@@ -92,7 +100,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 			proposedUser = YpbUser.user(id: nil, email: profile.email, firstName: profile.givenName, lastName: profile.familyName)
 		}
 		
-		let cred = SyncCredentials.google(token: googleUser.authentication.idToken)
+		let cred = SyncCredentials.google(token: googleUser.authentication.idToken)	// This is what shouldn't work yet, right?
 		realmCredLogin(cred: cred)
 	}
 	
@@ -109,7 +117,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	}
 	
 	@IBAction func loginSampleUser(_ sender: UIButton) {
-		let creds = ["realm-admin":"", "tuzmusic":"***REMOVED***", "testUser1":"1234"]
+		let creds = ["realm-admin":"", "tuzmusic@gmail.com":"***REMOVED***", "testUser1":"1234"]
 		if SyncUser.current == nil {
 			if let username = sender.titleLabel?.text, let password = creds[username] {
 				let cred = SyncCredentials.usernamePassword(username: username, password: password)
@@ -120,19 +128,25 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 	
 	// YPB Realm login
 	
-	func realmCredLogin(cred: SyncCredentials) {
+	func realmCredLogin(cred: SyncCredentials) {	// Should probably rename, since I think this is for all kinds of creds.
+		
+		spinner = view.addNewSpinner()
+		
 		// Get the user.
 		SyncUser.logIn(with: cred, server: RealmConstants.publicDNS) { (user, error) in
-			guard let user = user else { pr("SyncUser.login Error: \(error!)"); return }
-			
+			guard let user = user else {
+				self.present(UIAlertController.basic(title: "Uh-Oh", message: "SyncUser.login Error: \(error!)"), animated: true)
+				self.spinner.stopAnimating()
+				// TO-DO: Handle login failure
+				// pr("SyncUser.login Error: \(error!)")
+				return
+			}
 			pr("SyncUser logged in: \(user)")
-			
-		// Use the user to open the realm.
 			self.openRealmWithUser(user: user)
 		}
 	}
 	
-	func openRealmWithUser(user: SyncUser) {
+	fileprivate func openRealmWithUser(user: SyncUser) {
 			DispatchQueue.main.async {
 				// Open the online Realm
 				let syncConfig = SyncConfiguration(user: user, realmURL: RealmConstants.realmAddress)
@@ -141,28 +155,17 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate {
 				do {
 					self.realm = try Realm(configuration: realmConfig)
 				} catch {
-					print("SyncUser logged in but couldn't open realm: Error: \(error)")
+					let message = "SyncUser logged in but couldn't open realm: Error: \(error)"
+					self.present(UIAlertController.basic(title: "Uh-Oh", message: message), animated: true)
+					pr(message)
 				}
 			}
 	}
 	
-	@IBAction func logOutAll(_ sender: Any) {
+	@IBAction func logOutAll() {
 		SyncUser.current?.logOut()
 		realm = nil
 		proposedUser = nil
 	}
-	
-	// MARK: Utility functions
-	
-	fileprivate func toggleRealmButtons (signedIn: Bool) {
-		realmLoginButtons[0].isEnabled = signedIn ? false : true
-		realmLoginButtons[1].isEnabled = signedIn ? false : true
-		realmLoginButtons[2].isEnabled = signedIn ? true : false
-	}
-	
-	func presentInvalidEmailAlert () {
-		let alert = UIAlertController(title: "Invalid email", message: "Please enter a valid email address.", preferredStyle: .alert)
-		alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-		present(alert, animated: true, completion: nil)
-	}	
+
 }

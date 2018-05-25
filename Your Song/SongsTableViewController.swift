@@ -11,9 +11,10 @@ import RealmSearchViewController
 import RealmSwift
 
 class SongsTableViewController: BrowserViewController {
-
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(sortSongs(sender:)))
 	}
 	
@@ -61,9 +62,9 @@ class SongsTableViewController: BrowserViewController {
 	
 	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
 		let song = anObject as! Song
-		if let form = navigationController?.viewControllers.first as? CreateRequestTableViewController {
-			form.songObject = song
-		}
+		let form = navigationController!.viewControllers.first as! CreateRequestTableViewController
+		form.request.songObject = song
+		form.songTextField.text = song.songDescription
 		navigationController?.popToRootViewController(animated: true)
 	}
 }

@@ -39,6 +39,25 @@ class YPB {
 
 	class func setupRealm() {
 		
+		struct RealmConstants {
+			static let ec2ip = "54.205.63.24"
+			static let ec2ipDash = ec2ip.replacingOccurrences(of: ".", with: "-")
+			static let amazonAddress = "ec2-\(ec2ipDash).compute-1.amazonaws.com:9080"
+			static let localHTTP = URL(string:"http://" + ec2ip)!
+			static let publicDNS = URL(string:"http://" + amazonAddress)!
+			static let realmAddress = URL(string:"realm://" + amazonAddress + "/YourPianoBar/JonathanTuzman/")!
+			
+			static let userCred = SyncCredentials.usernamePassword(
+				username: "realm-admin", password: "")
+			static let tuzCred = SyncCredentials.usernamePassword(
+				username: "tuzmusic", password: "***REMOVED***")
+			
+			// Paste into terminal to SSH into EC2:
+			/*
+			ssh -i /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff/KeyPairs/YourPianoBarKeyPair.pem ubuntu@ec2-54-205-63-24.compute-1.amazonaws.com
+			*/
+		}
+		
         if let user = SyncUser.current {
             
         }
@@ -112,8 +131,6 @@ class YPB {
 		}
 		
 	}
-	
-	
 	
 	struct UserInfo {
 		var firstName = ""

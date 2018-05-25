@@ -1,4 +1,4 @@
-//
+
 //  Globals, Extensions, Etc.swift
 //  Song Importer
 //
@@ -16,16 +16,19 @@ struct RealmConstants {
 	static let ec2ip = "54.205.63.24"
 	static let ec2ipDash = ec2ip.replacingOccurrences(of: ".", with: "-")
 	static let amazonAddress = "ec2-\(ec2ipDash).compute-1.amazonaws.com:9080"
-	static let localHTTP = URL(string:"http://" + ec2ip)!
 	static let publicDNS = URL(string:"http://" + amazonAddress)!
 	static let realmAddress = URL(string:"realm://" + amazonAddress + "/YourPianoBar/JonathanTuzman/")!
-	
-	static let userCred = SyncCredentials.usernamePassword(
-		username: "realm-admin", password: "")
-	static let tuzCred = SyncCredentials.usernamePassword(
-		username: "tuzmusic", password: "***REMOVED***")
-	
-	// NOTE: I've also created a "tuzmusic" user with my standard PW, also an admin. See what happens with this...
+/* Extraneous (old) realm constants
+	//	static let localHTTP = URL(string:"http://" + ec2ip)!   (NOT USED!)
+//	static let userCred = SyncCredentials.usernamePassword(
+//		username: "realm-admin", password: "")
+//	static let tuzCred = SyncCredentials.usernamePassword(
+//		username: "tuzmusic", password: "***REMOVED***")
+*/
+	// Paste into terminal to SSH into EC2:
+	/*
+	ssh -i /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff/KeyPairs/YourPianoBarKeyPair.pem ubuntu@ec2-54-205-63-24.compute-1.amazonaws.com
+	*/
 }
 
 func timeSince(time: Date) -> String {
@@ -53,6 +56,7 @@ struct Storyboard {
 	static let AllSongsSegue = "All Songs Segue"
 	static let LoginSegue = "Log In Segue"
 	static let LoginToNewRequestSegue = "Login to New Request Segue"
+	static let LoginToNewRequestSplitViewSegue = "Login to New Request Split View Segue"
 }
 
 
@@ -73,6 +77,7 @@ extension UIView {
 		spinner.activityIndicatorViewStyle = .whiteLarge
 		spinner.color = .lightGray
 		self.addSubview(spinner)
+		spinner.startAnimating()
 		return spinner
 	}
 }

@@ -11,6 +11,20 @@ import RealmSwift
 
 extension SignInTableViewController {
 	
+	// MARK: Utility functions
+	
+	func toggleRealmButtons (signedIn: Bool) {
+		realmLoginButtons[0].isEnabled = signedIn ? false : true
+		realmLoginButtons[1].isEnabled = signedIn ? false : true
+		realmLoginButtons[2].isEnabled = signedIn ? true : false
+	}
+	
+	func presentInvalidEmailAlert () {
+		let alert = UIAlertController(title: "Invalid email", message: "Please enter a valid email address.", preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+		present(alert, animated: true, completion: nil)
+	}
+	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 		if indexPath.section == 1 {

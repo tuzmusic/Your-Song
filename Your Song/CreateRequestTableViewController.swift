@@ -1,214 +1,83 @@
 //
-//  CreateRequestTableViewController.swift
-//  Song Browser
+//  CreatRequestTableViewController.swift
+//  Your Song
 //
-//  Created by Jonathan Tuzman on 3/18/17.
-//  Copyright © 2017 Jonathan Tuzman. All rights reserved.
+//  Created by Jonathan Tuzman on 2/12/18.
+//  Copyright © 2018 Jonathan Tuzman. All rights reserved.
 //
 
 import UIKit
+import Realm
 import RealmSwift
 
-class CreateRequestTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
+class CreateRequestTableViewController: UITableViewController, RealmDelegate {
 	
-	var placeholderColor: UIColor = UIColor.lightGray
-	var fieldTextColor: UIColor = UIColor.black
+	var realm: Realm?	// passed from sign-in VC
+	var request: Request!	// TO-DO: I think this can be a local variable within submitRequest. Does that matter?
 	
-	// MARK: MODEL
-	
-	var realm: Realm? 
-	
-	var request: Request!
-	
-	var userString: String {
-		get {
-			return request.userString
-		} set {
-			request.userString = newValue
-		}
-	}
-	
-	var songObject: Song? {
-		get {
-			return request.songObject
-		} set {
-			if let song = newValue {
-				songTextView.textColor = fieldTextColor
-				songString = "\"\(song.title)\"" + "\n" + "by " + song.artist.name
-				request.songObject = song
-			}
-		}
-	}
-	
-	var songString: String {
-		get {
-			return request.songString
-		} set {
-			request.songString = newValue
-		}
-	}
-	
-	var notes: String {
-		get {
-			return request.notes
-		} set {
-			request.notes = newValue
-		}
-	}
-	
-	var spinner: UIActivityIndicatorView {
-		let spinner = view.addNewSpinner()
-		if let navcon = self.navigationController {
-			spinner.frame.origin.y = navcon.view.frame.midY - 60
-		}
-		return spinner
-		
-	}
-
-	// MARK: Controller - loading the request/populating textViews
+	let thanksString = "Thanks for your request! Keep your ears peeled and get ready to sing along!"
 	
 	override func viewDidLoad() {
-		navigationItem.hidesBackButton = true
-		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOut))
-	}
-	
-	@objc fileprivate func logOut () {
-		SyncUser.current?.logOut()
-		navigationController?.popToRootViewController(animated: true)
-	}
-	
-	fileprivate func populateRequestFields() {
-		if let request = self.request {		// If we're entering the view from the song picker, and there's already a request started
-			textViewInfo.keys.forEach {
-				$0.text = request.value(forKey: textViewInfo[$0]!.keyPath) as! String
-				if $0.text.isEmpty {
-					$0.reset(with: textViewInfo[$0]!.placeholder, color: placeholderColor)
-				}
-			}
-		} else {	// If there's no request started
-			request = Request()
-			if let user = YPB.ypbUser {
-				request.user = user
-				request.userString = "\(user.firstName) \(user.lastName)"
-			}
-			textViewInfo.keys.forEach {
-				if request.value(forKey: textViewInfo[$0]!.keyPath) as! String == "" {
-					$0.reset(with: textViewInfo[$0]!.placeholder, color: placeholderColor)
-				} else {
-					$0.text = request.value(forKey: textViewInfo[$0]!.keyPath) as! String
-				}
-			}
-		}
-	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		populateRequestFields()
-	}
-	
-	// MARK: Text field/view outlets and delegate methods
+		super.viewDidLoad()
+//		navigationController?.viewControllers = [self]
+//		navigationItem.leftItemsSupplementBackButton = true
+//		navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
 
-	// TO-DO: I'm doing a lot of "active" placeholdering. There's probably a way to clear a text field/view to get the placeholder back.
-	var textViewInfo: [UITextView : (placeholder: String, keyPath: String)] {
-		return [nameTextView : (TextViewStrings.placeholders.user, "userString"),
-			   songTextView : (TextViewStrings.placeholders.song, "songString"),
-			   notesTextView : (TextViewStrings.placeholders.notes, "notes")]
+		resetRequest()
 	}
 	
-	struct TextViewStrings {
-		struct placeholders {
-			static let user = "Enter your name"
-			static let song = "Enter your song, or look for your favorite song in our catalog"
-			static let notes = "Have a dedication? Want to come up and sing? Put any extra notes here"
+	@IBAction func showMenu() {
+		if let masterNav = splitViewController?.viewControllers.first as? UINavigationController,
+			let master = masterNav.topViewController {
+//			show(master, sender: nil)
 		}
 	}
 	
-	@IBOutlet weak var nameTextView: UITextView!
-	@IBOutlet weak var songTextView: UITextView!
+	@IBOutlet weak var nameTextField: UITextField! {
+		didSet {
+			if let user = YpbUser.current {
+				nameTextField.text = user.fullName
+			}
+		}
+	}
+	@IBOutlet weak var songTextField: UITextField!
 	@IBOutlet weak var notesTextView: UITextView!
 	
-	func textViewDidBeginEditing(_ textView: UITextView) {
-		if textView.textColor == placeholderColor { textView.text = "" }
-		textView.textColor = fieldTextColor
-	}
-	
-	func textViewDidEndEditing(_ textView: UITextView) {
-		request?.setValue(textView.text, forKey: textViewInfo[textView]!.keyPath)
-		if textView.text == "" {
-			textView.reset(with: textViewInfo[textView]!.placeholder, color: placeholderColor)
-			if textView == songTextView {
-				songObject = nil
-			}
-		}
-	}
-	
-	// MARK: Submitting the request
-	
-	@IBAction func submitButtonPressed(_ sender: UIButton) {
+	@IBAction func submitRequest(_ sender: UIButton) {
+		let spinner = view.addNewSpinner()
 		
-		textViewInfo.keys.forEach { $0.endEditing(true) }
-		
-		guard let request = request, !request.userString.isEmpty && !request.songString.isEmpty else {
-			let alert = UIAlertController(title: "Incomplete Request",
-									message: "Please enter your name and a song.",
-									preferredStyle: .alert)
-			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-			present(alert, animated: true, completion: nil)
+		guard let name = nameTextField.text, let song = songTextField.text else {
+			self.present(UIAlertController.basic(title: "Whoops!", message: "Please enter your name and a song."), animated: true)
 			return
 		}
 		
-		// Store non-user-accessible request info
+		request.user = YpbUser.current
+		request.userString = name
+		request.songString = song
+		request.notes = notesTextView.text
+		// request.songObject = already set if there is one
 		request.date = Date()
-
-		//spinner.startAnimating()
 		
 		do {
-			if let realm = YPB.realmSynced {
-				try realm.write {
-					realm.add(request)
-				}
-				confirmSubmittedRequest(request)
-			} else {
-				let alert = UIAlertController(title: "Request Not Sent", message: "realm = nil", preferredStyle: .alert)
-				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-				present(alert, animated: true, completion: nil)
+			try realm?.write {
+				realm?.create(Request.self, value: request, update: false)
+				present(UIAlertController.basic(title: "Success!", message: thanksString), animated: true)
+				resetRequest()
+				spinner.stopAnimating()
 			}
 		} catch {
-			let alert = UIAlertController(title: "Error",
-									message: "Could not write to the Realm.",
-									preferredStyle: .alert)
-			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-			self.present(alert, animated: true, completion: nil)
-			return
+			present(UIAlertController.basic(title: "Uh oh", message: "\(error)"), animated: true)
 		}
-		spinner.stopAnimating()
-		spinner.removeFromSuperview()
 	}
 	
-	@IBAction func addSampleRequest(_ sender: Any) {
-		if !Request.addSampleRequest() {
-			let alert = UIAlertController(title: "Can't add request", message: nil, preferredStyle: .alert)
-			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-			present(alert, animated: true)
-		}
-	}
-		
-	func clearRequest () {
-		for view in textViewInfo.keys {
-			view.reset(with: textViewInfo[view]!.placeholder, color: placeholderColor)
-		}
+	func resetRequest() {
 		request = Request()
+		nameTextField.text = YpbUser.current?.fullName ?? ""
+		songTextField.text = ""
+		notesTextView.text = ""
 	}
 	
-	func confirmSubmittedRequest(_ request: Request) {
-		var infoString = """
-		Your Name: \(request.userString)
-		Your Song: \(request.songString.replacingOccurrences(of: "\n", with: " "))
-		
-		"""
-		if !request.notes.isEmpty { infoString += "Your Notes: \(request.notes)" }
-		let alert = UIAlertController(title: "Request Sent!", message: infoString, preferredStyle: .alert)
-		alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in self.clearRequest() })
-		present(alert, animated: true, completion: nil)
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
 	}
-		
 }

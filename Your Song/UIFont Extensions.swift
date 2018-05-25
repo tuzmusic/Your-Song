@@ -9,6 +9,13 @@
 import Foundation
 import UIKit
 
+/*	NOTES
+
+5/13/18
+Not sure how this is currently implemented
+
+*/
+
 struct AppFontName {
 	static let regular = "Oswald-Regular"
 	static let bold = "Oswald-Bold"

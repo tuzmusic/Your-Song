@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+/*
 struct FontNames {
     static let familyName = "Oswald"
     static let regular = "Oswald-Regular"
@@ -76,4 +77,4 @@ extension UITableViewController {
     }
     
 }
-
+*/

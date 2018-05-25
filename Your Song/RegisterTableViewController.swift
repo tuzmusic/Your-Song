@@ -12,6 +12,8 @@ import RealmSwift
 
 class RegisterTableViewController: UITableViewController {
 
+	// TO-DO: Spinner
+	
 	var loginDelegate: SignInTableViewController!
 	
 	var email, password, firstName, lastName: String?
