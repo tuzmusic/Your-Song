@@ -133,11 +133,10 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		spinner = view.addNewSpinner()
 		
 		// Get the user.
-		SyncUser.logIn(with: cred, server: RealmConstants.publicDNS) { (user, error) in
-			
+		SyncUser.logIn(with: cred, server: RealmConstants.authURL) { (user, error) in
 			guard let user = user else {
 				self.present(UIAlertController.basic(title: "Uh-Oh", message: "SyncUser.login Error: \(error!)"), animated: true)
-				pr(error)
+				pr(error as Any)
 				self.spinner.stopAnimating()
 				// TO-DO: Handle login failure
 				// pr("SyncUser.login Error: \(error!)")
@@ -151,7 +150,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	fileprivate func openRealmWithUser(user: SyncUser) {
 			DispatchQueue.main.async {
 				// Open the online Realm
-				let syncConfig = SyncConfiguration(user: user, realmURL: RealmConstants.realmAddress)
+				let syncConfig = SyncConfiguration(user: user, realmURL: RealmConstants.realmURL)
 				let realmConfig = Realm.Configuration(syncConfiguration: syncConfig)
 				
 				do {
@@ -168,6 +167,8 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		SyncUser.current?.logOut()
 		realm = nil
 		proposedUser = nil
+		userNameField.text = ""
+		passwordField.text = ""
 	}
 
 }
