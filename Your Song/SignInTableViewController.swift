@@ -32,29 +32,29 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	
 	var spinner = UIActivityIndicatorView()
 	var proposedUser: YpbUser?
+	
+	fileprivate func createNewYpbUser(for info: YpbUser, in realm: Realm) {
+		let newYpbUser = YpbUser.user(id: SyncUser.current!.identity, email: info.email,
+												firstName: info.firstName, lastName: info.lastName)
+		try! realm.write {
+			realm.add(newYpbUser)
+			YpbUser.current = newYpbUser
+			pr("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
+		}
+	}
+	
 	var realm: Realm? {
 		didSet {
 			if let realm = realm {
-				pr("Realm opened. \(realm.objects(Song.self).count) Songs. \(realm.objects(YpbUser.self).count) YpbUsers")
-				
 				if let user = YpbUser.existingUser(for: SyncUser.current!, in: realm) { // If we find the YpbUser:
-					try! realm.write {
-						YpbUser.current = user
-						pr("YpbUser found: \(user.firstName) \(user.lastName) (\(user.email)). Set as YpbUser.current.")
-					}
+					try! realm.write { YpbUser.current = user	}
 				} else {
 					pr("YpbUser not found.") // i.e., Realm user found, but not YpbUser. Not sure when this would happen. (Well, it happens when we open an empty realm for some reason)
 					if let info = proposedUser {
-						pr("Creating new user.")
-						let newYpbUser = YpbUser.user(id: SyncUser.current!.identity, email: info.email,
-																firstName: info.firstName, lastName: info.lastName)
-						try! realm.write {
-							realm.add(newYpbUser)
-							YpbUser.current = newYpbUser
-							pr("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
-						}
+						createNewYpbUser(for: info, in: realm)
 					} else {
 						// we're using a sample user. loginSampleUser doesn't assign a proposed user, so we end up in this else clause, we don't look for or assign YpbUser.current
+						pr("couldn't find creds for sample user")
 					}
 				}
 				self.performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
@@ -134,8 +134,10 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		
 		// Get the user.
 		SyncUser.logIn(with: cred, server: RealmConstants.publicDNS) { (user, error) in
+			
 			guard let user = user else {
 				self.present(UIAlertController.basic(title: "Uh-Oh", message: "SyncUser.login Error: \(error!)"), animated: true)
+				pr(error)
 				self.spinner.stopAnimating()
 				// TO-DO: Handle login failure
 				// pr("SyncUser.login Error: \(error!)")
