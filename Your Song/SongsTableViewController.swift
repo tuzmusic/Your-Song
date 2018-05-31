@@ -57,6 +57,7 @@ class SongsTableViewController: BrowserViewController {
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		// FYI: This calls the method from RSVC (no override in BrowserVC).
 		// It's just here to convert the indexPath to adjustedIndexPath
+
 		super.tableView(tableView, didSelectRowAt: adjustedIndexPath(for: indexPath))
 	}
 	

@@ -9,6 +9,7 @@
 import UIKit
 import Realm
 import RealmSwift
+import RealmSearchViewController
 
 class CreateRequestTableViewController: UITableViewController, RealmDelegate {
 	
@@ -79,5 +80,11 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate {
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let searchVC = segue.destination as? RealmSearchViewController {
+			searchVC.realmConfiguration = realm!.configuration
+		}
 	}
 }

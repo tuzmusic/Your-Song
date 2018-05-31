@@ -59,7 +59,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="49e-Tb-3d3" kind="show" identifier="Browse Songs Segue" id="JkV-Nd-kPf"/>
+                                            <segue destination="KG6-mh-sKK" kind="show" identifier="Browse Songs Segue" id="WzI-tF-bh6"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -1001,7 +1001,7 @@
         <image name="your-piano-bar-blank piano only tab bar item size.png" width="24" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yXb-cc-y7v"/>
+        <segue reference="WzI-tF-bh6"/>
         <segue reference="JVt-ag-feB"/>
         <segue reference="KJF-dN-y5i"/>
     </inferredMetricsTieBreakers>
