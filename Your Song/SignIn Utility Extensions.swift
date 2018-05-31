@@ -25,6 +25,16 @@ extension SignInTableViewController {
 		present(alert, animated: true, completion: nil)
 	}
 	
+	fileprivate func importSongs() {
+		if let realm = realm {
+			let deleteAll = false
+			if deleteAll {
+				try! realm.write { realm.deleteAll() }
+			}
+			SongImporter.importSongsTo(realm: realm)
+		}
+	}
+	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 		if indexPath.section == 1 {
@@ -32,7 +42,7 @@ extension SignInTableViewController {
 			case 0: YPB.deleteDuplicateSongs(in: realm!)
 			case 1: YPB.deleteDuplicateCategories(in: realm!)
 			case 2: YPB.populateNilArtists(in: realm!)
-			case 3: if let realm = realm { SongImporter.importSongsTo(realm: realm) }
+//			case 3: importSongs()				
 			default: break
 			}
 		}
