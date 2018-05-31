@@ -42,6 +42,7 @@
 		767551AA201CD4E600EEC9C8 /* Google SignIn from App Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767551A9201CD4E600EEC9C8 /* Google SignIn from App Delegate.swift */; };
 		767551AD201D013800EEC9C8 /* SongFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767551AC201D013800EEC9C8 /* SongFinder.swift */; };
 		767551AF201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767551AE201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift */; };
+		7675B6E920C092400073DEF8 /* SongsTableViewController-0518.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7675B6E820C092400073DEF8 /* SongsTableViewController-0518.swift */; };
 		768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235AE1E856ECF006186D7 /* AppDelegate.swift */; };
 		768235B61E856ED0006186D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 768235B51E856ED0006186D7 /* Assets.xcassets */; };
 		768235B91E856ED0006186D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235B71E856ED0006186D7 /* LaunchScreen.storyboard */; };
@@ -124,6 +125,7 @@
 		767551A9201CD4E600EEC9C8 /* Google SignIn from App Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Google SignIn from App Delegate.swift"; path = "../New Group/Google SignIn from App Delegate.swift"; sourceTree = "<group>"; };
 		767551AC201D013800EEC9C8 /* SongFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongFinder.swift; sourceTree = "<group>"; };
 		767551AE201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongFinderTestsTableViewController.swift; sourceTree = "<group>"; };
+		7675B6E820C092400073DEF8 /* SongsTableViewController-0518.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SongsTableViewController-0518.swift"; sourceTree = "<group>"; };
 		768235AB1E856ECF006186D7 /* Your Song.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Your Song.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		768235AE1E856ECF006186D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		768235B51E856ED0006186D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				76ACB9B81E9A563200923D6F /* View Controllers */,
+				7675B6E820C092400073DEF8 /* SongsTableViewController-0518.swift */,
 			);
 			name = Browser;
 			sourceTree = "<group>";
@@ -732,6 +735,7 @@
 				760AACCE2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift in Sources */,
 				767551AF201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift in Sources */,
 				521A5A271FF56FF10056A11D /* Event.swift in Sources */,
+				7675B6E920C092400073DEF8 /* SongsTableViewController-0518.swift in Sources */,
 				76C9C25520239B0900CE127A /* SignInTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
