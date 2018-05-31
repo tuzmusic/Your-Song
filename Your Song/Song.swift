@@ -57,7 +57,9 @@ final class Song: BrowserObject {
 		var artists = List<Artist>()
 		if let artistIndex = indices.artist {
 			let itemNames = songComponents[artistIndex]
-			let names = itemNames.isEmpty ? ["Unknown"] : itemNames.components(separatedBy: Song.separator)
+			let names = !itemNames.isEmpty ?
+				itemNames.components(separatedBy: Song.separator)
+				: ["Unknown"]			
 			artists = BrowserCategory.items(forComponents: names, in: realm)
 		}
 		
@@ -81,7 +83,8 @@ final class Song: BrowserObject {
 		
 		// MARK: Decade
 		if let yearIndex = indices.year {
-			newSong.decades = BrowserCategory.items(forComponents: Decade.decadeNames(for: songComponents[yearIndex]), in: realm)
+			let yearInfo = songComponents[yearIndex]
+			newSong.decades = BrowserCategory.items(forComponents: Decade.decadeNames(for: yearInfo), in: realm)
 		}
 		
 		// MARK: Genre

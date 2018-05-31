@@ -36,66 +36,11 @@ class YPB {
 			}
 		}
 	}
-
-	class func setupRealm() {
-		
-		struct RealmConstants {
-			static let ec2ip = "54.205.63.24"
-			static let ec2ipDash = ec2ip.replacingOccurrences(of: ".", with: "-")
-			static let amazonAddress = "ec2-\(ec2ipDash).compute-1.amazonaws.com:9080"
-			static let localHTTP = URL(string:"http://" + ec2ip)!
-			static let publicDNS = URL(string:"http://" + amazonAddress)!
-			static let realmAddress = URL(string:"realm://" + amazonAddress + "/YourPianoBar/JonathanTuzman/")!
-			
-			static let userCred = SyncCredentials.usernamePassword(
-				username: "realm-admin", password: "")
-			static let tuzCred = SyncCredentials.usernamePassword(
-				username: "tuzmusic", password: "***REMOVED***")
-			
-			// Paste into terminal to SSH into EC2:
-			/*
-			ssh -i /Users/TuzsNewMacBook/Library/Mobile\ Documents/com\~apple\~CloudDocs/Misc\ Stuff\ -\ iCloud\ drive/Programming/IMPORTANT\ Server\ Stuff/KeyPairs/YourPianoBarKeyPair.pem ubuntu@ec2-54-205-63-24.compute-1.amazonaws.com
-			*/
-		}
-		
-        if let user = SyncUser.current {
-            
-        }
-        
-		// TO-DO: Check for current user, to allow for some offline-first stuff (see question in realm forum)
-		SyncUser.logIn(with: RealmConstants.userCred, server: RealmConstants.publicDNS) {
-			
-			// Log in the user. If not, use local Realm config.
-			user, error in
-			guard let user = user else {
-				print("SyncUser.logIn failed. \r Using Local Realm. \r Error:")
-				print(error!)
-				YPB.realmLocal = try! Realm()
-				YPB.realm = realmLocal
-				return
-			}
-			
-			DispatchQueue.main.async {
-				// Open the online Realm
-				let syncConfig = SyncConfiguration(user: user, realmURL: RealmConstants.realmAddress)
-				realmConfig = Realm.Configuration(syncConfiguration: syncConfig)
-				
-				do {
-					YPB.realmSynced = try Realm(configuration: YPB.realmConfig)
-					YPB.realm = realmSynced
-				} catch {
-					print("Setting realm with realmConfig failed. \r Using Local Realm. \r Error:")
-					YPB.realmLocal = try! Realm()
-					YPB.realm = realmLocal
-				}
-			}
-		}
-    }
 	
 	class func manageContents(of realm: Realm) {
 
 		if realm.objects(Song.self).isEmpty {
-			SongImporter().importSongsTo(realm: realm)
+			SongImporter.importSongsTo(realm: realm)
 			deleteDuplicateCategories(in: realm)
 		}
 		

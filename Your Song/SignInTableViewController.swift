@@ -149,11 +149,10 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	
 	fileprivate func openRealmWithUser(user: SyncUser) {
 			DispatchQueue.main.async {
-				// Open the online Realm
 				let syncConfig = SyncConfiguration(user: user, realmURL: RealmConstants.realmURL)
 				let realmConfig = Realm.Configuration(syncConfiguration: syncConfig)
 				
-				do {
+				do {	// Open the online Realm
 					self.realm = try Realm(configuration: realmConfig)
 				} catch {
 					let message = "SyncUser logged in but couldn't open realm: Error: \(error)"

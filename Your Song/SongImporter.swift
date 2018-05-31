@@ -13,14 +13,14 @@ class SongImporter {
 	
 	typealias SongData = [String]
 	
-	func importSongsTo(realm: Realm) {
+	class func importSongsTo(realm: Realm) {
 		let fileName = "song list"
 		if let songListData = songData(fromTSV: fileName) {
 			createSongsIn(realm: realm, songData: songListData)
 		}
 	}	
 	
-	func createSongsIn(realm: Realm, songData: [SongData]) {
+	class func createSongsIn(realm: Realm, songData: [SongData]) {
 		
 		// Get the headers from the first entry in the database
 		guard let headers = songData.first?.map({$0.lowercased()}) else {
@@ -30,10 +30,11 @@ class SongImporter {
 		
 		realm.beginWrite()
 		
-		for songComponents in songData where songComponents.map({$0.lowercased()}) != headers {
-			if let indices = headerIndices(from: headers) {
+		if let indices = headerIndices(from: headers) {
+			for songComponents in songData where songComponents.map({$0.lowercased()}) != headers {
+				// if there's an "app" column, skip this listing if it's not marked for app
 				if let appIndex = headers.index(of: "app"), songComponents[appIndex] != "Y" {
-					continue // conditional written this way in case there's no "app" column.
+					continue
 				}
 				_ = Song.createSong(fromComponents: songComponents, with: indices, in: realm)
 			}
@@ -42,7 +43,7 @@ class SongImporter {
 		try! realm.commitWrite()
 	}
 	
-	func songData (fromTSV fileName: String) -> [SongData]? {
+	class func songData (fromTSV fileName: String) -> [SongData]? {
 		
 		var songData = [[String]]()
 		
@@ -51,7 +52,8 @@ class SongImporter {
 				let songList = fullList
 					.replacingOccurrences(of: "\r", with: "")
 					.components(separatedBy: "\n")
-				guard songList.count > 1 else { print("Song list cannot be used: no headers, or no listings!")
+				guard songList.count > 1 else {
+					print("Song list cannot be used: no headers, or no listings!")
 					return nil }
 				for song in songList {
 					songData.append(song.components(separatedBy: "\t"))
@@ -61,7 +63,7 @@ class SongImporter {
 		return songData
 	}
 	
-	func headerIndices(from headers: [String]) -> (title: Int, artist: Int?, genre: Int?, year: Int?)? {
+	class func headerIndices(from headers: [String]) -> (title: Int, artist: Int?, genre: Int?, year: Int?)? {
 		struct SongHeaderTags {
 			static let titleOptions = ["song", "title", "name"]
 			static let artist = "artist"

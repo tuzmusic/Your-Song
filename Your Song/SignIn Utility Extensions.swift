@@ -32,6 +32,7 @@ extension SignInTableViewController {
 			case 0: YPB.deleteDuplicateSongs(in: realm!)
 			case 1: YPB.deleteDuplicateCategories(in: realm!)
 			case 2: YPB.populateNilArtists(in: realm!)
+			case 3: if let realm = realm { SongImporter.importSongsTo(realm: realm) }
 			default: break
 			}
 		}
