@@ -59,6 +59,7 @@
 		769E28EB2016CA9C0014D7F4 /* UIFont Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769E28EA2016CA9C0014D7F4 /* UIFont Extensions.swift */; };
 		769FFBF21EAA1AB800F5EB37 /* YPB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769FFBF11EAA1AB800F5EB37 /* YPB.swift */; };
 		76BE13AE1EC09340007A7348 /* Decade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE13AD1EC09340007A7348 /* Decade.swift */; };
+		76C6E9D520C7454B00A3E3B3 /* DecadesTableViewController-0518.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C6E9D420C7454B00A3E3B3 /* DecadesTableViewController-0518.swift */; };
 		76C9C25520239B0900CE127A /* SignInTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C9C25420239B0900CE127A /* SignInTableViewController.swift */; };
 		76CD8E851FF063DB00081206 /* Requests - Realm Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CD8E841FF063DB00081206 /* Requests - Realm Classes.swift */; };
 		76CDBE781EDB297B005C9C56 /* String Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CDBE771EDB297B005C9C56 /* String Extensions.swift */; };
@@ -154,6 +155,7 @@
 		76ACB9AA1E95465300923D6F /* BebasNeue Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BebasNeue Thin.ttf"; sourceTree = "<group>"; };
 		76ACB9AB1E95982A00923D6F /* Bebas.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bebas.TTF; sourceTree = "<group>"; };
 		76BE13AD1EC09340007A7348 /* Decade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decade.swift; sourceTree = "<group>"; };
+		76C6E9D420C7454B00A3E3B3 /* DecadesTableViewController-0518.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DecadesTableViewController-0518.swift"; sourceTree = "<group>"; };
 		76C9C25420239B0900CE127A /* SignInTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTableViewController.swift; sourceTree = "<group>"; };
 		76CD8E841FF063DB00081206 /* Requests - Realm Classes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Requests - Realm Classes.swift"; path = "../../YourPianoBarPianist/YourPianoBarPianist/Requests - Realm Classes.swift"; sourceTree = "<group>"; };
 		76CDBE771EDB297B005C9C56 /* String Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String Extensions.swift"; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				7668923920C595C400359902 /* BrowserTableViewController-0518.swift */,
 				7675B6E820C092400073DEF8 /* SongsTableViewController-0518.swift */,
 				765412A220C0D5E800A3ABAB /* ArtistsTableViewController-0518.swift */,
+				76C6E9D420C7454B00A3E3B3 /* DecadesTableViewController-0518.swift */,
 			);
 			name = Browser;
 			sourceTree = "<group>";
@@ -739,6 +742,7 @@
 				767551AD201D013800EEC9C8 /* SongFinder.swift in Sources */,
 				769E28EB2016CA9C0014D7F4 /* UIFont Extensions.swift in Sources */,
 				76CD8E851FF063DB00081206 /* Requests - Realm Classes.swift in Sources */,
+				76C6E9D520C7454B00A3E3B3 /* DecadesTableViewController-0518.swift in Sources */,
 				767551AA201CD4E600EEC9C8 /* Google SignIn from App Delegate.swift in Sources */,
 				760AACCE2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift in Sources */,
 				767551AF201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift in Sources */,

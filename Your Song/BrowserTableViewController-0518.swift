@@ -17,6 +17,8 @@ class BrowserTableViewController_0518: UITableViewController {
 	var extraSection: Int {
 		return basePredicate == nil ? 1 : 0
 	}
+	
+	var extraRows = [String]()
 
 	var realm: Realm! { didSet { self.refreshSearchResults() } }
 	var type: BrowserObject.Type! { didSet { self.refreshSearchResults() } }
@@ -93,6 +95,11 @@ class BrowserTableViewController_0518: UITableViewController {
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		
+		if extraSection == 1, section == 0 {
+			return extraRows.count
+		}
+		
 		if let results = results, !activeKeys.isEmpty {
 			if activeKeys[section - extraSection] == "#" {
 				return numberKeyCount

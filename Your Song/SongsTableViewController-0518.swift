@@ -15,6 +15,7 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.type = Song.self
+		self.extraRows = ["Browse by Decade", "Browse by Artist"]
 	}
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -22,19 +23,12 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 		print(obj?.sortName)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
-	
-	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if extraSection == 1 {
-			return section == 0 ? 2 : super.tableView(tableView, numberOfRowsInSection: section)
-		}
-		return super.tableView(tableView, numberOfRowsInSection: section)
-	}
-	
+		
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		
 		if extraSection == 1 && indexPath.section == 0 {
-			cell.textLabel?.text = indexPath.row == 0 ? "Browse by Decade" : "Browse by Artist"
+			cell.textLabel?.text = extraRows[indexPath.row]
 			cell.detailTextLabel?.text = nil
 		} else {
 			if let song = object(at: indexPath) as? Song {
