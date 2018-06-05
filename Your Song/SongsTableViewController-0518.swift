@@ -27,7 +27,7 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		
-		if extraSection == 0 || indexPath.section > 0 {
+		if !extraSection(contains: indexPath.section) {
 			if let song = object(at: indexPath) as? Song {
 				cell.textLabel?.text = song.title
 				cell.detailTextLabel?.text = song.artist!.name

@@ -94,11 +94,17 @@ class BrowserTableViewController_0518: UITableViewController {
 		*/
 	}
 	
+	func extraSection(contains section: Int) -> Bool {
+		if extraSection == 1, section == 0 { return true }
+		return false
+		if extraSection == 0 || section > 0 { return false }
+	}
+	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		
-		if extraSection == 1, section == 0 {
+		if extraSection(contains: section) {
 			return extraRows.count
-		}
+		} else
 		
 		if let results = results, !activeKeys.isEmpty {
 			if activeKeys[section - extraSection] == "#" {
