@@ -112,6 +112,17 @@ class BrowserTableViewController_0518: UITableViewController {
 		return results?.count ?? 0
 	}
 	
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+
+		if extraSection == 1 && indexPath.section == 0 {
+			cell.textLabel?.text = extraRows[indexPath.row]
+			cell.detailTextLabel?.text = nil
+		}
+		
+		return cell
+	}
+	
 	fileprivate func adjPath(for indexPath: IndexPath) -> IndexPath {
 		if !activeKeys.isEmpty {
 			if indexPath.section > 0 {

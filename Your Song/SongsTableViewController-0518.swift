@@ -23,20 +23,18 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 		print(obj?.sortName)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
-		
+	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		
-		if extraSection == 1 && indexPath.section == 0 {
-			cell.textLabel?.text = extraRows[indexPath.row]
-			cell.detailTextLabel?.text = nil
-		} else {
+		if extraSection == 0 || indexPath.section > 0 {
 			if let song = object(at: indexPath) as? Song {
 				cell.textLabel?.text = song.title
 				cell.detailTextLabel?.text = song.artist!.name
+				return cell
 			}
 		}
-		return cell
+		return super.tableView(tableView, cellForRowAt: indexPath)
 	}
 	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
