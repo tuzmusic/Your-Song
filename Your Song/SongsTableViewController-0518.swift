@@ -13,7 +13,15 @@ import RealmSwift
 class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	
 	override func viewDidLoad() {
+		super.viewDidLoad()
 		self.type = Song.self
+	}
+	
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		if extraSection == 1 {
+			return section == 0 ? 2 : super.tableView(tableView, numberOfRowsInSection: section + 1)
+		}
+		return super.tableView(tableView, numberOfRowsInSection: section)
 	}
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -30,6 +38,13 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 			}
 		}
 		return cell
+	}
+	
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		if basePredicate == nil, section == 1 {
+			return "All Songs"
+		}
+		return nil
 	}
 	
 	// TO-DO: Override didSelect (do this in browserVC becasue of adjIP?)

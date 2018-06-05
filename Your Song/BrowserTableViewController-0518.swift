@@ -11,26 +11,18 @@ import Realm
 import RealmSwift
 
 class BrowserTableViewController_0518: UITableViewController {
-
-	var results: Results<BrowserObject>!
-
-	var realm: Realm? {
-		didSet {
-			self.refreshSearchResults()
-		}
-	}
-	var type: BrowserObject.Type! {
-		didSet {
-			self.refreshSearchResults()
-		}
-	}
-	var basePredicate: NSPredicate? {
-		didSet {
-			self.refreshSearchResults()
-		}
-	}
 	
-	func refreshSearchResults() {
+	var results: Results<BrowserObject>!
+	
+	var extraSection: Int {
+		return basePredicate == nil ? 1 : 0
+	}
+
+	var realm: Realm? { didSet { self.refreshSearchResults() } }
+	var type: BrowserObject.Type! { didSet { self.refreshSearchResults() } }
+	var basePredicate: NSPredicate? { didSet { self.refreshSearchResults() } }
+	
+	@objc func refreshSearchResults() {
 		// this will eventually be where searching affects things
 		updateResults()
 	}
@@ -38,9 +30,14 @@ class BrowserTableViewController_0518: UITableViewController {
 	func updateResults() {
 		// TO-DO: RSVC also keeps a notification token on the results, which in this case may not be entirely necessary (yet).
 		if let realm = realm, let type = type {
-			results = realm.objects(type)
+			results = realm.objects(type).sorted(byKeyPath: "sortName")
 			tableView.reloadData()
 		}
+	}
+	
+	// FOR DEBUGGING!
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//		updateResults()
 	}
 	
 	var activeKeys = [String]()
@@ -75,7 +72,7 @@ class BrowserTableViewController_0518: UITableViewController {
 	
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		guard !getActiveKeys().isEmpty else { return 1 }
-		return activeKeys.count + (basePredicate != nil ? 1 : 0)
+		return activeKeys.count //+ extraSection
 		/*
 		basePredicate == nil
 		All Songs: Yes - show "browse artists/browse genres" option
@@ -89,35 +86,38 @@ class BrowserTableViewController_0518: UITableViewController {
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if let results = results, !activeKeys.isEmpty {
-			if activeKeys.contains("#"), section == 0 {
+			if activeKeys[section - extraSection] == "#" {
 				return numberKeyCount
 			} else {
-				let startingLetter = activeKeys[section]
+				let startingLetter = activeKeys[section - extraSection]
 				let items = results.filter(NSPredicate(format: "sortName BEGINSWITH %@", startingLetter))
-				return Int(items.count)
+				return items.count
 			}
 		}
-		return Int(results?.count ?? 0)
+		return results?.count ?? 0
 	}
 	
 	func adjustedIndexPath(for indexPath: IndexPath) -> IndexPath {
 		if !activeKeys.isEmpty {
 			if indexPath.section > 0 {
 				var rowNumber = indexPath.row
-				for section in 1..<indexPath.section {		// this 1 needs to respect whether there's an "all" section!
+				for section in 1..<indexPath.section {
 					rowNumber += self.tableView.numberOfRows(inSection: section)
 				}
-				return (IndexPath(row: rowNumber, section: 0))
+				return IndexPath(row: rowNumber, section: 0)
 			}
 		}
 		return indexPath
 	}
-	
+
 	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
 		return activeKeys
 	}
 	
 	override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-		return activeKeys.index(of: title)! + (basePredicate != nil ? 1 : 0)
+		return activeKeys.index(of: title)! + extraSection
+	}
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		return activeKeys[section]
 	}
 }
