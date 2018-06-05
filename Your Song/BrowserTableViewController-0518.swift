@@ -74,7 +74,7 @@ class BrowserTableViewController_0518: UITableViewController {
 	
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		guard !getActiveKeys().isEmpty else { return 1 }
-		return activeKeys.count //+ extraSection
+		return activeKeys.count + extraSection
 		/*
 		basePredicate == nil
 		All Songs: Yes - show "browse artists/browse genres" option
