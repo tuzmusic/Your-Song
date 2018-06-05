@@ -95,16 +95,19 @@ class BrowserTableViewController_0518: UITableViewController {
 	}
 	
 	func extraSection(contains section: Int) -> Bool {
-		if extraSection == 1, section == 0 { return true }
-		return false
-		if extraSection == 0 || section > 0 { return false }
+		return extraSection == 1 && section == 0
+	}
+	
+	func tuzSearchController(_ searchCon: BrowserTableViewController_0518, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {
+		print("you have to override cellForNonHeaderRow")
+		return UITableViewCell()
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		
 		if extraSection(contains: section) {
 			return extraRows.count
-		} else
+		}
 		
 		if let results = results, !activeKeys.isEmpty {
 			if activeKeys[section - extraSection] == "#" {
@@ -121,9 +124,11 @@ class BrowserTableViewController_0518: UITableViewController {
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 
-		if extraSection == 1 && indexPath.section == 0 {
+		if extraSection(contains: indexPath.section) {
 			cell.textLabel?.text = extraRows[indexPath.row]
 			cell.detailTextLabel?.text = nil
+		} else {
+			return tuzSearchController(self, cellForNonHeaderRowAt: indexPath)
 		}
 		
 		return cell

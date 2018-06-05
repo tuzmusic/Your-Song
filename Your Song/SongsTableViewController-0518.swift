@@ -24,18 +24,27 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 	
-	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	override func tuzSearchController(_ searchCon: BrowserTableViewController_0518, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-		
-		if !extraSection(contains: indexPath.section) {
-			if let song = object(at: indexPath) as? Song {
-				cell.textLabel?.text = song.title
-				cell.detailTextLabel?.text = song.artist!.name
-				return cell
-			}
+		if let song = object(at: indexPath) as? Song {
+			cell.textLabel?.text = song.title
+			cell.detailTextLabel?.text = song.artist!.name
 		}
-		return super.tableView(tableView, cellForRowAt: indexPath)
+		return cell
 	}
+	
+//	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+//		
+//		if !extraSection(contains: indexPath.section) {
+//			if let song = object(at: indexPath) as? Song {
+//				cell.textLabel?.text = song.title
+//				cell.detailTextLabel?.text = song.artist!.name
+//				return cell
+//			}
+//		}
+//		return super.tableView(tableView, cellForRowAt: indexPath)
+//	}
 	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		if basePredicate == nil, section == 1 {
