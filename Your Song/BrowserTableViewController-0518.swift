@@ -37,7 +37,9 @@ class BrowserTableViewController_0518: UITableViewController {
 	
 	// FOR DEBUGGING!
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//		updateResults()
+		tableView.deselectRow(at: indexPath, animated: true)
+		print("Section: \(indexPath.section), adjPath: \(adjPath(for: indexPath))")
+		updateResults()
 	}
 	
 	var activeKeys = [String]()
@@ -97,7 +99,7 @@ class BrowserTableViewController_0518: UITableViewController {
 		return results?.count ?? 0
 	}
 	
-	func adjustedIndexPath(for indexPath: IndexPath) -> IndexPath {
+	func adjPath(for indexPath: IndexPath) -> IndexPath {
 		if !activeKeys.isEmpty {
 			if indexPath.section > 0 {
 				var rowNumber = indexPath.row
@@ -118,6 +120,6 @@ class BrowserTableViewController_0518: UITableViewController {
 		return activeKeys.index(of: title)! + extraSection
 	}
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		return activeKeys[section]
+		return activeKeys[section - extraSection]
 	}
 }
