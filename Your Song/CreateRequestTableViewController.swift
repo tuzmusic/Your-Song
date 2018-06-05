@@ -86,7 +86,7 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate {
 		if let navcon = segue.destination as? UINavigationController,
 			let songsVC = navcon.viewControllers.first as? SongsTableViewController_0518 {
 			songsVC.realm = self.realm
-//			songsVC.basePredicate = NSPredicate(format: "artist.name = %@", "Billy Joel")
+			songsVC.basePredicate = NSPredicate(format: "artist.name = %@", "Billy Joel")
 		}
 		if let searchVC = segue.destination as? RealmSearchViewController {
 			searchVC.realmConfiguration = realm!.configuration

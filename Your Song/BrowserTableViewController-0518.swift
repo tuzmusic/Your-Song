@@ -18,21 +18,56 @@ class BrowserTableViewController_0518: UITableViewController {
 		return basePredicate == nil ? 1 : 0
 	}
 
-	var realm: Realm? { didSet { self.refreshSearchResults() } }
+	var realm: Realm! { didSet { self.refreshSearchResults() } }
 	var type: BrowserObject.Type! { didSet { self.refreshSearchResults() } }
 	var basePredicate: NSPredicate? { didSet { self.refreshSearchResults() } }
+	// RSVC calls refreshResults, which calls searchPredicate, which gets various predicate arguments and /combines/ them with the basePredicate to form a compound predicate
+	var sortPath: String = "sortName" { didSet { self.refreshSearchResults() } }
+	var sortAscending: Bool = true { didSet { self.refreshSearchResults() } }
 	
 	@objc func refreshSearchResults() {
-		// this will eventually be where searching affects things
+		/* RSVC version
+		let searchString = searchController.searchBar.text
+		let predicate = self.searchPredicate(searchString)
+		updateResults(predicate) */
+		
 		updateResults()
 	}
 	
 	func updateResults() {
-		// TO-DO: RSVC also keeps a notification token on the results, which in this case may not be entirely necessary (yet).
-		if let realm = realm, let type = type {
-			results = realm.objects(type).sorted(byKeyPath: "sortName")
-			tableView.reloadData()
+		/* RSVC version - the MEAT of it is this call:
+		if let results = self.searchResults(self.entityName, inRealm: self.rlmRealm, predicate: predicate, sortPropertyKey: self.sortPropertyKey, sortAscending: self.sortAscending)
+		
+		followed by a check to isReadOnly (for some reason), and then a notification token on the results, which in this case may not be entirely necessary (yet).
+		*/
+		
+		results = searchResults(type, inRealm: realm, predicate: basePredicate, sortPropertyKey: sortPath, sortAscending: sortAscending)
+		tableView.reloadData() // fyi: the 'basic' call to this in RSVC is in the notification handler
+	}
+	
+	func searchResults(_ type: BrowserObject.Type?, inRealm realm: Realm?, predicate: NSPredicate?, sortPropertyKey: String?, sortAscending: Bool) -> Results<BrowserObject>? {
+		
+		guard let realm = realm, let type = type else { return nil }
+		
+		var results = realm.objects(type)
+		
+		if let pred = predicate {
+			results = results.filter(pred)
 		}
+		if let sortPath = sortPropertyKey {
+			results = results.sorted(byKeyPath: sortPath, ascending: sortAscending)
+		}
+		
+		return results
+		
+		// TO-DO: combine basePred and search text (and/or other predicate stuff
+		
+		/* TO-DO: further generalizing of this would include:
+		(the declaration here is currently identical to the declaration in RSVC. Using passed arguments for realm and type rather than using their instance values (which are simply passed here by the calling function) seems a little unnecessary but I'm going by RSVC's example)
+		realm and type being not implicitly unwrapped
+		sortPath being optional (it's got a default value here because I know what kind of objects I'm dealing with)
+		different searching options for developer (see RSVC searchPredicate(text:)
+		*/
 	}
 	
 	func diagnostics(indexPath: IndexPath) {
