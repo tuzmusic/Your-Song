@@ -19,8 +19,7 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if extraSection == 1 {
-			return section == 0 ? 2
-				: super.tableView(tableView, numberOfRowsInSection: section)
+			return section == 0 ? 2 : super.tableView(tableView, numberOfRowsInSection: section)
 		}
 		return super.tableView(tableView, numberOfRowsInSection: section)
 	}

@@ -35,10 +35,15 @@ class BrowserTableViewController_0518: UITableViewController {
 		}
 	}
 	
-	// FOR DEBUGGING!
+	func diagnostics(indexPath: IndexPath) {
+		print("indexPath: \(indexPath.section), adjPath: \(adjPath(for: indexPath))")
+		print("rows in '\(activeKeys[indexPath.section])': \(tableView.numberOfRows(inSection: indexPath.section))")
+		print("songs starting with '\(activeKeys[indexPath.section])': \(results.filter(NSPredicate(format: "sortName BEGINSWITH %@", activeKeys[indexPath.section])).count)")
+	}
+	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
-		print("Section: \(indexPath.section), adjPath: \(adjPath(for: indexPath))")
+		diagnostics(indexPath: indexPath)
 		updateResults()
 	}
 	
@@ -103,7 +108,7 @@ class BrowserTableViewController_0518: UITableViewController {
 		if !activeKeys.isEmpty {
 			if indexPath.section > 0 {
 				var rowNumber = indexPath.row
-				for section in 1..<indexPath.section {
+				for section in extraSection..<indexPath.section {
 					rowNumber += self.tableView.numberOfRows(inSection: section)
 				}
 				return IndexPath(row: rowNumber, section: 0)
