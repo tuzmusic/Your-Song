@@ -10,40 +10,27 @@ import UIKit
 import Realm
 import RealmSwift
 
-class SongsTableViewController_0518: UITableViewController {
+class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	
-	var realm: Realm! {
-		didSet {
-			songs = realm.objects(Song.self).sorted(byKeyPath: "sortName")
-		}
+	override func viewDidLoad() {
+		self.type = Song.self
 	}
-	
-	var songs: Results<Song>!
-	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
-	
-	// MARK: - Table view data source
-	
-	override func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
-	}
-	
-	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return songs.count
-	}
-	
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-		let song = songs[indexPath.row]
 		
-		cell.textLabel?.text = song.title
-		cell.detailTextLabel?.text = song.artist!.name
+		if basePredicate == nil && indexPath.section == 0 {
+			cell.textLabel?.text = indexPath.row == 0 ? "Browse by Decade" : "Browse by Artist"
+			cell.detailTextLabel?.text = nil
+		} else {
+			let item = results[adjustedIndexPath(for: indexPath).row]
+			if let song = item as? Song {
+				cell.textLabel?.text = song.title
+				cell.detailTextLabel?.text = song.artist!.name
+			}
+		}
 		return cell
 	}
 	
+	// TO-DO: Override didSelect (do this in browserVC becasue of adjIP?)
 }

@@ -83,7 +83,8 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate {
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let songsVC = segue.destination as? SongsTableViewController_0518 {
+		if let navcon = segue.destination as? UINavigationController,
+			let songsVC = navcon.viewControllers.first as? SongsTableViewController_0518 {
 			songsVC.realm = self.realm
 		}
 		if let searchVC = segue.destination as? RealmSearchViewController {
