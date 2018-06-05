@@ -76,41 +76,7 @@ class BrowserTableViewController_0518: UITableViewController {
 		print("songs starting with '\(activeKeys[indexPath.section])': \(results.filter(NSPredicate(format: "sortName BEGINSWITH %@", activeKeys[indexPath.section])).count)")
 	}
 	
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		tableView.deselectRow(at: indexPath, animated: true)
-		diagnostics(indexPath: indexPath)
-		updateResults()
-	}
-	
-	var activeKeys = [String]()
-	var numberKeyCount = 0
-	
-	func getActiveKeys() -> [String] {
-		
-		let numbers = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
-		let letters = [ "A","B","C","D","E","F","G","H","I","J","K","L","M",
-							 "N","O","P","Q","R","S","T","U","V","W","X","Y","Z" ]
-		var allKeys: Array<String> { return numbers + letters }
-
-		activeKeys.removeAll()
-		numberKeyCount = 0
-		
-		if let results = results {
-			for key in allKeys {
-				if results.filter(NSPredicate(format: "sortName BEGINSWITH %@", key)).count > 0 {
-					if numbers.contains(key) {
-						numberKeyCount += 1
-						if !activeKeys.contains("#") {
-							activeKeys.append("#")
-						}
-					} else {
-						activeKeys.append(key)
-					}
-				}
-			}
-		}
-		return activeKeys
-	}
+	// MARK: Table View Controller Data Source
 	
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		guard !getActiveKeys().isEmpty else { return 1 }
@@ -139,7 +105,7 @@ class BrowserTableViewController_0518: UITableViewController {
 		return results?.count ?? 0
 	}
 	
-	func adjPath(for indexPath: IndexPath) -> IndexPath {
+	fileprivate func adjPath(for indexPath: IndexPath) -> IndexPath {
 		if !activeKeys.isEmpty {
 			if indexPath.section > 0 {
 				var rowNumber = indexPath.row
@@ -151,11 +117,45 @@ class BrowserTableViewController_0518: UITableViewController {
 		}
 		return indexPath
 	}
-
+	
+	func object(at indexPath: IndexPath) -> BrowserObject? {
+		return results?[adjPath(for: indexPath).row] ?? nil
+	}
+	
+	// MARK: Section index titles and headers
+	
+	var activeKeys = [String]()
+	var numberKeyCount = 0
+	
+	func getActiveKeys() -> [String] {
+		
+		let numbers = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
+		let letters = [ "A","B","C","D","E","F","G","H","I","J","K","L","M",
+							 "N","O","P","Q","R","S","T","U","V","W","X","Y","Z" ]
+		var allKeys: Array<String> { return numbers + letters }
+		
+		activeKeys.removeAll()
+		numberKeyCount = 0
+		
+		if let results = results {
+			for key in allKeys {
+				if results.filter(NSPredicate(format: "sortName BEGINSWITH %@", key)).count > 0 {
+					if numbers.contains(key) {
+						numberKeyCount += 1
+						if !activeKeys.contains("#") {
+							activeKeys.append("#")
+						}
+					} else {
+						activeKeys.append(key)
+					}
+				}
+			}
+		}
+		return activeKeys
+	}
 	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
 		return activeKeys
 	}
-	
 	override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
 		return activeKeys.index(of: title)! + extraSection
 	}

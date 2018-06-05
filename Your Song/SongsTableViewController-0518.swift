@@ -17,6 +17,12 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 		self.type = Song.self
 	}
 	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let obj = object(at: indexPath)
+		print(obj?.sortName)
+		tableView.deselectRow(at: indexPath, animated: true)
+	}
+	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if extraSection == 1 {
 			return section == 0 ? 2 : super.tableView(tableView, numberOfRowsInSection: section)
@@ -31,9 +37,7 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 			cell.textLabel?.text = indexPath.row == 0 ? "Browse by Decade" : "Browse by Artist"
 			cell.detailTextLabel?.text = nil
 		} else {
-			let itemIndex = adjPath(for: indexPath).row
-			let item = results[itemIndex]
-			if let song = item as? Song {
+			if let song = object(at: indexPath) as? Song {
 				cell.textLabel?.text = song.title
 				cell.detailTextLabel?.text = song.artist!.name
 			}
