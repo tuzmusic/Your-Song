@@ -16,6 +16,7 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 		super.viewDidLoad()
 		self.type = Song.self
 		self.extraRows = ["Browse by Decade", "Browse by Artist"]
+		self.testPred = ("artist.name = %@", "Billy Joel")
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {   // a place for breakpoints and diagnostics
@@ -23,8 +24,7 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	}
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let obj = object(at: indexPath)
-		print(obj?.sortName)
+		print(object(at: indexPath)?.sortName)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 	
@@ -38,7 +38,7 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	}
 	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		return extraSection == 0 && section == 1 ? "All Songs" : nil
+		return extraSection == 1 && section == 1 ? "All Songs" : nil
 	}
 	
 }

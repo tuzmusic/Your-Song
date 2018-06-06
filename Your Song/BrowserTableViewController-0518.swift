@@ -78,6 +78,21 @@ class BrowserTableViewController_0518: UITableViewController {
 		print("songs starting with '\(activeKeys[indexPath.section])': \(results.filter(NSPredicate(format: "sortName BEGINSWITH %@", activeKeys[indexPath.section])).count)")
 	}
 	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Pred", style: .plain, target: self, action: #selector(testPred(_:)))
+	}
+	var testPred: (format: String, args: String)?
+	@objc func testPred(_ sender: Any) {
+		if basePredicate != nil {
+			basePredicate = nil
+		} else if let testPred = self.testPred {
+			basePredicate = basePredicate != nil ? nil :
+				NSPredicate(format: testPred.format, testPred.args)
+			tableView.reloadData()
+		}
+	}
+	
 	// MARK: Table View Controller Data Source
 	
 	override func numberOfSections(in tableView: UITableView) -> Int {
@@ -99,7 +114,9 @@ class BrowserTableViewController_0518: UITableViewController {
 	}
 	
 	func tuzSearchController(_ searchCon: BrowserTableViewController_0518, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {
-		print("you have to override cellForNonHeaderRow")
+		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+		cell.textLabel?.text = "You haven't overridden cellForNonHeaderRow"
+		cell.detailTextLabel?.text = nil
 		return UITableViewCell()
 	}
 	
