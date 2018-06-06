@@ -28,8 +28,6 @@ class BrowserTableViewController_0518: UITableViewController {
 	var sortAscending: Bool = true { didSet { self.refreshSearchResults() } }
 
 	var basePredicate: NSPredicate? { didSet { self.refreshSearchResults() } }
-	// RSVC calls refreshResults, which calls searchPredicate, which gets various predicate arguments and /combines/ them with the basePredicate to form a compound predicate
-
 	var searchString: String? { didSet { self.refreshSearchResults() } }
 	
 	@objc func refreshSearchResults() {
@@ -38,17 +36,24 @@ class BrowserTableViewController_0518: UITableViewController {
 		let predicate = self.searchPredicate(searchString)
 		updateResults(predicate) */
 		
-		updateResults()
+		var predicates = [NSPredicate]()
+		
+		if let base = basePredicate { predicates.append(base) }
+		if let search = searchString { predicates.append(NSPredicate(format: "sortName CONTAINS %@", search)) }
+		
+		let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+		
+		updateResults(compoundPredicate)
 	}
 	
-	func updateResults() {
+	func updateResults(_ predicate: NSPredicate) {
 		/* RSVC version - the MEAT of it is this call:
 		if let results = self.searchResults(self.entityName, inRealm: self.rlmRealm, predicate: predicate, sortPropertyKey: self.sortPropertyKey, sortAscending: self.sortAscending)
 		
 		followed by a check to isReadOnly (for some reason), and then a notification token on the results, which in this case may not be entirely necessary (yet).
 		*/
 		
-		results = searchResults(type, inRealm: realm, predicate: basePredicate, sortPropertyKey: sortPath, sortAscending: sortAscending)
+		results = searchResults(type, inRealm: realm, predicate: predicate, sortPropertyKey: sortPath, sortAscending: sortAscending)
 		tableView.reloadData() // fyi: the 'basic' call to this in RSVC is in the notification handler
 	}
 	
