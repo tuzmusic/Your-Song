@@ -24,10 +24,13 @@ class BrowserTableViewController_0518: UITableViewController {
 
 	var realm: Realm! { didSet { self.refreshSearchResults() } }
 	var type: BrowserObject.Type! { didSet { self.refreshSearchResults() } }
-	var basePredicate: NSPredicate? { didSet { self.refreshSearchResults() } }
-	// RSVC calls refreshResults, which calls searchPredicate, which gets various predicate arguments and /combines/ them with the basePredicate to form a compound predicate
 	var sortPath: String = "sortName" { didSet { self.refreshSearchResults() } }
 	var sortAscending: Bool = true { didSet { self.refreshSearchResults() } }
+
+	var basePredicate: NSPredicate? { didSet { self.refreshSearchResults() } }
+	// RSVC calls refreshResults, which calls searchPredicate, which gets various predicate arguments and /combines/ them with the basePredicate to form a compound predicate
+
+	var searchString: String? { didSet { self.refreshSearchResults() } }
 	
 	@objc func refreshSearchResults() {
 		/* RSVC version
@@ -82,17 +85,18 @@ class BrowserTableViewController_0518: UITableViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Pred", style: .plain, target: self, action: #selector(testPred(_:)))
+		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(search(_:)))
 	}
 	var testPred: (format: String, args: String)?
-	@objc func testPred(_ sender: Any) {
-		if basePredicate != nil {
-			basePredicate = nil
-		} else if let testPred = self.testPred {
-			basePredicate = basePredicate != nil ? nil :
-				NSPredicate(format: testPred.format, testPred.args)
-			tableView.reloadData()
+	@objc func search(_ sender: Any) {
+		let alert = UIAlertController(title: "Search", message: nil, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+		alert.addTextField(configurationHandler: nil)
+		let button = UIAlertAction(title: "Search", style: .default) { (_) in
+			self.searchString = alert.textFields?.first?.text
 		}
+		alert.addAction(button)
+		present(alert, animated: true, completion: nil)
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
