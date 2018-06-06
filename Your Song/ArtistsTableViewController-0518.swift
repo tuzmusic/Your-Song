@@ -32,7 +32,10 @@ class ArtistsTableViewController_0518: BrowserTableViewController_0518 {
 		super.prepare(for: segue, sender: sender)
 		if let songsVC = segue.destination as? SongsTableViewController_0518 {
 			if let artist = sender as? Artist {
-				songsVC.basePredicate = NSPredicate(format: "artist.name = %@", artist.name)
+				songsVC.title = artist.name
+				songsVC.basePredicate = NSPredicate(format: "artist = %@", artist)
+			} else {
+				// still go to songsVC, but don't add a predicate
 			}
 		}
 	}

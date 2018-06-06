@@ -314,6 +314,10 @@
                             <outlet property="delegate" destination="gX1-T8-Yvp" id="yG4-jQ-CLM"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="fR3-cW-AS2" kind="show" identifier="DecadesToArtists" id="9J9-M7-52C"/>
+                        <segue destination="ROG-34-Z6b" kind="show" identifier="DecadesToSongs" id="cBC-ZI-kuL"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hRn-b6-RIi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -364,7 +368,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JAT-Qo-Izq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2295" y="483"/>
+            <point key="canvasLocation" x="683" y="1234"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3g1-Og-JiS">
@@ -846,7 +850,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="NLW-pV-egv"/>
+        <segue reference="9J9-M7-52C"/>
+        <segue reference="cBC-ZI-kuL"/>
         <segue reference="KJF-dN-y5i"/>
     </inferredMetricsTieBreakers>
 </document>

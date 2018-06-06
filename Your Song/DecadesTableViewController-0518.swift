@@ -22,9 +22,21 @@ class DecadesTableViewController_0518: BrowserTableViewController_0518 {
 	override func viewDidAppear(_ animated: Bool) {   // a place for breakpoints and diagnostics
 		super.viewDidAppear(true)
 	}
-	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if let decade = object(at: indexPath) as? Decade {
+			performSegue(withIdentifier: "DecadesToArtists", sender: decade)
+		} else if extraSection(contains: indexPath.section) {
+			performSegue(withIdentifier: indexPath.row == 0 ? "DecadesToSongs" : "DecadesToArtists", sender: nil)
+		}
+	}
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		super.prepare(for: segue, sender: sender)
+		if let artistsVC = segue.destination as? ArtistsTableViewController_0518 {
+			if let decade = sender as? Decade {
+				artistsVC.title = decade.name + " Artists"
+				artistsVC.basePredicate = NSPredicate(format: "decade = %@", decade.name)
+			}
+		}
 	}
 	
 	override func tuzSearchController(_ searchCon: BrowserTableViewController_0518, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {
