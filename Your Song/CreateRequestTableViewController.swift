@@ -20,18 +20,7 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-//		navigationController?.viewControllers = [self]
-//		navigationItem.leftItemsSupplementBackButton = true
-//		navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-
 		resetRequest()
-	}
-	
-	@IBAction func showMenu() {
-		if let masterNav = splitViewController?.viewControllers.first as? UINavigationController,
-			let master = masterNav.topViewController {
-//			show(master, sender: nil)
-		}
 	}
 	
 	@IBOutlet weak var nameTextField: UITextField! {
@@ -83,8 +72,8 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate {
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let navcon = segue.destination as? UINavigationController,
-			let songsVC = navcon.viewControllers.first as? SongsTableViewController_0518 {
+		if let songsVC = segue.destination as? SongsTableViewController_0518
+		{
 			songsVC.realm = self.realm
 //			songsVC.basePredicate = NSPredicate(format: "artist.name = %@", "Billy Joel")
 		}

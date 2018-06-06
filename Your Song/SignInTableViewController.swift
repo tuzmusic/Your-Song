@@ -18,6 +18,12 @@ extension YpbUser {
 	}
 }
 
+struct RealmConstants {
+	static let address = "your-piano-bar.us1.cloud.realm.io"
+	static let authURL = URL(string:"https://\(address)")!
+	static let realmURL = URL(string:"realms://\(address)/YourPianoBar/JonathanTuzman/")!
+}
+
 class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, RealmDelegate {
 	
 	@IBOutlet weak var userNameField: UITextField!
@@ -43,23 +49,27 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		}
 	}
 	
+	fileprivate func findYpbUser(in realm: Realm) {
+		if let user = YpbUser.existingUser(for: SyncUser.current!, in: realm) { // If we find the YpbUser:
+			try! realm.write { YpbUser.current = user	}
+		} else {
+			pr("YpbUser not found.") // i.e., Realm user found, but not YpbUser. Not sure when this would happen. (Well, it happens when we open an empty realm for some reason)
+			if let info = proposedUser {
+				createNewYpbUser(for: info, in: realm)
+			} else {
+				// we're using a sample user. loginSampleUser doesn't assign a proposed user, so we end up in this else clause, we don't look for or assign YpbUser.current
+				pr("couldn't find creds for sample user")
+			}
+		}
+	}
+	
 	var realm: Realm? {
 		didSet {
-			if let realm = realm {
-				if let user = YpbUser.existingUser(for: SyncUser.current!, in: realm) { // If we find the YpbUser:
-					try! realm.write { YpbUser.current = user	}
-				} else {
-					pr("YpbUser not found.") // i.e., Realm user found, but not YpbUser. Not sure when this would happen. (Well, it happens when we open an empty realm for some reason)
-					if let info = proposedUser {
-						createNewYpbUser(for: info, in: realm)
-					} else {
-						// we're using a sample user. loginSampleUser doesn't assign a proposed user, so we end up in this else clause, we don't look for or assign YpbUser.current
-						pr("couldn't find creds for sample user")
-					}
-				}
-				self.performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
-			}
 			toggleRealmButtons(signedIn: (realm == nil ? false : true))
+			if let realm = realm {
+				// findYpbUser(in: realm)
+				performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
+			}
 		}
 	}
 	

@@ -12,10 +12,19 @@ import RealmSwift
 
 var globalConfig: Realm.Configuration!
 
-struct RealmConstants {
-	static let address = "your-piano-bar.us1.cloud.realm.io"
-	static let authURL = URL(string:"https://\(address)")!
-	static let realmURL = URL(string:"realms://\(address)/YourPianoBar/JonathanTuzman/")!
+extension Realm {
+	static func printUserInfo(in realm: Realm?) {
+		// diagnostics
+		let users = ["ed8b190c0679ec273f1597bd79108e54":"tuzmusic@gmail.com", "46297eaefc58a3378da0bf66f9b520eb":"jonathan"]
+		if let id = realm?.configuration.syncConfiguration?.user.identity {
+			print("user id: \(id)")
+			if let name = users[id] {
+				print("user: \(name)")
+			} else {
+				print("user not in my dictionary")
+			}
+		}
+	}
 }
 
 func timeSince(time: Date) -> String {

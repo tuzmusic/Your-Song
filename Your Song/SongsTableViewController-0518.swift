@@ -18,6 +18,10 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 		self.extraRows = ["Browse by Decade", "Browse by Artist"]
 	}
 	
+	override func viewDidAppear(_ animated: Bool) {   // a place for breakpoints and diagnostics
+		super.viewDidAppear(true)
+	}
+	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let obj = object(at: indexPath)
 		print(obj?.sortName)
