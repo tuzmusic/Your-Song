@@ -117,11 +117,17 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	}
 	
 	@IBAction func loginSampleUser(_ sender: UIButton) {
-		let creds = ["realm-admin":"", "tuzmusic@gmail.com":"***REMOVED***", "testUser1":"1234"]
+		let creds = ["realm-admin":"", "testUser1":"1234"]
+		
 		if SyncUser.current == nil {
-			if let username = sender.titleLabel?.text, let password = creds[username] {
-				let cred = SyncCredentials.usernamePassword(username: username, password: password)
-				realmCredLogin(cred: cred)
+			if let username = sender.titleLabel?.text {
+				if let password = creds[username] {
+					let cred = SyncCredentials.usernamePassword(username: username, password: password)
+					realmCredLogin(cred: cred)
+				} else {
+					let nicknameCred = SyncCredentials.nickname(username)
+					realmCredLogin(cred: nicknameCred)
+				}
 			}
 		}
 	}

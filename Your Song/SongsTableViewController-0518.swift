@@ -33,25 +33,8 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 		return cell
 	}
 	
-//	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-//		
-//		if !extraSection(contains: indexPath.section) {
-//			if let song = object(at: indexPath) as? Song {
-//				cell.textLabel?.text = song.title
-//				cell.detailTextLabel?.text = song.artist!.name
-//				return cell
-//			}
-//		}
-//		return super.tableView(tableView, cellForRowAt: indexPath)
-//	}
-	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		if basePredicate == nil, section == 1 {
-			return "All Songs"
-		}
-		return nil
+		return extraSection == 0 && section == 1 ? "All Songs" : nil
 	}
 	
-	// TO-DO: Override didSelect (do this in browserVC becasue of adjIP?)
 }

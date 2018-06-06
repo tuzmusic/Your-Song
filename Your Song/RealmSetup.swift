@@ -15,7 +15,7 @@ class RealmSetup {
 	
 	init() {
 		let username = "tuzmusic@gmail.com"
-		let password = "***REMOVED***"
+		let password = "samiam"
 		let localHTTP = URL(string:"http://54.208.237.32:9080")!
 		
 		SyncUser.logIn(with: .usernamePassword(username: username, password: password), server: localHTTP) {
