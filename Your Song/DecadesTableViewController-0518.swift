@@ -23,18 +23,23 @@ class DecadesTableViewController_0518: BrowserTableViewController_0518 {
 		super.viewDidAppear(true)
 	}
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		var sender: Any? = nil
 		if let decade = object(at: indexPath) as? Decade {
-			performSegue(withIdentifier: "DecadesToArtists", sender: decade)
+			sender = decade
 		} else if extraSection(contains: indexPath.section) {
-			performSegue(withIdentifier: indexPath.row == 0 ? "DecadesToSongs" : "DecadesToArtists", sender: nil)
+			sender = nil
 		}
+		performSegue(withIdentifier: "DecadesToSongs", sender: sender)
 	}
+	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		super.prepare(for: segue, sender: sender)
-		if let artistsVC = segue.destination as? ArtistsTableViewController_0518 {
+		if let songsVC = segue.destination as? SongsTableViewController_0518 {
 			if let decade = sender as? Decade {
-				artistsVC.title = decade.name + " Artists"
-				artistsVC.basePredicate = NSPredicate(format: "decade = %@", decade.name)
+				songsVC.title = decade.name
+				songsVC.basePredicate = NSPredicate(format: "decade = %@", decade)
+			} else {
+				// still go to songsVC, but don't add a predicate
 			}
 		}
 	}
