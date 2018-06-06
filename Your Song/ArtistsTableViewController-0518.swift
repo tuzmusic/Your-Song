@@ -18,6 +18,25 @@ class ArtistsTableViewController_0518: BrowserTableViewController_0518 {
 		self.testPred = ("name CONTAINS %@", "The")
 	}
 	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		var sender: Any? = nil
+		if let artist = object(at: indexPath) as? Artist {
+			sender = artist
+		} else if extraSection(contains: indexPath.section) {
+			sender = nil
+		}
+		performSegue(withIdentifier: "ArtistsToSongs", sender: sender)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let songsVC = segue.destination as? SongsTableViewController_0518 {
+			songsVC.realm = realm
+			songsVC.requestFormDelegate = requestFormDelegate
+			if let artist = sender as? Artist {
+				songsVC.basePredicate = NSPredicate(format: "artist.name = %@", artist.name)
+			}
+		}
+	}
 	
 	override func tuzSearchController(_ searchCon: BrowserTableViewController_0518, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!

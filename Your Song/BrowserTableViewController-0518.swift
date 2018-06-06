@@ -14,6 +14,8 @@ class BrowserTableViewController_0518: UITableViewController {
 	
 	var results: Results<BrowserObject>!
 	
+	var requestFormDelegate: CreateRequestTableViewController?		// NOT FOR GENERAL CONSUMPTION (of this class)
+	
 	var extraSection: Int {
 		return basePredicate == nil ? 1 : 0
 	}

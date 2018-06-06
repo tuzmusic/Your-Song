@@ -358,6 +358,9 @@
                             <outlet property="delegate" destination="fR3-cW-AS2" id="bbq-AZ-VwE"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="ROG-34-Z6b" kind="show" identifier="ArtistsToSongs" id="NLW-pV-egv"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JAT-Qo-Izq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -843,6 +846,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="NLW-pV-egv"/>
         <segue reference="KJF-dN-y5i"/>
     </inferredMetricsTieBreakers>
 </document>

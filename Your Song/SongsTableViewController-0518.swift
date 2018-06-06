@@ -12,8 +12,6 @@ import RealmSwift
 
 class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	
-	var requestFormDelegate: CreateRequestTableViewController?
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.type = Song.self
@@ -27,7 +25,6 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		super.tableView(tableView, didSelectRowAt: indexPath)
-
 		if let song = object(at: indexPath) as? Song, let form = requestFormDelegate {
 			form.request.songObject = song
 			form.songTextField.text = song.songDescription
@@ -39,6 +36,7 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let categoryVC = segue.destination as? BrowserTableViewController_0518 {
+			categoryVC.requestFormDelegate = requestFormDelegate
 			categoryVC.realm = realm
 		}
 	}

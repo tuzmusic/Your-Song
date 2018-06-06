@@ -31,8 +31,7 @@ class DecadesTableViewController_0518: BrowserTableViewController_0518 {
 		}
 		return cell
 	}
-	
-	
+		
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		return extraSection == 1 && section == 1 ? "All Decades/Genres" : nil
 	}
