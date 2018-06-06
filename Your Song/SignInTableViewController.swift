@@ -149,6 +149,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 				return
 			}
 			pr("SyncUser logged in: \(user)")
+			
 			self.openRealmWithUser(user: user)
 		}
 	}
