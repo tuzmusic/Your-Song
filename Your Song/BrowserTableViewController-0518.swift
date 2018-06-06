@@ -93,20 +93,15 @@ class BrowserTableViewController_0518: UITableViewController {
 		}
 	}
 	
-	// MARK: Table View Controller Data Source
+	// MARK: Table View Controller Delegate & Data Source
+	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+	}
 	
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		guard !getActiveKeys().isEmpty else { return 1 }
 		return activeKeys.count + extraSection
-		/*
-		basePredicate == nil
-		All Songs: Yes - show "browse artists/browse genres" option
-		All Artists: Yes - show "All Songs" option
-		All Decade: Yes - show "All Artists" (and "All Songs") option
-		basePredicate != nil - for simplicity's sake, I'm willing to leave out "All Songs in Decade"
-		Artists in Decade: Yes - show "All Songs in Decade" option
-		Songs in Decade/Songs by Artist: No - no further level in tree; to browse by artist or genre, go back through navigation
-		*/
 	}
 	
 	func extraSection(contains section: Int) -> Bool {
@@ -117,7 +112,7 @@ class BrowserTableViewController_0518: UITableViewController {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		cell.textLabel?.text = "You haven't overridden cellForNonHeaderRow"
 		cell.detailTextLabel?.text = nil
-		return UITableViewCell()
+		return cell
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -166,7 +161,7 @@ class BrowserTableViewController_0518: UITableViewController {
 	
 	func object(at indexPath: IndexPath) -> BrowserObject? {
 		if !extraSection(contains: indexPath.section) {
-			return results?[adjPath(for: indexPath).row] ?? nil
+			return results?[adjPath(for: indexPath).row]
 		}
 		return nil
 	}
@@ -207,8 +202,5 @@ class BrowserTableViewController_0518: UITableViewController {
 	}
 	override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
 		return activeKeys.index(of: title)! + extraSection
-	}
-	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		return activeKeys[section - extraSection]
 	}
 }

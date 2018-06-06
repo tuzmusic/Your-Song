@@ -26,12 +26,20 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	}
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		tableView.deselectRow(at: indexPath, animated: true)
+		super.tableView(tableView, didSelectRowAt: indexPath)
 
 		if let song = object(at: indexPath) as? Song, let form = requestFormDelegate {
 			form.request.songObject = song
 			form.songTextField.text = song.songDescription
 			navigationController?.popToViewController(form, animated: true)
+		} else if extraSection(contains: indexPath.section) {
+			performSegue(withIdentifier: indexPath.row == 1 ? "SongsToArtists" : "SongsToDecades", sender: nil)
+		}
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let categoryVC = segue.destination as? BrowserTableViewController_0518 {
+			categoryVC.realm = realm
 		}
 	}
 	
