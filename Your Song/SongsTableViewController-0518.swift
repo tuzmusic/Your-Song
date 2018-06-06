@@ -12,6 +12,8 @@ import RealmSwift
 
 class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	
+	var requestFormDelegate: CreateRequestTableViewController?
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.type = Song.self
@@ -24,8 +26,13 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 	}
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		print(object(at: indexPath)?.sortName)
 		tableView.deselectRow(at: indexPath, animated: true)
+
+		if let song = object(at: indexPath) as? Song, let form = requestFormDelegate {
+			form.request.songObject = song
+			form.songTextField.text = song.songDescription
+			navigationController?.popToViewController(form, animated: true)
+		}
 	}
 	
 	override func tuzSearchController(_ searchCon: BrowserTableViewController_0518, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {

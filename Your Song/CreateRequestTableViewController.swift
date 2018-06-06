@@ -72,10 +72,9 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate {
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let songsVC = segue.destination as? SongsTableViewController_0518
-		{
+		if let songsVC = segue.destination as? SongsTableViewController_0518 {
 			songsVC.realm = self.realm
-//			songsVC.basePredicate = NSPredicate(format: "artist.name = %@", "Billy Joel")
+			songsVC.requestFormDelegate = self
 		}
 		if let searchVC = segue.destination as? RealmSearchViewController {
 			searchVC.realmConfiguration = realm!.configuration

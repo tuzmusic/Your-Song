@@ -165,7 +165,10 @@ class BrowserTableViewController_0518: UITableViewController {
 	}
 	
 	func object(at indexPath: IndexPath) -> BrowserObject? {
-		return results?[adjPath(for: indexPath).row] ?? nil
+		if !extraSection(contains: indexPath.section) {
+			return results?[adjPath(for: indexPath).row] ?? nil
+		}
+		return nil
 	}
 	
 	// MARK: Section index titles and headers
