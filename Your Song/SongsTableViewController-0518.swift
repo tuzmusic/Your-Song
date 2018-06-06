@@ -33,14 +33,7 @@ class SongsTableViewController_0518: BrowserTableViewController_0518 {
 			performSegue(withIdentifier: indexPath.row == 1 ? "SongsToArtists" : "SongsToDecades", sender: nil)
 		}
 	}
-	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let categoryVC = segue.destination as? BrowserTableViewController_0518 {
-			categoryVC.requestFormDelegate = requestFormDelegate
-			categoryVC.realm = realm
-		}
-	}
-	
+		
 	override func tuzSearchController(_ searchCon: BrowserTableViewController_0518, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		if let song = object(at: indexPath) as? Song {

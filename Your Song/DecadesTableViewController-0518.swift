@@ -23,6 +23,10 @@ class DecadesTableViewController_0518: BrowserTableViewController_0518 {
 		super.viewDidAppear(true)
 	}
 	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		super.prepare(for: segue, sender: sender)
+	}
+	
 	override func tuzSearchController(_ searchCon: BrowserTableViewController_0518, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		if let decade = object(at: indexPath) as? Decade {
@@ -31,7 +35,7 @@ class DecadesTableViewController_0518: BrowserTableViewController_0518 {
 		}
 		return cell
 	}
-		
+	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		return extraSection == 1 && section == 1 ? "All Decades/Genres" : nil
 	}

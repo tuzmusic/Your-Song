@@ -95,6 +95,13 @@ class BrowserTableViewController_0518: UITableViewController {
 		}
 	}
 	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let browser = segue.destination as? BrowserTableViewController_0518 {
+			browser.realm = realm
+			browser.requestFormDelegate = requestFormDelegate
+		}
+	}
+	
 	// MARK: Table View Controller Delegate & Data Source
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
