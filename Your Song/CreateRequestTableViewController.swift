@@ -11,7 +11,7 @@ import Realm
 import RealmSwift
 import RealmSearchViewController
 
-class CreateRequestTableViewController: UITableViewController, RealmDelegate {
+class CreateRequestTableViewController: UITableViewController, RealmDelegate, UINavigationBarDelegate {
 	
 	var realm: Realm?	// passed from sign-in VC
 	var request: Request!	// TO-DO: I think this can be a local variable within submitRequest. Does that matter?
@@ -21,6 +21,46 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		resetRequest()
+		navigationController?.navigationBar.delegate = self
+	}
+	
+	func confirmLogout() -> Bool {
+		var shouldLogout = false
+		let alert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?",  preferredStyle: .alert)
+		
+		let yesButton = UIAlertAction(title: "Log out", style: .destructive) { (_) in
+			if let loginVC = self.navigationController?.viewControllers.first as? SignInTableViewController {
+				loginVC.logOutAll()
+				shouldLogout = true
+				self.navigationController?.popViewController(animated: true)
+			}
+		}
+		
+		let noButton = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+			shouldLogout = false
+		}
+		
+		alert.addAction(yesButton)
+		alert.addAction(noButton)
+		present(alert, animated: true, completion: nil)
+		
+		return shouldLogout
+	}
+	
+	func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
+		var shouldPop = true
+		
+		if navigationController?.viewControllers.last is CreateRequestTableViewController {
+			shouldPop = confirmLogout()
+		} else {
+			shouldPop = true
+		}
+		
+		if shouldPop {
+			navigationController?.popViewController(animated: true)
+		}
+		
+		return shouldPop
 	}
 	
 	@IBOutlet weak var nameTextField: UITextField! {
