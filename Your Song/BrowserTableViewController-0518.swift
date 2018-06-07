@@ -17,8 +17,7 @@ class BrowserTableViewController_0518: UITableViewController {
 	var requestFormDelegate: CreateRequestTableViewController?		// NOT FOR GENERAL CONSUMPTION (of this class)
 	
 	var extraSection: Int {
-		return predicate == nil ? 1 : 0
-//		return basePredicate == nil ? 1 : 0
+		return predicate.subpredicates.isEmpty ? 1 : 0
 	}
 	
 	var extraRows = [String]()
@@ -30,7 +29,7 @@ class BrowserTableViewController_0518: UITableViewController {
 
 	var basePredicate: NSPredicate? { didSet { self.refreshSearchResults() } }
 	var searchString: String? { didSet { self.refreshSearchResults() } }
-	var predicate: NSPredicate? { didSet { tableView.reloadData() } }
+	var predicate = NSCompoundPredicate() { didSet { tableView.reloadData() } }
 	
 	@objc func refreshSearchResults() {
 		/* RSVC version
@@ -42,9 +41,7 @@ class BrowserTableViewController_0518: UITableViewController {
 		
 		if let base = basePredicate { predicates.append(base) }
 		if let search = searchString { predicates.append(NSPredicate(format: "sortName CONTAINS[c] %@", search)) }
-		if !predicates.isEmpty {
-			self.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-		}
+		self.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
 		updateResults(self.predicate)
 	}
 	
@@ -100,19 +97,12 @@ class BrowserTableViewController_0518: UITableViewController {
 		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 		alert.addTextField(configurationHandler: nil)
 		
-		let clearButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(clearSearch(_:)))
+		let clearButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(clearSearch(_:)))
 		
 		let searchButton = UIAlertAction(title: "Search", style: .default) { (_) in
 			self.searchString = alert.textFields?.first?.text
 			self.navigationItem.rightBarButtonItems?.append(clearButton)
-			guard let navigation = self.navigationController,
-				!(navigation.topViewController === self) else {
-					return					
-			}
-			let bar = navigation.navigationBar
-			bar.setNeedsLayout()
-			bar.layoutIfNeeded()
-			bar.setNeedsDisplay()
+			self.navigationController?.navigationBar.setNeedsDisplay()
 		}
 		alert.addAction(searchButton)
 		present(alert, animated: true, completion: nil)
@@ -177,6 +167,7 @@ class BrowserTableViewController_0518: UITableViewController {
 		if extraSection(contains: indexPath.section) {
 			cell.textLabel?.text = extraRows[indexPath.row]
 			cell.detailTextLabel?.text = nil
+			cell.accessoryType = .disclosureIndicator
 		} else {
 			return tuzSearchController(self, cellForNonHeaderRowAt: indexPath)
 		}
