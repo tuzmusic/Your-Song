@@ -135,7 +135,7 @@ extension UIAlertController {
 
 Sometimes switching back to SONGS turns black!
 
-Search songs, switch to artist, switch back to songs -- black! (search inside songs persists)
+Search songs, switch to artist, switch back to songs -- black! (search indpinnrt songs persists)
 Clearing search, switching out and back, fixes it
 
 */

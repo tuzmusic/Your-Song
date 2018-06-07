@@ -45,6 +45,7 @@ class ArtistsTableViewController_0518: BrowserTableViewController_0518 {
 		if let artist = object(at: indexPath) as? Artist {
 			cell.textLabel?.text = artist.name
 			cell.detailTextLabel?.text = nil
+			cell.accessoryType = .disclosureIndicator
 		}
 		return cell
 	}

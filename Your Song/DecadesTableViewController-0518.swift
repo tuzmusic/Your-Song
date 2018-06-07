@@ -49,6 +49,7 @@ class DecadesTableViewController_0518: BrowserTableViewController_0518 {
 		if let decade = object(at: indexPath) as? Decade {
 			cell.textLabel?.text = decade.name
 			cell.detailTextLabel?.text = nil
+			cell.accessoryType = .disclosureIndicator
 		}
 		return cell
 	}
