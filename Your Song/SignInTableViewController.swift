@@ -31,9 +31,9 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	@IBOutlet var realmLoginButtons: [UIButton]!
 	
 	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(true)
 		userNameField.text = ""
 		passwordField.text = ""
-		super.viewWillAppear(true)
 	}
 	
 	var spinner = UIActivityIndicatorView()

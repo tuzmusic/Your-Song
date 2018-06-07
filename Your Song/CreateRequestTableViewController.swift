@@ -24,43 +24,36 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate, UI
 		navigationController?.navigationBar.delegate = self
 	}
 	
-	func confirmLogout() -> Bool {
-		var shouldLogout = false
+	deinit {
+		navigationController?.navigationBar.delegate = nil
+	}
+	
+	func confirmLogout() {
 		let alert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?",  preferredStyle: .alert)
 		
 		let yesButton = UIAlertAction(title: "Log out", style: .destructive) { (_) in
 			if let loginVC = self.navigationController?.viewControllers.first as? SignInTableViewController {
-				loginVC.logOutAll()
-				shouldLogout = true
 				self.navigationController?.popViewController(animated: true)
+				loginVC.logOutAll()
 			}
 		}
 		
-		let noButton = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-			shouldLogout = false
-		}
-		
+		let noButton = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 		alert.addAction(yesButton)
 		alert.addAction(noButton)
 		present(alert, animated: true, completion: nil)
-		
-		return shouldLogout
+
 	}
 	
 	func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
-		var shouldPop = true
 		
 		if navigationController?.viewControllers.last is CreateRequestTableViewController {
-			shouldPop = confirmLogout()
-		} else {
-			shouldPop = true
+			confirmLogout()
+			return false
 		}
+		navigationController?.popViewController(animated: true)
 		
-		if shouldPop {
-			navigationController?.popViewController(animated: true)
-		}
-		
-		return shouldPop
+		return true
 	}
 	
 	@IBOutlet weak var nameTextField: UITextField! {
