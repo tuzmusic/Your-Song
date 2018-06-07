@@ -52,6 +52,7 @@
 		768235D91E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png in Resources */ = {isa = PBXBuildFile; fileRef = 768235D81E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png */; };
 		768235E91E856FF7006186D7 /* Globals, Extensions, Etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */; };
 		768235EE1E857044006186D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768235ED1E857044006186D7 /* Main.storyboard */; };
+		7696CEA120C9983100EFF2AD /* TuzData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7696CEA020C9983100EFF2AD /* TuzData.swift */; };
 		769D2E171EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E161EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png */; };
 		769D2E191EAE20BC0069FB30 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E181EAE20BC0069FB30 /* GoogleService-Info.plist */; };
 		769D2E1B1EAE20CC0069FB30 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 769D2E1A1EAE20CC0069FB30 /* GoogleService-Info.plist */; };
@@ -142,6 +143,7 @@
 		768235D81E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "your-piano-bar-blank piano only tab bar item size.png"; sourceTree = "<group>"; };
 		768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Globals, Extensions, Etc.swift"; sourceTree = "<group>"; };
 		768235ED1E857044006186D7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		7696CEA020C9983100EFF2AD /* TuzData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuzData.swift; sourceTree = "<group>"; };
 		769D2E161EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "!your-piano-bar-logo-tagline-final.png"; sourceTree = "<group>"; };
 		769D2E181EAE20BC0069FB30 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		769D2E1A1EAE20CC0069FB30 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 				769FFBF11EAA1AB800F5EB37 /* YPB.swift */,
 				768235E61E856FF7006186D7 /* Globals, Extensions, Etc.swift */,
 				764FF2B01ED9DABE00F8A6FC /* Utilities */,
+				7696CEA020C9983100EFF2AD /* TuzData.swift */,
 			);
 			name = "YPB Universal";
 			sourceTree = "<group>";
@@ -713,6 +716,7 @@
 				762A6AE71EB9CA5700C6A115 /* SortedName.swift in Sources */,
 				76CDBE781EDB297B005C9C56 /* String Extensions.swift in Sources */,
 				76F6EB29202A05D1003D9731 /* RegisterTableViewController.swift in Sources */,
+				7696CEA120C9983100EFF2AD /* TuzData.swift in Sources */,
 				76F638281E9E99E8001BBFB1 /* Genre.swift in Sources */,
 				76F638311EA102B4001BBFB1 /* SongImporter.swift in Sources */,
 				768235AF1E856ECF006186D7 /* AppDelegate.swift in Sources */,
