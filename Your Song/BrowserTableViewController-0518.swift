@@ -39,7 +39,7 @@ class BrowserTableViewController_0518: UITableViewController {
 		var predicates = [NSPredicate]()
 		
 		if let base = basePredicate { predicates.append(base) }
-		if let search = searchString { predicates.append(NSPredicate(format: "sortName CONTAINS %@", search)) }
+		if let search = searchString { predicates.append(NSPredicate(format: "sortName CONTAINS[c] %@", search)) }
 		
 		let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
 		
