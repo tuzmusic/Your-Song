@@ -21,14 +21,11 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate, UI
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		resetRequest()
-		navigationController?.navigationBar.delegate = self
+		navigationItem.hidesBackButton = true
+		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(confirmLogout(_:))) // hide back button?
 	}
 	
-	deinit {
-		navigationController?.navigationBar.delegate = nil
-	}
-	
-	func confirmLogout() {
+	@objc func confirmLogout(_ sender: Any) {
 		let alert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?",  preferredStyle: .alert)
 		
 		let yesButton = UIAlertAction(title: "Log out", style: .destructive) { (_) in
@@ -43,17 +40,6 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate, UI
 		alert.addAction(noButton)
 		present(alert, animated: true, completion: nil)
 
-	}
-	
-	func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
-		
-		if navigationController?.viewControllers.last is CreateRequestTableViewController {
-			confirmLogout()
-			return false
-		}
-		navigationController?.popViewController(animated: true)
-		
-		return true
 	}
 	
 	@IBOutlet weak var nameTextField: UITextField! {
