@@ -92,18 +92,36 @@ class BrowserTableViewController_0518: UITableViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(search(_:)))
+		navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(search(_:)))]
 	}
 	var testPred: (format: String, args: String)?
 	@objc func search(_ sender: Any) {
 		let alert = UIAlertController(title: "Search", message: nil, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 		alert.addTextField(configurationHandler: nil)
-		let button = UIAlertAction(title: "Search", style: .default) { (_) in
+		
+		let clearButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(clearSearch(_:)))
+		
+		let searchButton = UIAlertAction(title: "Search", style: .default) { (_) in
 			self.searchString = alert.textFields?.first?.text
+			self.navigationItem.rightBarButtonItems?.append(clearButton)
+			guard let navigation = self.navigationController,
+				!(navigation.topViewController === self) else {
+					return					
+			}
+			let bar = navigation.navigationBar
+			bar.setNeedsLayout()
+			bar.layoutIfNeeded()
+			bar.setNeedsDisplay()
 		}
-		alert.addAction(button)
+		alert.addAction(searchButton)
 		present(alert, animated: true, completion: nil)
+	}
+	
+	@objc func clearSearch(_ sender: Any) {
+		searchString = nil
+		_ = self.navigationItem.rightBarButtonItems?.popLast()
+		navigationController?.navigationBar.setNeedsDisplay()
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
