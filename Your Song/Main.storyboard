@@ -136,7 +136,7 @@
         <!--Songs-->
         <scene sceneID="hC4-QJ-gWG">
             <objects>
-                <tableViewController title="Songs" id="ROG-34-Z6b" customClass="SongsTableViewController_0518" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Songs" id="ROG-34-Z6b" customClass="SongsTableViewController" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9h1-LL-NLM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -185,7 +185,7 @@
         <!--Decades-->
         <scene sceneID="luB-wS-nMU">
             <objects>
-                <tableViewController title="Decades" id="gX1-T8-Yvp" customClass="DecadesTableViewController_0518" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Decades" id="gX1-T8-Yvp" customClass="DecadesTableViewController" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Wdq-HH-GzY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -233,7 +233,7 @@
         <!--Artists-->
         <scene sceneID="K1Z-J8-cwo">
             <objects>
-                <tableViewController title="Artists" id="fR3-cW-AS2" customClass="ArtistsTableViewController_0518" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Artists" id="fR3-cW-AS2" customClass="ArtistsTableViewController" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ooB-Co-73M">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

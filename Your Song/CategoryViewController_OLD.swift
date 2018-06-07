@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CategoryViewController: BrowserViewController {
+class CategoryViewController_OLD: BrowserViewController_OLD {
 
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		allSection = 1

@@ -10,7 +10,7 @@ import UIKit
 import RealmSearchViewController
 import RealmSwift
 
-class GenresTableViewController: BrowserViewController {
+class GenresTableViewController_OLD: BrowserViewController_OLD {
 	
 	fileprivate func extractedFunc(_ indexPath: IndexPath, _ tableView: UITableView) -> UITableViewCell {
 		if indexPath.section == 0 {
@@ -53,7 +53,7 @@ class GenresTableViewController: BrowserViewController {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier! == Storyboard.GenresArtistsSegue,
-			let artistsVC = segue.destination as? ArtistsTableViewController,
+			let artistsVC = segue.destination as? ArtistsTableViewController_OLD,
 			let genre = sender as? Genre
 		{
 			artistsVC.title = genre.name

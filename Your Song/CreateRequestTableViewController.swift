@@ -105,7 +105,7 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate, UI
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let songsVC = segue.destination as? SongsTableViewController_0518 {
+		if let songsVC = segue.destination as? SongsTableViewController {
 			songsVC.realm = self.realm
 			songsVC.requestFormDelegate = self
 		}

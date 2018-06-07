@@ -1,116 +1,57 @@
 //
-//  ArtistsTableViewController-NEW.swift
+//  ArtistsTableViewController-0518.swift
 //  Your Song
 //
-//  Created by Jonathan Tuzman on 4/16/17.
-//  Copyright © 2017 Jonathan Tuzman. All rights reserved.
+//  Created by Jonathan Tuzman on 5/31/18.
+//  Copyright © 2018 Jonathan Tuzman. All rights reserved.
 //
 
 import UIKit
-import RealmSearchViewController
 import RealmSwift
+import Realm
 
-class ArtistsTableViewController: CategoryViewController {
+class ArtistsTableViewController: BrowserTableViewController {
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		self.type = Artist.self
+		self.extraRows = ["All Songs"]
+		self.testPred = ("name CONTAINS %@", "The")
+	}
 	
-	var genreForArtists: Genre?
-	var decadeForArtists: Decade?
-
-	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		// This is just for the "All songs" row(s). Has nothing to do with whether there's a genre.
-		if indexPath.section == 0 {
-			let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-			if let genre = genreForArtists {
-				cell.textLabel?.text = "All \(genre.name) songs"
-				cell.detailTextLabel?.text = "\(genre.songs.count) songs"
-			} else if let decade = decadeForArtists {
-				cell.textLabel?.text = "All \(decade.name) songs"
-				cell.detailTextLabel?.text = "\(decade.songs.count) songs"
-			}  else {
-				cell.textLabel?.text = "All songs"
-				cell.detailTextLabel?.text = "\(realm.objects(Song.self).count) songs"
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		var sender: Any? = nil
+		if let artist = object(at: indexPath) as? Artist {
+			sender = artist
+		} else if extraSection(contains: indexPath.section) {
+			sender = nil
+		}
+		performSegue(withIdentifier: "ArtistsToSongs", sender: sender)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		super.prepare(for: segue, sender: sender)
+		if let songsVC = segue.destination as? SongsTableViewController {
+			if let artist = sender as? Artist {
+				songsVC.title = artist.name
+				songsVC.basePredicate = NSPredicate(format: "artist = %@", artist)
+			} else {
+				// still go to songsVC, but don't add a predicate
 			}
-			return cell
-		} else {
-			return super.tableView(tableView, cellForRowAt: indexPath)
 		}
 	}
 	
-	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
-		
+	override func tuzSearchController(_ searchCon: BrowserTableViewController, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-		
-		// These two should be able to be genericized (in an actual generic function), the predicate just needs to be accounted for in an argument.
-		let artist = object as! Artist
-		cell.textLabel?.text = artist.name
-
-		if let genre = genreForArtists {
-			let songsByArtistInGenre = artist.songs.filter("genre = %@", genre)
-			cell.detailTextLabel?.text = "\(songsByArtistInGenre.count) \(genre.name)" + (songsByArtistInGenre.count == 1 ? " song" : " songs")
-		}
-		if let decade = decadeForArtists {
-			let songsByArtistInDecade = artist.songs.filter("decade = %@", decade)
-			cell.detailTextLabel?.text = "\(songsByArtistInDecade.count) \(decade.name)" + (songsByArtistInDecade.count == 1 ? " song" : " songs")
-		} else {
-			cell.detailTextLabel?.text = "\(artist.songs.count)" + (artist.songs.count == 1 ? " song" : " songs")
+		if let artist = object(at: indexPath) as? Artist {
+			cell.textLabel?.text = artist.name
+			cell.detailTextLabel?.text = nil
+			cell.accessoryType = .disclosureIndicator
 		}
 		return cell
 	}
 	
-	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
-		performSegue(withIdentifier: Storyboard.ArtistsSongsSegue, sender: anObject)
-	}
-		
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let songsVC = segue.destination as? SongsTableViewController {
-			switch segue.identifier! {
-			case Storyboard.AllSongsSegue:
-				segue.destination.title = "All Songs"
-				if let genre = genreForArtists {
-					songsVC.basePredicate = NSPredicate(format: "genre = %@", genre)
-				} else if let decade = decadeForArtists {
-					songsVC.basePredicate = NSPredicate(format: "decade = %@", decade)
-				}
-			case Storyboard.ArtistsSongsSegue:
-				if let artist = sender as? Artist {
-					songsVC.title = artist.name
-					var predicates = [NSPredicate(format: "artist = %@", artist)]
-					if let decade = decadeForArtists { predicates.append(NSPredicate(format: "decade = %@", decade)) }
-					if let genre = genreForArtists { predicates.append(NSPredicate(format: "genre = %@", genre)) }
-					songsVC.basePredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-				}
-			default: break
-			}
-		}
-	}
-
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(sortArtists))
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		return extraSection == 1 && section == 1 ? "All Artists" : nil
 	}
 	
-	@objc func sortArtists(sender:UIBarButtonItem) {
-		let alert = UIAlertController(title: "Sort artists by...", message: nil, preferredStyle: .alert)
-		
-		alert.addAction(UIAlertAction(title: "Alphabetical (A to Z)", style: .default, handler: { _ in
-			self.sortPropertyKey = "sortName"
-			self.sortAscending = true
-		}))
-		alert.addAction(UIAlertAction(title: "Alphabetical (Z to A)", style: .default, handler: { _ in
-			self.sortPropertyKey = "sortName"
-			self.sortAscending = false
-		}))
-		/*
-		alert.addAction(UIAlertAction(title: "# of songs (Most to Least)", style: .default, handler: { _ in
-			self.sortPropertyKey = "songCount"
-			self.sortAscending = true
-		}))
-		alert.addAction(UIAlertAction(title: "# of songs (Least to Most)", style: .default, handler: { _ in
-			self.sortPropertyKey = "songCount"
-			self.sortAscending = false
-		}))
-		*/
-		alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
-		
-		present(alert, animated: true)
-	}
 }

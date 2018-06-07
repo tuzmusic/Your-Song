@@ -10,7 +10,7 @@ import UIKit
 import Realm
 import RealmSwift
 
-class BrowserTableViewController_0518: UITableViewController {
+class BrowserTableViewController: UITableViewController {
 	
 	var results: Results<BrowserObject>!
 	
@@ -115,7 +115,7 @@ class BrowserTableViewController_0518: UITableViewController {
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let browser = segue.destination as? BrowserTableViewController_0518 {
+		if let browser = segue.destination as? BrowserTableViewController {
 			browser.realm = realm
 			browser.requestFormDelegate = requestFormDelegate
 		}
@@ -136,7 +136,7 @@ class BrowserTableViewController_0518: UITableViewController {
 		return extraSection == 1 && section == 0
 	}
 	
-	func tuzSearchController(_ searchCon: BrowserTableViewController_0518, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {
+	func tuzSearchController(_ searchCon: BrowserTableViewController, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 		cell.textLabel?.text = "You haven't overridden cellForNonHeaderRow"
 		cell.detailTextLabel?.text = nil

@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import RealmSearchViewController
 
-class BrowserViewController: RealmSearchViewController {
+class BrowserViewController_OLD: RealmSearchViewController {
 	
 	var activeKeys = [String]()
 	var numberKeyCount = 0

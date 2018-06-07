@@ -1,71 +1,50 @@
 //
-//  SongsTableViewController-NEW.swift
+//  SongsTableViewController-0518.swift
 //  Your Song
 //
-//  Created by Jonathan Tuzman on 4/15/17.
-//  Copyright © 2017 Jonathan Tuzman. All rights reserved.
+//  Created by Jonathan Tuzman on 5/31/18.
+//  Copyright © 2018 Jonathan Tuzman. All rights reserved.
 //
 
 import UIKit
-import RealmSearchViewController
+import Realm
 import RealmSwift
 
-class SongsTableViewController: BrowserViewController {
+class SongsTableViewController: BrowserTableViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(sortSongs(sender:)))
+		self.type = Song.self
+		self.extraRows = ["Browse by Decade", "Browse by Artist"]
+		self.testPred = ("artist.name = %@", "Billy Joel")
 	}
 	
-	@objc func sortSongs(sender:UIBarButtonItem) {
-		let alert = UIAlertController(title: "Sort songs by...", message: nil, preferredStyle: .alert)
-		
-		alert.addAction(UIAlertAction(title: "Alphabetical (A to Z)", style: .default, handler: { _ in
-			self.sortPropertyKey = "sortName"
-			self.sortAscending = true
-		}))
-		alert.addAction(UIAlertAction(title: "Alphabetical (Z to A)", style: .default, handler: { _ in
-			self.sortPropertyKey = "sortName"
-			self.sortAscending = false
-		}))
-		/*
-		alert.addAction(UIAlertAction(title: "Popularity (Most to Least)", style: .default, handler: { _ in
-			self.sortPropertyKey = "popularity"
-			self.sortAscending = true
-		}))
-		alert.addAction(UIAlertAction(title: "Popularity (Least to Most)", style: .default, handler: { _ in
-			self.sortPropertyKey = "popularity"
-			self.sortAscending = false
-		}))
-		*/
-		alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
-		
-		present(alert, animated: true)
+	override func viewDidAppear(_ animated: Bool) {   // a place for breakpoints and diagnostics
+		super.viewDidAppear(true)
 	}
 	
-	override func searchViewController(_ controller: RealmSearchViewController, cellForObject object: Object, atIndexPath indexPath: IndexPath) -> UITableViewCell {
-
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		super.tableView(tableView, didSelectRowAt: indexPath)
+		if let song = object(at: indexPath) as? Song, let form = requestFormDelegate {
+			form.request.songObject = song
+			form.songTextField.text = song.songDescription
+			navigationController?.popToViewController(form, animated: true)
+		} else if extraSection(contains: indexPath.section) {
+			performSegue(withIdentifier: indexPath.row == 1 ? "SongsToArtists" : "SongsToDecades", sender: nil)
+		}
+	}
+		
+	override func tuzSearchController(_ searchCon: BrowserTableViewController, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-		let song = object as! Song
-
-		cell.textLabel?.text = song.title
-		cell.detailTextLabel?.text = song.artist!.name
+		if let song = object(at: indexPath) as? Song {
+			cell.textLabel?.text = song.title
+			cell.detailTextLabel?.text = song.artist!.name
+		}
 		return cell
 	}
-		
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		// FYI: This calls the method from RSVC (no override in BrowserVC).
-		// It's just here to convert the indexPath to adjustedIndexPath
-
-		super.tableView(tableView, didSelectRowAt: adjustedIndexPath(for: indexPath))
+	
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		return extraSection == 1 && section == 1 ? "All Songs" : nil
 	}
 	
-	override func searchViewController(_ controller: RealmSearchViewController, didSelectObject anObject: Object, atIndexPath indexPath: IndexPath) {
-		let song = anObject as! Song
-		let form = navigationController!.viewControllers.first as! CreateRequestTableViewController
-		form.request.songObject = song
-		form.songTextField.text = song.songDescription
-		navigationController?.popToRootViewController(animated: true)
-	}
 }
