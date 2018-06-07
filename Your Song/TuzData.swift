@@ -9,5 +9,6 @@
 import Foundation
 
 class TuzData {
-	
+	static let tm = "tuzmusic@gmail.com"
+	static let pw = ""
 }
