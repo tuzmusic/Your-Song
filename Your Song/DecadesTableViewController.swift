@@ -24,12 +24,16 @@ class DecadesTableViewController: BrowserTableViewController {
 	}
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		var sender: Any? = nil
+		var id = "DecadesToSongs"
 		if let decade = object(at: indexPath) as? Decade {
 			sender = decade
 		} else if extraSection(contains: indexPath.section) {
 			sender = nil
+			if indexPath.row == 1 {
+				id = "DecadesToArtists"
+			}
 		}
-		performSegue(withIdentifier: "DecadesToSongs", sender: sender)
+		performSegue(withIdentifier: id, sender: sender)
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -41,6 +45,9 @@ class DecadesTableViewController: BrowserTableViewController {
 			} else {
 				// still go to songsVC, but don't add a predicate
 			}
+		}
+		else if let artistsVC = segue.destination as? ArtistsTableViewController {
+			// it's just all artists for now, no modification needed here
 		}
 	}
 	
