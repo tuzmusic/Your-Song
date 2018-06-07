@@ -17,7 +17,8 @@ class BrowserTableViewController_0518: UITableViewController {
 	var requestFormDelegate: CreateRequestTableViewController?		// NOT FOR GENERAL CONSUMPTION (of this class)
 	
 	var extraSection: Int {
-		return basePredicate == nil ? 1 : 0
+		return predicate == nil ? 1 : 0
+//		return basePredicate == nil ? 1 : 0
 	}
 	
 	var extraRows = [String]()
@@ -29,6 +30,7 @@ class BrowserTableViewController_0518: UITableViewController {
 
 	var basePredicate: NSPredicate? { didSet { self.refreshSearchResults() } }
 	var searchString: String? { didSet { self.refreshSearchResults() } }
+	var predicate: NSPredicate? { didSet { tableView.reloadData() } }
 	
 	@objc func refreshSearchResults() {
 		/* RSVC version
@@ -40,13 +42,13 @@ class BrowserTableViewController_0518: UITableViewController {
 		
 		if let base = basePredicate { predicates.append(base) }
 		if let search = searchString { predicates.append(NSPredicate(format: "sortName CONTAINS[c] %@", search)) }
-		
-		let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-		
-		updateResults(compoundPredicate)
+		if !predicates.isEmpty {
+			self.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+		}
+		updateResults(self.predicate)
 	}
 	
-	func updateResults(_ predicate: NSPredicate) {
+	func updateResults(_ predicate: NSPredicate?) {
 		/* RSVC version - the MEAT of it is this call:
 		if let results = self.searchResults(self.entityName, inRealm: self.rlmRealm, predicate: predicate, sortPropertyKey: self.sortPropertyKey, sortAscending: self.sortAscending)
 		
