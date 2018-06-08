@@ -11,9 +11,9 @@ import Realm
 import RealmSwift
 import RealmSearchViewController
 
-class CreateRequestTableViewController: UITableViewController, RealmDelegate, UINavigationBarDelegate {
+class CreateRequestTableViewController: UITableViewController, UINavigationBarDelegate {
 	
-	var realm: Realm?	// passed from sign-in VC
+	var realm: Realm!	// passed from sign-in VC
 	var request: Request!	// TO-DO: I think this can be a local variable within submitRequest. Does that matter?
 	
 	let thanksString = "Thanks for your request! Keep your ears peeled and get ready to sing along!"
@@ -67,18 +67,23 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate, UI
 		request.userString = name
 		request.songString = song
 		request.notes = notesTextView.text
-		// request.songObject = already set if there is one
 		request.date = Date()
 		
 		do {
-			try realm?.write {
-				realm?.create(Request.self, value: request, update: false)
-				present(UIAlertController.basic(title: "Success!", message: thanksString), animated: true)
-				resetRequest()
-				spinner.stopAnimating()
+			try realm.write {
+                let oldCount = realm.objects(Request.self).count
+				realm.create(Request.self, value: request, update: false)
+                let newCount = realm.objects(Request.self).count
+                if newCount > oldCount {
+                    present(UIAlertController.basic(title: "Success!", message: thanksString), animated: true)
+                    resetRequest()
+                    spinner.stopAnimating()
+                } else {
+                    present(UIAlertController.basic(title: "Hmm...", message: "Same number of requests in realm as before"), animated: true)
+                }
 			}
 		} catch {
-			present(UIAlertController.basic(title: "Uh oh", message: "\(error.localizedDescription)"), animated: true)
+            present(UIAlertController.basic(title: "Uh oh", message: "\(error.localizedDescription)"), animated: true); pr(error)
 		}
 	}
 	
