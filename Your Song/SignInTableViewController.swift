@@ -63,20 +63,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
         }
     }
     
-    var realm: Realm? {
-        didSet {
-            if let realm = realm {
-                // findYpbUser(in: realm)
-                let subscription = realm.objects(Song.self).subscribe()
-                subscriptionToken = subscription.observe(\.state, options: .initial) { state in
-                    if state == .complete {
-                        pr("token state complete, whatever that means")
-                    }
-                }
-                performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
-            }
-        }
-    }
+    var realm: Realm? 
     var subscriptionToken: NotificationToken?
     
     override func viewDidLoad() {
@@ -153,6 +140,13 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
         DispatchQueue.main.async { [weak self] in
             let config = user.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: false, enableSSLValidation: true, urlPrefix: nil)
             self?.realm = try! Realm(configuration: config)
+            let subscription = self?.realm?.objects(Song.self).subscribe()
+            self?.subscriptionToken = subscription?.observe(\.state, options: .initial) { state in
+                if state == .complete {
+                    pr("token state complete, whatever that means")
+                }
+            }
+            self?.performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
         }
     }
     
