@@ -580,8 +580,8 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Your Piano Bar" id="NOJ-JV-Ah6"/>
                     <connections>
+                        <outlet property="emailField" destination="DHI-X3-PEn" id="NM6-SF-rPB"/>
                         <outlet property="passwordField" destination="2c3-uR-oLh" id="buh-Ce-K56"/>
-                        <outlet property="userNameField" destination="DHI-X3-PEn" id="NM6-SF-rPB"/>
                         <outletCollection property="realmLoginButtons" destination="vE3-iL-pss" collectionClass="NSMutableArray" id="lQq-OZ-N51"/>
                         <outletCollection property="realmLoginButtons" destination="PeQ-SA-98h" collectionClass="NSMutableArray" id="wTq-gY-3kK"/>
                         <segue destination="mOZ-7c-S7O" kind="show" identifier="Login to New Request Segue" id="KJF-dN-y5i"/>
