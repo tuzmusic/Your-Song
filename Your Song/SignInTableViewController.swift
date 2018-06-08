@@ -119,6 +119,10 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	@IBAction func loginButtonTapped(_ sender: UIButton) {
 		if SyncUser.current == nil {
 			if let username = userNameField.text, let password = passwordField.text {
+                guard !password.isEmpty else {
+                    nicknameLogin(with: username)
+                    return
+                }
 				proposedUser = YpbUser.user(id: nil, email: username, firstName: "", lastName: "") // For the future, we can see if someone with this email already exists, and we can go forward as that YpbUser. This check occurs in the realm.didSet
 				let cred = SyncCredentials.usernamePassword(username: username, password: password)
 				realmCredLogin(cred: cred)
@@ -126,21 +130,19 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		}
 	}
 	
-	@IBAction func loginSampleUser(_ sender: UIButton) {
-		let creds = ["realm-admin":"", "testUser1":"1234"]
-		
-		if SyncUser.current == nil {
-			if let username = sender.titleLabel?.text {
-				if let password = creds[username] {
-					let cred = SyncCredentials.usernamePassword(username: username, password: password)
-					realmCredLogin(cred: cred)
-				} else {
-					let nicknameCred = SyncCredentials.nickname(username)
-					realmCredLogin(cred: nicknameCred)
-				}
-			}
-		}
-	}
+    fileprivate func nicknameLogin(with name: String) {
+        let alert = UIAlertController(title: "No password entered",
+                                      message: "Do you want to login using \"nickname\" \(name)?", preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let yesButton = UIAlertAction(title: "OK", style: .default) { (_) in
+            let nicknameCred = SyncCredentials.nickname(name)
+            self.realmCredLogin(cred: nicknameCred)
+        }
+        alert.addAction(yesButton)
+        alert.addAction(cancelButton)
+        present(alert, animated: true, completion: nil)
+    }
+    
 	
 	// YPB Realm login
 	
