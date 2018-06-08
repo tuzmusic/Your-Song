@@ -73,19 +73,21 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		}
 	}
 	
+    var subscriptionToken: NotificationToken?
+    
 	override func viewDidLoad() {
-		super.viewDidLoad()		
-		GIDSignIn.sharedInstance().uiDelegate = self
-		
+		super.viewDidLoad()
 		if let user = SyncUser.current {
 			openRealmWithUser(user: user)
 		} else {
 			realm = nil
 		}
-		// Uncomment to automatically sign in the user.
-		// GIDSignIn.sharedInstance().signInSilently()
 	}
-	
+    
+    deinit {
+        subscriptionToken?.invalidate()
+    }
+    
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		spinner.stopAnimating()
 		if let vc = segue.destination as? RegisterTableViewController {	// prepare for Register segue
@@ -113,7 +115,9 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			}
 		}
 	}
-	
+
+    // YPB Realm login
+
     fileprivate func nicknameLogin(with name: String) {
         let alert = UIAlertController(title: "No password entered",
                                       message: "Do you want to login using \"nickname\" \(name)?", preferredStyle: .alert)
@@ -127,9 +131,6 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
         present(alert, animated: true, completion: nil)
     }
     
-	
-	// YPB Realm login
-	
 	func realmCredLogin(cred: SyncCredentials) {	// Should probably rename, since I think this is for all kinds of creds.
 		
 		spinner = view.addNewSpinner()
@@ -137,11 +138,9 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		// Get the user.
 		SyncUser.logIn(with: cred, server: RealmConstants.authURL) { (user, error) in
 			guard let user = user else {
-				self.present(UIAlertController.basic(title: "Uh-Oh", message: "SyncUser.login Error: \(error!)"), animated: true)
-				pr(error as Any)
+                self.present(UIAlertController.basic(title: "Uh-Oh", message: "SyncUser.login Error: \(error!)"), animated: true); pr("SyncUser.login Error: \(error as Any)")
 				self.spinner.stopAnimating()
 				// TO-DO: Handle login failure
-				// pr("SyncUser.login Error: \(error!)")
 				return
 			}
 			pr("SyncUser logged in: \(user)")
@@ -150,29 +149,26 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		}
 	}
 	
-    fileprivate func displayInfo(for user: SyncUser) {
-        pr("id: \(user.identity)")
-        user.retrievePermissions(callback: { (perms, error) in
-            pr("permissions: \(perms)")
-        })
-    }
-    
 	fileprivate func openRealmWithUser(user: SyncUser) {
-        displayInfo(for: SyncUser.current!)
 			DispatchQueue.main.async { [weak self] in
 				let config = user.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: false, enableSSLValidation: true, urlPrefix: nil)
-				
+                
 				do {	// Open the online Realm
-					self?.realm = try Realm(configuration: config)
-                    self?.configureJonathanSubscription()
-				} catch {
+                    //self?.realm = try Realm(configuration: user.configuration())
+                    self?.realm = try Realm(configuration: config)
+                    let subscription = self?.realm?.objects(Song.self).subscribe()
+                    self?.subscriptionToken = subscription?.observe(\.state, options: .initial) { state in
+                        if state == .complete {
+                            // here you might remove any activity spinner
+                        }
+                    }
+                } catch {
 					let message = "SyncUser logged in but couldn't open realm: Error: \(error)"
-					self?.present(UIAlertController.basic(title: "Uh-Oh", message: message), animated: true)
-					pr(message)
+                    self?.present(UIAlertController.basic(title: "Uh-Oh", message: message), animated: true); pr(message)
 				}
 			}
 	}
-	
+    
 	@IBAction func logOutAll() {
 		SyncUser.current?.logOut()
 		realm = nil
