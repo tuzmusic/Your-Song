@@ -65,11 +65,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	
 	var realm: Realm? {
 		didSet {
-			toggleRealmButtons(signedIn: (realm == nil ? false : true))
-			if let realm = realm {
-				// findYpbUser(in: realm)
-				performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
-			}
+//            toggleRealmButtons(signedIn: (realm == nil ? false : true))
 		}
 	}
 	
@@ -159,9 +155,11 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
                     let subscription = self?.realm?.objects(Song.self).subscribe()
                     self?.subscriptionToken = subscription?.observe(\.state, options: .initial) { state in
                         if state == .complete {
-                            // here you might remove any activity spinner
+                            pr("token state complete, whatever that means")
                         }
                     }
+                    // findYpbUser(in: realm)
+                    self?.performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
                 } catch {
 					let message = "SyncUser logged in but couldn't open realm: Error: \(error)"
                     self?.present(UIAlertController.basic(title: "Uh-Oh", message: message), animated: true); pr(message)
