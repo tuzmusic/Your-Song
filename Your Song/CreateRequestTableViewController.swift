@@ -18,10 +18,6 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate, UI
 	
 	let thanksString = "Thanks for your request! Keep your ears peeled and get ready to sing along!"
 	
-    override func viewDidAppear(_ animated: Bool) {
-      // place breakpoint here.
-    }
-    
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		resetRequest()
@@ -57,13 +53,16 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate, UI
 	@IBOutlet weak var notesTextView: UITextView!
 	
 	@IBAction func submitRequest(_ sender: UIButton) {
-		let spinner = view.addNewSpinner()
+		let name = nameTextField.text!
+        let song = songTextField.text!
 		
-		guard let name = nameTextField.text, let song = songTextField.text else {
+        guard !name.isEmpty && !song.isEmpty else {
 			self.present(UIAlertController.basic(title: "Whoops!", message: "Please enter your name and a song."), animated: true)
 			return
 		}
-		
+        
+        let spinner = view.addNewSpinner()
+
 		request.user = YpbUser.current
 		request.userString = name
 		request.songString = song
@@ -79,7 +78,7 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate, UI
 				spinner.stopAnimating()
 			}
 		} catch {
-			present(UIAlertController.basic(title: "Uh oh", message: "\(error)"), animated: true)
+			present(UIAlertController.basic(title: "Uh oh", message: "\(error.localizedDescription)"), animated: true)
 		}
 	}
 	
@@ -103,4 +102,8 @@ class CreateRequestTableViewController: UITableViewController, RealmDelegate, UI
 			searchVC.realmConfiguration = realm!.configuration
 		}
 	}
+
+    override func viewDidAppear(_ animated: Bool) {
+        // place breakpoint here.
+    }
 }
