@@ -226,6 +226,7 @@
 		764FF2B01ED9DABE00F8A6FC /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				762183C4202792D800592148 /* SignIn Utility Extensions.swift */,
 				767551AC201D013800EEC9C8 /* SongFinder.swift */,
 				767551AE201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift */,
 				521A5A2C1FF5719D0056A11D /* Utility Functions.swift */,
@@ -306,7 +307,6 @@
 				768235DA1E856FAA006186D7 /* Browser */,
 				768235ED1E857044006186D7 /* Main.storyboard */,
 				76C9C25420239B0900CE127A /* SignInTableViewController.swift */,
-				762183C4202792D800592148 /* SignIn Utility Extensions.swift */,
 				76F6EB28202A05D1003D9731 /* RegisterTableViewController.swift */,
 				760C909820A8A26F0067DEE9 /* MasterViewController.swift */,
 				76FE07DE2031B62300CF3888 /* CreateRequestTableViewController.swift */,

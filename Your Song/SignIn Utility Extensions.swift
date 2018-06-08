@@ -12,6 +12,16 @@ import RealmSwift
 extension SignInTableViewController {
 	
 	// MARK: Utility functions
+    
+    func configureJonathanSubscription() {
+        let songs = realm?.objects(Song.self)
+        let subscription = songs?.subscribe()
+        let subscriptionToken = subscription?.observe(\.state, options: .initial) { state in
+            if state == .complete {
+                // here you might remove any activity spinner
+            }
+        }
+    }
 	
 	func toggleRealmButtons (signedIn: Bool) {
 		realmLoginButtons[0].isEnabled = signedIn ? false : true

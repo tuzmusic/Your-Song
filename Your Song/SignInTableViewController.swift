@@ -74,8 +74,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	}
 	
 	override func viewDidLoad() {
-		super.viewDidLoad()
-		
+		super.viewDidLoad()		
 		GIDSignIn.sharedInstance().uiDelegate = self
 		
 		if let user = SyncUser.current {
@@ -98,21 +97,6 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		}
 	}
 	
-	// MARK: Google sign-in
-	
-	func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
-		// If not already signed in, present sign-in results
-		guard let googleUser = GIDSignIn.sharedInstance().currentUser else {
-			pr("Error: \(error)"); return
-		}
-		
-		if let profile = googleUser.profile {
-			proposedUser = YpbUser.user(id: nil, email: profile.email, firstName: profile.givenName, lastName: profile.familyName)
-		}
-		
-		let cred = SyncCredentials.google(token: googleUser.authentication.idToken)	// This is what shouldn't work yet, right?
-		realmCredLogin(cred: cred)
-	}
 	
 	// MARK: Realm-cred sign-in
 	
@@ -166,15 +150,24 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		}
 	}
 	
+    fileprivate func displayInfo(for user: SyncUser) {
+        pr("id: \(user.identity)")
+        user.retrievePermissions(callback: { (perms, error) in
+            pr("permissions: \(perms)")
+        })
+    }
+    
 	fileprivate func openRealmWithUser(user: SyncUser) {
-			DispatchQueue.main.async {
-				let config = user.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: true, enableSSLValidation: true, urlPrefix: nil)
+        displayInfo(for: SyncUser.current!)
+			DispatchQueue.main.async { [weak self] in
+				let config = user.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: false, enableSSLValidation: true, urlPrefix: nil)
 				
 				do {	// Open the online Realm
-					self.realm = try Realm(configuration: config)
+					self?.realm = try Realm(configuration: config)
+                    self?.configureJonathanSubscription()
 				} catch {
 					let message = "SyncUser logged in but couldn't open realm: Error: \(error)"
-					self.present(UIAlertController.basic(title: "Uh-Oh", message: message), animated: true)
+					self?.present(UIAlertController.basic(title: "Uh-Oh", message: message), animated: true)
 					pr(message)
 				}
 			}
