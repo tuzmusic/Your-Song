@@ -545,24 +545,17 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vE3-iL-pss">
-                                                            <rect key="frame" x="0.0" y="7" width="106.5" height="30"/>
+                                                            <rect key="frame" x="0.0" y="7" width="160" height="30"/>
                                                             <state key="normal" title="Login"/>
                                                             <connections>
                                                                 <action selector="loginButtonTapped:" destination="OUq-h2-fFb" eventType="touchUpInside" id="74A-Dz-QLo"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PeQ-SA-98h">
-                                                            <rect key="frame" x="106.5" y="7" width="107" height="30"/>
+                                                            <rect key="frame" x="160" y="7" width="160" height="30"/>
                                                             <state key="normal" title="Register"/>
                                                             <connections>
                                                                 <segue destination="MLl-dE-hdR" kind="show" identifier="Register Segue" id="lSG-PR-8en"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3xY-h1-Ocn">
-                                                            <rect key="frame" x="213.5" y="7" width="106.5" height="30"/>
-                                                            <state key="normal" title="Log Out"/>
-                                                            <connections>
-                                                                <action selector="logOutAll" destination="OUq-h2-fFb" eventType="touchUpInside" id="NA5-0T-xKz"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -591,7 +584,6 @@
                         <outlet property="userNameField" destination="DHI-X3-PEn" id="NM6-SF-rPB"/>
                         <outletCollection property="realmLoginButtons" destination="vE3-iL-pss" collectionClass="NSMutableArray" id="lQq-OZ-N51"/>
                         <outletCollection property="realmLoginButtons" destination="PeQ-SA-98h" collectionClass="NSMutableArray" id="wTq-gY-3kK"/>
-                        <outletCollection property="realmLoginButtons" destination="3xY-h1-Ocn" collectionClass="NSMutableArray" id="yJe-SY-6Zb"/>
                         <segue destination="mOZ-7c-S7O" kind="show" identifier="Login to New Request Segue" id="KJF-dN-y5i"/>
                     </connections>
                 </tableViewController>

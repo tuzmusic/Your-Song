@@ -63,12 +63,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		}
 	}
 	
-	var realm: Realm? {
-		didSet {
-//            toggleRealmButtons(signedIn: (realm == nil ? false : true))
-		}
-	}
-	
+	var realm: Realm?
     var subscriptionToken: NotificationToken?
     
 	override func viewDidLoad() {
@@ -94,8 +89,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			vc.realm = self.realm
 		}
 	}
-	
-	
+		
 	// MARK: Realm-cred sign-in
 	
 	@IBAction func loginButtonTapped(_ sender: UIButton) {
@@ -148,22 +142,15 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	fileprivate func openRealmWithUser(user: SyncUser) {
 			DispatchQueue.main.async { [weak self] in
 				let config = user.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: false, enableSSLValidation: true, urlPrefix: nil)
-                
-				do {	// Open the online Realm
-                    //self?.realm = try Realm(configuration: user.configuration())
-                    self?.realm = try Realm(configuration: config)
-                    let subscription = self?.realm?.objects(Song.self).subscribe()
-                    self?.subscriptionToken = subscription?.observe(\.state, options: .initial) { state in
-                        if state == .complete {
-                            pr("token state complete, whatever that means")
-                        }
+                self?.realm = try! Realm(configuration: config)
+                let subscription = self?.realm?.objects(Song.self).subscribe()
+                self?.subscriptionToken = subscription?.observe(\.state, options: .initial) { state in
+                    if state == .complete {
+                        pr("token state complete, whatever that means")
                     }
-                    // findYpbUser(in: realm)
-                    self?.performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
-                } catch {
-					let message = "SyncUser logged in but couldn't open realm: Error: \(error)"
-                    self?.present(UIAlertController.basic(title: "Uh-Oh", message: message), animated: true); pr(message)
-				}
+                }
+                // findYpbUser(in: realm)
+                self?.performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)                
 			}
 	}
     
