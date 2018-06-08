@@ -65,34 +65,25 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
     
     // MARK: Realm-cred sign-in
     
-    @IBAction func loginButtonTapped(_ sender: UIButton) {
-        if SyncUser.current == nil {
-            if let email = emailField.text, let password = passwordField.text {
-                guard !password.isEmpty else {
-                    nicknameLogin(with: email)
-                    return
-                }
-                proposedUser.email = email // to see if we have a user with this EMAIL ADDRESS
-                let cred = SyncCredentials.usernamePassword(username: email, password: password)
-                realmCredLogin(cred: cred)
-            }
-        }
-    }
+	@IBAction func loginButtonTapped(_ sender: UIButton) {
+		if SyncUser.current == nil {
+			let email = emailField.text!
+			let password = passwordField.text!
+			
+			guard !email.isEmpty && !password.isEmpty else {
+				let alert = UIAlertController(title: nil, message: "Please enter your email address and password.", preferredStyle: .alert)
+				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+				present(alert, animated: true)
+				return
+			}
+			
+			proposedUser.email = email // to see if we have a user with this EMAIL ADDRESS
+			let cred = SyncCredentials.usernamePassword(username: email, password: password)
+			realmCredLogin(cred: cred)
+		}
+	}
     
     // YPB Realm login
-    
-    fileprivate func nicknameLogin(with name: String) {
-        let alert = UIAlertController(title: "No password entered",
-                                      message: "Do you want to login using \"nickname\" \(name)?", preferredStyle: .alert)
-        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let yesButton = UIAlertAction(title: "OK", style: .default) { (_) in
-            let nicknameCred = SyncCredentials.nickname(name)
-            self.realmCredLogin(cred: nicknameCred)
-        }
-        alert.addAction(yesButton)
-        alert.addAction(cancelButton)
-        present(alert, animated: true, completion: nil)
-    }
     
     func realmCredLogin(cred: SyncCredentials) {	// Should probably rename, since I think this may for all kinds of creds.
         spinner = view.addNewSpinner()
