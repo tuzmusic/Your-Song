@@ -63,7 +63,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
         }
     }
     
-    var realm: Realm? 
+    var realm: Realm?
     var subscriptionToken: NotificationToken?
     
     override func viewDidLoad() {
@@ -125,11 +125,9 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
         
         spinner = view.addNewSpinner()
         
-        // Get the user.
         SyncUser.logIn(with: cred, server: RealmConstants.authURL) { [weak self] (user, error) in
             if let user = user {
-                pr("SyncUser logged in: \(user)")
-                self?.openRealmWithUser(user: user)
+                self?.openRealmWithUser(user: user); pr("SyncUser logged in: \(user)")
             } else if let error = error {
                 self?.handleLogIn(error)
             }

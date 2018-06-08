@@ -15,7 +15,7 @@ class RegisterTableViewController: UITableViewController {
 	// TO-DO: Spinner
 	
 	var loginDelegate: SignInTableViewController!
-	
+    var spinner = UIActivityIndicatorView()
 	var email, password, firstName, lastName: String?
 	
 	@IBOutlet var textFields: [UITextField]! {
@@ -35,7 +35,7 @@ class RegisterTableViewController: UITableViewController {
 			present(alert, animated: true)
 			return
 		}
-		
+		spinner = view.addNewSpinner()
 		email = textFields[0].text!
 		password = textFields[1].text!
 		
