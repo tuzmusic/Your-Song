@@ -22,10 +22,10 @@ class CreateRequestTableViewController: UITableViewController, UINavigationBarDe
 		super.viewDidLoad()
 		resetRequest()
 		navigationItem.hidesBackButton = true
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(confirmLogout(_:))) // hide back button?
+		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(confirmLogout))
 	}
 	
-	@objc func confirmLogout(_ sender: Any) {
+	@objc func confirmLogout() {
 		let alert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?",  preferredStyle: .alert)
 		
 		let yesButton = UIAlertAction(title: "Log out", style: .destructive) { (_) in
@@ -110,5 +110,7 @@ class CreateRequestTableViewController: UITableViewController, UINavigationBarDe
 
     override func viewDidAppear(_ animated: Bool) {
         // place breakpoint here.
+        
+        
     }
 }

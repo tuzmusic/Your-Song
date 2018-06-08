@@ -15,10 +15,10 @@ class SongsTableViewController_OLD: BrowserViewController_OLD {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(sortSongs(sender:)))
+		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(sortSongs))
 	}
 	
-	@objc func sortSongs(sender:UIBarButtonItem) {
+	@objc func sortSongs() {
 		let alert = UIAlertController(title: "Sort songs by...", message: nil, preferredStyle: .alert)
 		
 		alert.addAction(UIAlertAction(title: "Alphabetical (A to Z)", style: .default, handler: { _ in

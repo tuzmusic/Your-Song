@@ -38,31 +38,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
     
     var spinner = UIActivityIndicatorView()
     var proposedUser: YpbUser?
-    
-    fileprivate func createNewYpbUser(for info: YpbUser, in realm: Realm) {
-        let newYpbUser = YpbUser.user(id: SyncUser.current!.identity, email: info.email,
-                                      firstName: info.firstName, lastName: info.lastName)
-        try! realm.write {
-            realm.add(newYpbUser)
-            YpbUser.current = newYpbUser
-            pr("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
-        }
-    }
-    
-    fileprivate func findYpbUser(in realm: Realm) {
-        if let user = YpbUser.existingUser(for: SyncUser.current!, in: realm) { // If we find the YpbUser:
-            try! realm.write { YpbUser.current = user	}
-        } else {
-            pr("YpbUser not found.") // i.e., Realm user found, but not YpbUser. Not sure when this would happen. (Well, it happens when we open an empty realm for some reason)
-            if let info = proposedUser {
-                createNewYpbUser(for: info, in: realm)
-            } else {
-                // we're using a sample user. loginSampleUser doesn't assign a proposed user, so we end up in this else clause, we don't look for or assign YpbUser.current
-                pr("couldn't find creds for sample user")
-            }
-        }
-    }
-    
+
     var realm: Realm?
     var subscriptionToken: NotificationToken?
     
@@ -138,12 +114,9 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
         DispatchQueue.main.async { [weak self] in
             let config = user.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: false, enableSSLValidation: true, urlPrefix: nil)
             self?.realm = try! Realm(configuration: config)
-            let subscription = self?.realm?.objects(Song.self).subscribe()
-            self?.subscriptionToken = subscription?.observe(\.state, options: .initial) { state in
-                if state == .complete {
-                    pr("token state complete, whatever that means")
-                }
-            }
+            //self?.findYpbUser(in: (self?.realm)!)
+            
+            _ = self?.realm?.objects(Song.self).subscribe()            
             self?.performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
         }
     }
@@ -153,7 +126,32 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
         self.spinner.stopAnimating()
     }
     
-    @IBAction func logOutAll() {
+ 
+    fileprivate func findYpbUser(in realm: Realm) {
+        if let user = YpbUser.existingUser(for: SyncUser.current!, in: realm) { // If we find the YpbUser:
+            try! realm.write { YpbUser.current = user    }
+        } else {
+            pr("YpbUser not found.") // i.e., Realm user found, but not YpbUser. Not sure when this would happen. (Well, it happens when we open an empty realm for some reason)
+            if let info = proposedUser {
+                createNewYpbUser(for: info, in: realm)
+            } else {
+                // we're using a sample user. loginSampleUser doesn't assign a proposed user, so we end up in this else clause, we don't look for or assign YpbUser.current
+                pr("couldn't find creds for sample user")
+            }
+        }
+    }
+    
+    fileprivate func createNewYpbUser(for info: YpbUser, in realm: Realm) {
+        let newYpbUser = YpbUser.user(id: SyncUser.current!.identity, email: info.email,
+                                      firstName: info.firstName, lastName: info.lastName)
+        try! realm.write {
+            realm.add(newYpbUser)
+            YpbUser.current = newYpbUser
+            pr("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
+        }
+    }
+    
+    func logOutAll() {
         SyncUser.current?.logOut()
         realm = nil
         proposedUser = nil

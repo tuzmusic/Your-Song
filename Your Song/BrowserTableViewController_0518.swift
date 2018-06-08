@@ -89,15 +89,15 @@ class BrowserTableViewController: UITableViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(search(_:)))]
+		navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(search))]
 	}
 	var testPred: (format: String, args: String)?
-	@objc func search(_ sender: Any) {
+	@objc func search() {
 		let alert = UIAlertController(title: "Search", message: nil, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 		alert.addTextField(configurationHandler: nil)
 		
-		let clearButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(clearSearch(_:)))
+		let clearButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(clearSearch))
 		
 		let searchButton = UIAlertAction(title: "Search", style: .default) { (_) in
 			self.searchString = alert.textFields?.first?.text
@@ -108,7 +108,7 @@ class BrowserTableViewController: UITableViewController {
 		present(alert, animated: true, completion: nil)
 	}
 	
-	@objc func clearSearch(_ sender: Any) {
+	@objc func clearSearch() {
 		searchString = nil
 		_ = self.navigationItem.rightBarButtonItems?.popLast()
 		navigationController?.navigationBar.setNeedsDisplay()
