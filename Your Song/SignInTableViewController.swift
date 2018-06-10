@@ -14,66 +14,67 @@ import GoogleSignIn
 
 
 struct RealmConstants {
-    static let address = "your-piano-bar.us1.cloud.realm.io"
-    static let authURL = URL(string:"https://\(address)")!
-    static let realmURL = URL(string:"realms://\(address)/YourPianoBar/JonathanTuzman/")!
+	static let address = "your-piano-bar.us1.cloud.realm.io"
+	static let authURL = URL(string:"https://\(address)")!
+	static let realmURL = URL(string:"realms://\(address)/YourPianoBar/JonathanTuzman/")!
 }
 
 class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, RealmDelegate {
-    
-    @IBOutlet weak var emailField: UITextField!
-    @IBOutlet weak var passwordField: UITextField!
-    @IBOutlet var realmLoginButtons: [UIButton]!
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        emailField.text = ""
-        passwordField.text = ""
-    }
-    
-    var spinner = UIActivityIndicatorView()
-    var proposedUser = YpbUser()
-    
-    var realm: Realm?
-    var subscriptionToken: NotificationToken?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if let user = SyncUser.current {
-            pr("SyncUser was already logged in: \(user.identity!)")
-            proposedUser.id = user.identity!
-            openRealmWithUser(user: user)
-        } else {
-            realm = nil
-        }
-    }
-    
-    deinit {
-        subscriptionToken?.invalidate()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        spinner.stopAnimating()
-        if let vc = segue.destination as? RegisterTableViewController {	// prepare for Register segue
-            vc.email = emailField.text
-            vc.password = passwordField.text
-            vc.loginDelegate = self
-        } else if let vc = segue.destination as? CreateRequestTableViewController { // prepare for CreateRequest segue
-            vc.realm = self.realm
-        }
-    }
-    
-    // MARK: Realm-cred sign-in
-    
+	
+	@IBOutlet weak var emailField: UITextField!
+	@IBOutlet weak var passwordField: UITextField!
+	@IBOutlet var realmLoginButtons: [UIButton]!
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(true)
+		emailField.text = ""
+		passwordField.text = ""
+	}
+	
+	var spinner = UIActivityIndicatorView()
+	var proposedUser = YpbUser()
+	
+	var realm: Realm? { didSet { if realm != nil { realmDidSet() } } }
+	var songsToken: NotificationToken?
+	var usersSubscriptionToken: NotificationToken?
+	var usersToken: NotificationToken?
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		if let user = SyncUser.current {
+			pr("SyncUser was already logged in: \(user.identity!)")
+			proposedUser.id = user.identity!
+			openRealmWithUser(user: user)
+		} else {
+			realm = nil
+		}
+	}
+	
+	deinit {
+		songsToken?.invalidate()
+		usersSubscriptionToken?.invalidate()
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		spinner.stopAnimating()
+		if let vc = segue.destination as? RegisterTableViewController {	// prepare for Register segue
+			vc.email = emailField.text
+			vc.password = passwordField.text
+			vc.loginDelegate = self
+		} else if let vc = segue.destination as? CreateRequestTableViewController { // prepare for CreateRequest segue
+			vc.realm = self.realm
+		}
+	}
+	
+	// MARK: Realm-cred sign-in
+	
 	@IBAction func loginButtonTapped(_ sender: UIButton) {
 		if SyncUser.current == nil {
 			let email = emailField.text!
 			let password = passwordField.text!
 			
 			guard !email.isEmpty && !password.isEmpty else {
-				let alert = UIAlertController(title: nil, message: "Please enter your email address and password.", preferredStyle: .alert)
-				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-				present(alert, animated: true)
+				present(UIAlertController.basic(title: nil, message: "Please enter your email address and password."), animated: true)
 				return
 			}
 			
@@ -82,91 +83,95 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			realmCredLogin(cred: cred)
 		}
 	}
-    
-    // YPB Realm login
-    
-    func realmCredLogin(cred: SyncCredentials) {	// Should probably rename, since I think this may for all kinds of creds.
-        spinner = view.addNewSpinner()
-        
-        SyncUser.logIn(with: cred, server: RealmConstants.authURL) { [weak self] (user, error) in
-            if let user = user {    // can't check YpbUser yet because we're not in the realm, where YpbUsers are
-                self?.openRealmWithUser(user: user); pr("SyncUser now logged in: \(user.identity!)")
-            } else if let error = error {
-                self?.present(UIAlertController.basic(title: "Login failed", message: error.localizedDescription), animated: true); pr("SyncUser.login Error: \(error)")
-                self?.spinner.stopAnimating()
-            }
-        }
-    }
-    
-    fileprivate func openRealmWithUser(user: SyncUser) {
-        DispatchQueue.main.async { [weak self] in
-            let config = user.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: false, enableSSLValidation: true, urlPrefix: nil)
-            self?.realm = try! Realm(configuration: config)
-            self?.findYpbUser(in: (self?.realm)!)
-            
-            _ = self?.realm?.objects(Song.self).subscribe()
-            _ = self?.realm?.objects(YpbUser.self).subscribe()
-            self?.performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
-        }
-    }
-    
-    fileprivate func findYpbUser(in realm: Realm) {
-        // Once we're not dealing with SyncUsers created w/o YpbUsers, I think this is here to see if someone has already been registered as a YpbUser using a different authentication method.
-        // The login handler for that method should set the proposedUser.email
-        
-        // note: I think there is a way to have this happen where the proposedUser is an optional, but for now we check against an initialized YpbUser instead of checking whether it's been set.
-        if proposedUser != YpbUser() {
-            let existingUser = YpbUser.existingUser(for: proposedUser, in: realm)
-            guard existingUser == nil else { // If we find the YpbUser, set as current:
-                try! realm.write {
-                    pr("YpbUser found: \(existingUser!)")
-                    YpbUser.current = existingUser }
-                return
-            }
-            
-            pr("YpbUser not found.") // i.e., SyncUser set, but no YpbUser found. i.e., creating a new YpbUser
-            createNewYpbUser(for: proposedUser, in: realm)
-        } else {
-            pr("proposed user == YpbUser(). WTF?")
-        }
-    }
-    
-    fileprivate func createNewYpbUser(for info: YpbUser, in realm: Realm) {
-        // Once we're not dealing with SyncUsers created w/o YpbUsers, I think this should only ever get called from RegisterVC (and so should reside there)
-        let newYpbUser = YpbUser.user(id: SyncUser.current!.identity, email: info.email,
-                                      firstName: info.firstName, lastName: info.lastName)
-        try! realm.write {
-            realm.add(newYpbUser)
-            YpbUser.current = newYpbUser
-            pr("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
-        }
-    }
-    
-    func logOutAll() {
-        SyncUser.current?.logOut()
-        realm = nil
-        proposedUser = YpbUser()
-        emailField.text = ""
-        passwordField.text = ""
-    }
+	
+	// YPB Realm login
+	
+	func realmCredLogin(cred: SyncCredentials) {	// Should probably rename, since I think this may for all kinds of creds.
+		spinner = view.addNewSpinner()
+		
+		SyncUser.logIn(with: cred, server: RealmConstants.authURL) { [weak self] (user, error) in
+			if let user = user {    // can't check YpbUser yet because we're not in the realm, where YpbUsers are
+				self?.openRealmWithUser(user: user); pr("SyncUser now logged in: \(user.identity!)")
+			} else if let error = error {
+				self?.present(UIAlertController.basic(title: "Login failed", message: error.localizedDescription), animated: true); pr("SyncUser.login Error: \(error)")
+				self?.spinner.stopAnimating()
+			}
+		}
+	}
+	
+	fileprivate func openRealmWithUser(user: SyncUser) {
+		DispatchQueue.main.async { [weak self] in
+			let config = user.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: false, enableSSLValidation: true, urlPrefix: nil)
+			self?.realm = try! Realm(configuration: config)
+		}
+	}
+	
+	fileprivate func realmDidSet() {
+		
+		let _ = realm?.objects(Song.self).subscribe()	// should ultimately be moved to the prepare(for:) method of CreateRequestVC
+		let _ = realm?.objects(YpbUser.self).subscribe()
+
+		usersToken = realm?.objects(YpbUser.self).filter("email = %@", proposedUser.email).observe { [weak self] changes in
+			self?.findYpbUser(in: (self?.realm)!)
+		}
+		
+		performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
+	}
+	
+	fileprivate func findYpbUser(in realm: Realm) {
+		/* Once we're not dealing with SyncUsers created w/o YpbUsers, I think this is here to see if someone has already been registered as a YpbUser using a different authentication method. The login handler for that method should set the proposedUser.email
+		
+		// note: I think there is a way to have this happen where the proposedUser is an optional, but for now we check against an initialized YpbUser instead of checking whether it's been set.
+		*/
+		
+		if proposedUser != YpbUser() {  // if any properties of proposedUser have been set
+			let existingUser = YpbUser.existingUser(for: proposedUser, in: realm)
+			guard existingUser == nil else { // If we find the YpbUser, set as current:
+				try! realm.write {
+					pr("YpbUser found: \(existingUser!)")
+					YpbUser.current = existingUser
+				}
+				return
+			}
+			
+			createNewYpbUser(for: proposedUser, in: realm)
+		} else {
+			pr("proposed user == YpbUser(). WTF?")
+		}
+	}
+	
+	fileprivate func createNewYpbUser(for info: YpbUser, in realm: Realm) {
+		pr("YpbUser not found.") // i.e., SyncUser set, but no YpbUser found. i.e., creating a new YpbUser
+		guard !proposedUser.firstName.isEmpty || !proposedUser.lastName.isEmpty else { pr("No name for user."); return }
+		
+		// Once we're not dealing with SyncUsers created w/o YpbUsers, I think this should only ever get called from RegisterVC (and so should reside there)
+		let newYpbUser = YpbUser.user(id: SyncUser.current!.identity, email: info.email,
+												firstName: info.firstName, lastName: info.lastName)
+		try! realm.write {
+			realm.add(newYpbUser)
+			YpbUser.current = newYpbUser
+			pr("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
+		}
+	}
+	
+	func logOutAll() {
+		SyncUser.current?.logOut()
+		realm = nil
+		proposedUser = YpbUser()
+		emailField.text = ""
+		passwordField.text = ""
+	}
 }
 
 extension YpbUser {
-    class func existingUser (for proposedUser: YpbUser, in realm: Realm) -> YpbUser? {
-        if let idUser = realm.objects(YpbUser.self).filter("id = %@", proposedUser.id).first {
-            return idUser
-        }
-        if let emailUser = realm.objects(YpbUser.self).filter("email = %@", proposedUser.email).first {
-            return emailUser
-        }
-        return nil
-    }
-    class func existingUser (forSyncUser user: SyncUser, in realm: Realm) -> YpbUser? {
-        let id = user.identity!
-        return realm.objects(YpbUser.self).filter("id = %@", id).first
-    }
-    class func existingUser (forEmail email: String, in realm: Realm) -> YpbUser? {
-        let user = realm.objects(YpbUser.self).filter("email = %@", email).first
-        return user
-    }
+	class func existingUser (for proposedUser: YpbUser, in realm: Realm) -> YpbUser? {
+		let users = realm.objects(YpbUser.self)
+
+		if let emailUser = users.filter("email = %@", proposedUser.email).first {
+			return emailUser
+		} else if let idUser = users.filter("id = %@", proposedUser.id).first {
+			return idUser
+		}
+		return nil
+	}
 }
