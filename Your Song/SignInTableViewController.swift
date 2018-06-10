@@ -34,7 +34,14 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	var spinner = UIActivityIndicatorView()
 	var proposedUser = YpbUser()
 	
-	var realm: Realm? { didSet { if realm != nil { realmDidSet() } } }
+	var realm: Realm? {
+		didSet {
+			if realm != nil {
+				realmDidSetMethod()
+			}
+		}
+		
+	}
 	var songsToken: NotificationToken?
 	var usersSubscriptionToken: NotificationToken?
 	var usersToken: NotificationToken?
@@ -106,16 +113,20 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		}
 	}
 	
-	fileprivate func realmDidSet() {
+	fileprivate func realmDidSetMethod() {
+		guard let realm = realm else { return }
 		
-		let _ = realm?.objects(Song.self).subscribe()	// should ultimately be moved to the prepare(for:) method of CreateRequestVC
-		let _ = realm?.objects(YpbUser.self).subscribe()
-
-		usersToken = realm?.objects(YpbUser.self).filter("email = %@", proposedUser.email).observe { [weak self] changes in
-			self?.findYpbUser(in: (self?.realm)!)
+		let _ = realm.objects(Song.self).subscribe()	// should ultimately be moved to the prepare(for:) method of CreateRequestVC
+		let _ = realm.objects(YpbUser.self).subscribe()
+		
+		let thisUserQuery = realm.objects(YpbUser.self).filter("email = %@", proposedUser.email)
+		
+		usersToken = thisUserQuery.observe { [weak self] changes in
+			self?.findYpbUser(in: realm)
+			if !thisUserQuery.isEmpty {
+					pr("user with email found")
+			}
 		}
-		
-		performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
 	}
 	
 	fileprivate func findYpbUser(in realm: Realm) {
@@ -130,10 +141,10 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 				try! realm.write {
 					pr("YpbUser found: \(existingUser!)")
 					YpbUser.current = existingUser
+					performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
 				}
 				return
 			}
-			
 			createNewYpbUser(for: proposedUser, in: realm)
 		} else {
 			pr("proposed user == YpbUser(). WTF?")
@@ -142,7 +153,8 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	
 	fileprivate func createNewYpbUser(for info: YpbUser, in realm: Realm) {
 		pr("YpbUser not found.") // i.e., SyncUser set, but no YpbUser found. i.e., creating a new YpbUser
-		guard !proposedUser.firstName.isEmpty || !proposedUser.lastName.isEmpty else { pr("No name for user."); return }
+		
+		guard !proposedUser.firstName.isEmpty || !proposedUser.lastName.isEmpty else { pr("Cannot create user: No name provided/found."); return }
 		
 		// Once we're not dealing with SyncUsers created w/o YpbUsers, I think this should only ever get called from RegisterVC (and so should reside there)
 		let newYpbUser = YpbUser.user(id: SyncUser.current!.identity, email: info.email,
@@ -151,6 +163,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			realm.add(newYpbUser)
 			YpbUser.current = newYpbUser
 			pr("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
+			performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
 		}
 	}
 	
