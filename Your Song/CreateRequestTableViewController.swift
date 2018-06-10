@@ -30,7 +30,7 @@ class CreateRequestTableViewController: UITableViewController, UINavigationBarDe
 		
 		let yesButton = UIAlertAction(title: "Log out", style: .destructive) { (_) in
 			if let loginVC = self.navigationController?.viewControllers.first as? SignInTableViewController {
-				self.navigationController?.popViewController(animated: true)
+				self.navigationController?.popToRootViewController(animated: true)
 				loginVC.emailField.becomeFirstResponder()
 				loginVC.logOutAll()
 			}
