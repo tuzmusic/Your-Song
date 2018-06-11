@@ -297,7 +297,7 @@
         <scene sceneID="rnO-CJ-5Go">
             <objects>
                 <tableViewController storyboardIdentifier="Register User" title="Register" id="MLl-dE-hdR" customClass="RegisterTableViewController" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9Ke-7T-ot0">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9Ke-7T-ot0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -595,6 +595,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="9J9-M7-52C"/>
         <segue reference="CY9-hT-jlO"/>
-        <segue reference="KJF-dN-y5i"/>
+        <segue reference="uhq-hp-Zz8"/>
     </inferredMetricsTieBreakers>
 </document>

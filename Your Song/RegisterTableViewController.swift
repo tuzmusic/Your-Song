@@ -28,7 +28,7 @@ class RegisterTableViewController: UITableViewController {
 			}
 		}
 	}
-
+	
 	@IBAction func registerButtonTapped(_ sender: Any) {
 		guard checkForEmptyFields() else {
 			let alert = UIAlertController.basic(title: "Whoops!", message: "Please enter a valid email address, password, and first name.")

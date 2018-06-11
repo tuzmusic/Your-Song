@@ -36,7 +36,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	
 	var realm: Realm? {
 		didSet {
-			if realm != nil {
+			if realm != nil && oldValue == nil {
 				realmDidSetMethod()
 			}
 		}
@@ -55,6 +55,10 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		} else {
 			realm = nil
 		}
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		
 	}
 	
 	deinit {
@@ -97,8 +101,8 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		spinner = view.addNewSpinner()
 		
 		SyncUser.logIn(with: cred, server: RealmConstants.authURL) { [weak self] (user, error) in
-			if let user = user {    // can't check YpbUser yet because we're not in the realm, where YpbUsers are
-				self?.openRealmWithUser(user: user); pr("SyncUser now logged in: \(user.identity!)")
+			if let syncUser = user {    // can't check YpbUser yet because we're not in the realm, where YpbUsers are
+				self?.openRealmWithUser(user: syncUser); pr("SyncUser now logged in: \(syncUser.identity!)")
 			} else if let error = error {
 				self?.present(UIAlertController.basic(title: "Login failed", message: error.localizedDescription), animated: true); pr("SyncUser.login Error: \(error)")
 				self?.spinner.stopAnimating()
@@ -119,13 +123,27 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		let _ = realm.objects(Song.self).subscribe()	// should ultimately be moved to the prepare(for:) method of CreateRequestVC
 		let _ = realm.objects(YpbUser.self).subscribe()
 		
-		let thisUserQuery = realm.objects(YpbUser.self).filter("email = %@", proposedUser.email)
-		
+        let emailPredicate = NSPredicate(format: "email = %@", proposedUser.email)
+        let idPredicate = NSPredicate(format: "id = %@", proposedUser.id)
+        
+        let idOrEmailPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: [emailPredicate, idPredicate])
+        
+        var thisUserQuery = realm.objects(YpbUser.self).filter("email = %@", proposedUser.email)
+        //thisUserQuery = realm.objects(YpbUser.self).filter(idOrEmailPredicate)
+
+        let emailToken = realm.objects(YpbUser.self).filter(emailPredicate).observe {  [weak self] changes in
+            // This gets called from a MANUAL LOGIN
+            print("emailToken")
+        }
+        let idToken = realm.objects(YpbUser.self).filter(idPredicate).observe {  [weak self] changes in
+            // This gets called from an AUTO LOGIN or from REGISTER
+            print("idToken")
+        }
 		usersToken = thisUserQuery.observe { [weak self] changes in
-			self?.findYpbUser(in: realm)
+            self?.findYpbUser(in: realm)
+
 			if !thisUserQuery.isEmpty {
-					pr("user with email found")
-			}
+            }
 		}
 	}
 	
@@ -141,6 +159,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 				try! realm.write {
 					pr("YpbUser found: \(existingUser!)")
 					YpbUser.current = existingUser
+                    usersToken?.invalidate()
 					performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
 				}
 				return
@@ -152,7 +171,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	}
 	
 	fileprivate func createNewYpbUser(for info: YpbUser, in realm: Realm) {
-		pr("YpbUser not found.") // i.e., SyncUser set, but no YpbUser found. i.e., creating a new YpbUser
+		print("YpbUser not found. Attempting to create new user...") // i.e., SyncUser set, but no YpbUser found. i.e., creating a new YpbUser
 		
 		guard !proposedUser.firstName.isEmpty || !proposedUser.lastName.isEmpty else { pr("Cannot create user: No name provided/found."); return }
 		
@@ -162,13 +181,15 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		try! realm.write {
 			realm.add(newYpbUser)
 			YpbUser.current = newYpbUser
-			pr("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
+            usersToken?.invalidate()
+			print("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
 			performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
 		}
 	}
 	
 	func logOutAll() {
 		SyncUser.current?.logOut()
+		YpbUser.current = nil
 		realm = nil
 		proposedUser = YpbUser()
 		emailField.text = ""
