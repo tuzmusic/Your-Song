@@ -34,16 +34,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	var spinner = UIActivityIndicatorView()
 	var proposedUser = YpbUser()
 	
-	var realm: Realm? {
-		didSet {
-			if realm != nil && oldValue == nil {
-				realmDidSetMethod()
-			}
-		}
-		
-	}
-	var songsToken: NotificationToken?
-	var usersSubscriptionToken: NotificationToken?
+	var realm: Realm?
 	var usersToken: NotificationToken?
 	
 	override func viewDidLoad() {
@@ -56,15 +47,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			realm = nil
 		}
 	}
-	
-	override func viewWillDisappear(_ animated: Bool) {
 		
-	}
-	
-	deinit {
-		songsToken?.invalidate()
-		usersSubscriptionToken?.invalidate()
-	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		spinner.stopAnimating()
@@ -73,7 +56,8 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			vc.password = passwordField.text
 			vc.loginDelegate = self
 		} else if let vc = segue.destination as? CreateRequestTableViewController { // prepare for CreateRequest segue
-			vc.realm = self.realm
+			usersToken?.invalidate()
+            vc.realm = self.realm
 		}
 	}
 	
@@ -114,36 +98,18 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		DispatchQueue.main.async { [weak self] in
 			let config = user.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: false, enableSSLValidation: true, urlPrefix: nil)
 			self?.realm = try! Realm(configuration: config)
+            self?.setupRealm()
 		}
 	}
 	
-	fileprivate func realmDidSetMethod() {
+	fileprivate func setupRealm() {
 		guard let realm = realm else { return }
 		
 		let _ = realm.objects(Song.self).subscribe()	// should ultimately be moved to the prepare(for:) method of CreateRequestVC
 		let _ = realm.objects(YpbUser.self).subscribe()
-		
-        let emailPredicate = NSPredicate(format: "email = %@", proposedUser.email)
-        let idPredicate = NSPredicate(format: "id = %@", proposedUser.id)
-        
-        let idOrEmailPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: [emailPredicate, idPredicate])
-        
-        var thisUserQuery = realm.objects(YpbUser.self).filter("email = %@", proposedUser.email)
-        //thisUserQuery = realm.objects(YpbUser.self).filter(idOrEmailPredicate)
-
-        let emailToken = realm.objects(YpbUser.self).filter(emailPredicate).observe {  [weak self] changes in
-            // This gets called from a MANUAL LOGIN
-            print("emailToken")
-        }
-        let idToken = realm.objects(YpbUser.self).filter(idPredicate).observe {  [weak self] changes in
-            // This gets called from an AUTO LOGIN or from REGISTER
-            print("idToken")
-        }
-		usersToken = thisUserQuery.observe { [weak self] changes in
+       
+		usersToken = realm.objects(YpbUser.self).filter("email = %@", proposedUser.email).observe { [weak self] changes in
             self?.findYpbUser(in: realm)
-
-			if !thisUserQuery.isEmpty {
-            }
 		}
 	}
 	
@@ -159,14 +125,13 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 				try! realm.write {
 					pr("YpbUser found: \(existingUser!)")
 					YpbUser.current = existingUser
-                    usersToken?.invalidate()
 					performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
 				}
 				return
 			}
 			createNewYpbUser(for: proposedUser, in: realm)
 		} else {
-			pr("proposed user == YpbUser(). WTF?")
+			pr("proposed user hasn't been modified. WTF?")
 		}
 	}
 	
@@ -175,14 +140,13 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		
 		guard !proposedUser.firstName.isEmpty || !proposedUser.lastName.isEmpty else { pr("Cannot create user: No name provided/found."); return }
 		
-		// Once we're not dealing with SyncUsers created w/o YpbUsers, I think this should only ever get called from RegisterVC (and so should reside there)
+		// Once we're not dealing with SyncUsers created w/o YpbUsers, I think this should only ever get called from RegisterVC (and so should maybe reside there)
 		let newYpbUser = YpbUser.user(id: SyncUser.current!.identity, email: info.email,
 												firstName: info.firstName, lastName: info.lastName)
 		try! realm.write {
+            print("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
 			realm.add(newYpbUser)
 			YpbUser.current = newYpbUser
-            usersToken?.invalidate()
-			print("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
 			performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
 		}
 	}

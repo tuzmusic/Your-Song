@@ -44,6 +44,7 @@ class RegisterTableViewController: UITableViewController {
 						    lastName: textFields[3].text ?? "")
 		let cred = SyncCredentials.usernamePassword(username: email!, password: password!, register: true)
 		loginDelegate.realmCredLogin(cred: cred)
+                spinner.stopAnimating()
 	}
 	
 	fileprivate func checkForEmptyFields () -> Bool {
