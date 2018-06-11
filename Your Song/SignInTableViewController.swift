@@ -23,8 +23,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	
 	@IBOutlet weak var emailField: UITextField!
 	@IBOutlet weak var passwordField: UITextField!
-	@IBOutlet var realmLoginButtons: [UIButton]!
-	
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		emailField.text = ""

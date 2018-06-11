@@ -578,11 +578,10 @@
                             <outlet property="delegate" destination="OUq-h2-fFb" id="mOH-M3-Tnp"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Your Piano Bar" id="NOJ-JV-Ah6"/>
+                    <navigationItem key="navigationItem" title="Your Song" id="NOJ-JV-Ah6"/>
                     <connections>
                         <outlet property="emailField" destination="DHI-X3-PEn" id="NM6-SF-rPB"/>
                         <outlet property="passwordField" destination="2c3-uR-oLh" id="buh-Ce-K56"/>
-                        <outletCollection property="realmLoginButtons" destination="vE3-iL-pss" collectionClass="NSMutableArray" id="lQq-OZ-N51"/>
                         <outletCollection property="realmLoginButtons" destination="PeQ-SA-98h" collectionClass="NSMutableArray" id="wTq-gY-3kK"/>
                         <segue destination="mOZ-7c-S7O" kind="show" identifier="Login to New Request Segue" id="KJF-dN-y5i"/>
                     </connections>
@@ -595,6 +594,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="9J9-M7-52C"/>
         <segue reference="CY9-hT-jlO"/>
-        <segue reference="uhq-hp-Zz8"/>
+        <segue reference="KJF-dN-y5i"/>
     </inferredMetricsTieBreakers>
 </document>
