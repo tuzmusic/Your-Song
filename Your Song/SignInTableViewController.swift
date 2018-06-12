@@ -64,7 +64,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	
 	@IBAction func loginButtonTapped(_ sender: UIButton) {
 		for view in [emailField, passwordField] {
-			view?.resignFirstResponder()
+			view?	.resignFirstResponder()
 		}
 		if SyncUser.current == nil {
 			let email = emailField.text!

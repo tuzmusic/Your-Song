@@ -13,7 +13,7 @@
 		521A5A2B1FF570C20056A11D /* YpbUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A5A2A1FF570C20056A11D /* YpbUser.swift */; };
 		521A5A2D1FF5719D0056A11D /* Utility Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A5A2C1FF5719D0056A11D /* Utility Functions.swift */; };
 		521A5A2F1FF57B890056A11D /* UI Design for CreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521A5A2E1FF57B890056A11D /* UI Design for CreateRequest.swift */; };
-		5220376020CF146C009760EB /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5220375F20CF146C009760EB /* LaunchScreenViewController.swift */; };
+		760380C620D03E3A00165E1E /* your-piano-bar-200px-4web-color piano only.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 760380C520D03E3A00165E1E /* your-piano-bar-200px-4web-color piano only.jpg */; };
 		7607666B1EA3920F00348171 /* ArtistsTableViewController_OLD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7607666A1EA3920F00348171 /* ArtistsTableViewController_OLD.swift */; };
 		760AACCE2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760AACCD2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift */; };
 		760C909920A8A26F0067DEE9 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760C909820A8A26F0067DEE9 /* MasterViewController.swift */; };
@@ -99,8 +99,8 @@
 		521A5A2A1FF570C20056A11D /* YpbUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YpbUser.swift; path = ../../YourPianoBarPianist/YourPianoBarPianist/YpbUser.swift; sourceTree = "<group>"; };
 		521A5A2C1FF5719D0056A11D /* Utility Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Utility Functions.swift"; path = "../../YourPianoBarPianist/YourPianoBarPianist/Utility Functions.swift"; sourceTree = "<group>"; };
 		521A5A2E1FF57B890056A11D /* UI Design for CreateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI Design for CreateRequest.swift"; sourceTree = "<group>"; };
-		5220375F20CF146C009760EB /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		643AB7A2DF887E275FC98C39 /* Pods-Your Song.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Your Song.release.xcconfig"; path = "Pods/Target Support Files/Pods-Your Song/Pods-Your Song.release.xcconfig"; sourceTree = "<group>"; };
+		760380C520D03E3A00165E1E /* your-piano-bar-200px-4web-color piano only.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "your-piano-bar-200px-4web-color piano only.jpg"; sourceTree = "<group>"; };
 		7607666A1EA3920F00348171 /* ArtistsTableViewController_OLD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistsTableViewController_OLD.swift; sourceTree = "<group>"; };
 		760AACCD2017AE1B00F1C97A /* ViewController Extension, changing fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController Extension, changing fonts.swift"; sourceTree = "<group>"; };
 		760C909820A8A26F0067DEE9 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -340,7 +340,6 @@
 				769D2E1C1EAE22530069FB30 /* Assets */,
 				768235B51E856ED0006186D7 /* Assets.xcassets */,
 				768235B71E856ED0006186D7 /* LaunchScreen.storyboard */,
-				5220375F20CF146C009760EB /* LaunchScreenViewController.swift */,
 				76321C641EAEB101001C860C /* Your Song-Bridging-Header.h */,
 				767551AB201CD51200EEC9C8 /* Backups */,
 			);
@@ -364,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				76ACB9A51E95464700923D6F /* Fonts */,
+				760380C520D03E3A00165E1E /* your-piano-bar-200px-4web-color piano only.jpg */,
 				76FD80B32038805600CD14D1 /* your-piano-bar-200px-4web-color piano only.png */,
 				769D2E161EAD06C00069FB30 /* !your-piano-bar-logo-tagline-final.png */,
 				768235D81E856F69006186D7 /* your-piano-bar-blank piano only tab bar item size.png */,
@@ -560,6 +560,7 @@
 				765D4B422002FD31003DB0DF /* Oswald-BoldItalic.ttf in Resources */,
 				76CF44A820C0707E00E37671 /* 2016 Song List and Progress - Master List.tsv in Resources */,
 				765D4B442002FD31003DB0DF /* Oswald-DemiBold.ttf in Resources */,
+				760380C620D03E3A00165E1E /* your-piano-bar-200px-4web-color piano only.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -755,7 +756,6 @@
 				767551AF201E48DD00EEC9C8 /* SongFinderTestsTableViewController.swift in Sources */,
 				521A5A271FF56FF10056A11D /* Event.swift in Sources */,
 				7675B6E920C092400073DEF8 /* SongsTableViewController.swift in Sources */,
-				5220376020CF146C009760EB /* LaunchScreenViewController.swift in Sources */,
 				76C9C25520239B0900CE127A /* SignInTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -902,7 +902,6 @@
 			baseConfigurationReference = F6945A0847332FACFE0432F5 /* Pods-Your Song.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 99DCWP49D6;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -924,7 +923,6 @@
 			baseConfigurationReference = 643AB7A2DF887E275FC98C39 /* Pods-Your Song.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 99DCWP49D6;
 				FRAMEWORK_SEARCH_PATHS = (

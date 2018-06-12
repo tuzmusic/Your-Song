@@ -116,9 +116,14 @@ class CreateRequestTableViewController: UITableViewController, UINavigationBarDe
 				realm.create(Request.self, value: request, update: false)
                 let newCount = realm.objects(Request.self).count
                 if newCount > oldCount {
-                    present(UIAlertController.basic(title: "Success!", message: thanksString), animated: true)
-                    resetRequest()
-                    spinner.stopAnimating()
+							let alert = UIAlertController(title: "Success", message: thanksString, preferredStyle: .alert)
+						alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self](_) in
+							self?.resetRequest()
+							spinner.stopAnimating()
+						}))
+						present(alert, animated: true)
+						
+                    //present(UIAlertController.basic(title: "Success!", message: thanksString), animated: true)
                 } else {
                     present(UIAlertController.basic(title: "Hmm...", message: "Same number of requests in realm as before"), animated: true)
                 }
