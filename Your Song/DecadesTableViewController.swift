@@ -46,9 +46,9 @@ class DecadesTableViewController: BrowserTableViewController {
 				// still go to songsVC, but don't add a predicate
 			}
 		}
-		else if let artistsVC = segue.destination as? ArtistsTableViewController {
-			// it's just all artists for now, no modification needed here
-		}
+//		else if let artistsVC = segue.destination as? ArtistsTableViewController {
+//			// it's just all artists for now, no modification needed here
+//		}
 	}
 	
 	override func tuzSearchController(_ searchCon: BrowserTableViewController, cellForNonHeaderRowAt indexPath: IndexPath) -> UITableViewCell {

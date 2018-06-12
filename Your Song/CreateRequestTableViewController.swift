@@ -9,7 +9,46 @@
 import UIKit
 import Realm
 import RealmSwift
-import RealmSearchViewController
+
+extension CreateRequestTableViewController {
+    
+    func deleteYpbUsers (in realm: Realm) {
+        
+        let emailsToSkip = ["tuzmusic@gmail.com", "jonathan@yourpianobar.com"]
+        let users = realm.objects(YpbUser.self)
+        realm.beginWrite()
+        for user in users {
+            if emailsToSkip.index(of: user.email) == nil {
+                realm.delete(user)
+            }
+        }
+        try! realm.commitWrite()
+    }
+    
+    func grantPermissions() {
+        
+        let permission = SyncPermission(realmPath: RealmConstants.realmURL.path,
+                                        username: "tuzmusic@gmail.com",
+                                        accessLevel: .write)
+        
+        SyncUser.current?.apply(permission) { (error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+        
+    }
+    
+    func realmCleanupUtils() {
+        let config = SyncUser.current!.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: true, enableSSLValidation: true, urlPrefix: nil)
+        let fullRealm = try! Realm(configuration: config)
+        
+        
+        //grantPermissions()
+        deleteYpbUsers(in: fullRealm)
+    }
+    
+}
 
 class CreateRequestTableViewController: UITableViewController, UINavigationBarDelegate {
 	
@@ -20,11 +59,12 @@ class CreateRequestTableViewController: UITableViewController, UINavigationBarDe
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        //realmCleanupUtils()
 		resetRequest()
 		navigationItem.hidesBackButton = true
 		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(confirmLogout))
 	}
-	
+    
 	@objc func confirmLogout() {
 		let alert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?",  preferredStyle: .alert)
 		
@@ -104,14 +144,5 @@ class CreateRequestTableViewController: UITableViewController, UINavigationBarDe
 			songsVC.realm = self.realm
 			songsVC.requestFormDelegate = self
 		}
-		if let searchVC = segue.destination as? RealmSearchViewController {
-			searchVC.realmConfiguration = realm!.configuration
-		}
 	}
-
-    override func viewDidAppear(_ animated: Bool) {
-        // place breakpoint here.
-        
-        
-    }
 }
