@@ -63,6 +63,9 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	// MARK: Realm-cred sign-in
 	
 	@IBAction func loginButtonTapped(_ sender: UIButton) {
+		for view in [emailField, passwordField] {
+			view?.resignFirstResponder()
+		}
 		if SyncUser.current == nil {
 			let email = emailField.text!
 			let password = passwordField.text!

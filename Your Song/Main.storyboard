@@ -14,7 +14,7 @@
         <scene sceneID="x9v-Hq-DDW">
             <objects>
                 <tableViewController title="New Request" id="mOZ-7c-S7O" customClass="CreateRequestTableViewController" customModule="Your_Song" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Lfv-ZR-p6B">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Lfv-ZR-p6B">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -66,26 +66,21 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Your Notes" id="PTW-hP-bng">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="143" id="B9H-QA-hFG">
-                                        <rect key="frame" x="0.0" y="172" width="320" height="143"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="B9H-QA-hFG">
+                                        <rect key="frame" x="0.0" y="172" width="320" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="B9H-QA-hFG" id="p3V-SP-jkw">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="142.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Have a dedication? Want to come up and sing? Put any extra notes here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dTK-yL-BSb" userLabel="notesTextView">
-                                                    <rect key="frame" x="16" y="0.0" width="288" height="132"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Have a dedication? Want to come up and sing? Put any extra notes here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dTK-yL-BSb" userLabel="notesTextView">
+                                                    <rect key="frame" x="16" y="0.0" width="288" height="42"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="dTK-yL-BSb" firstAttribute="top" secondItem="p3V-SP-jkw" secondAttribute="top" id="EOb-hN-TEx"/>
-                                                <constraint firstItem="dTK-yL-BSb" firstAttribute="bottom" secondItem="p3V-SP-jkw" secondAttribute="bottomMargin" id="PaQ-02-oUH"/>
-                                                <constraint firstItem="dTK-yL-BSb" firstAttribute="trailing" secondItem="p3V-SP-jkw" secondAttribute="trailingMargin" id="hqo-ir-si5"/>
-                                                <constraint firstItem="dTK-yL-BSb" firstAttribute="leading" secondItem="p3V-SP-jkw" secondAttribute="leadingMargin" id="yQZ-Jp-LIw"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -93,7 +88,7 @@
                             <tableViewSection id="1sc-S2-h44">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="DGD-Sm-Vrs">
-                                        <rect key="frame" x="0.0" y="315" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="272" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DGD-Sm-Vrs" id="pAB-cQ-bc7">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -131,7 +126,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ydQ-yv-sEs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-289" y="-10"/>
+            <point key="canvasLocation" x="-290.625" y="-10.56338028169014"/>
         </scene>
         <!--Songs-->
         <scene sceneID="hC4-QJ-gWG">
