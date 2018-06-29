@@ -35,16 +35,23 @@ class RegisterTableViewController: UITableViewController {
 			present(alert, animated: true)
 			return
 		}
-		spinner = view.addNewSpinner()
+		
+//		spinner = view.addNewSpinner()
 		email = textFields[0].text!
+		
+		guard textFields[1].text! == textFields[2].text! else {
+			let alert = UIAlertController.basic(title: "Whoops!", message: "Password and Confirm Password fields don't match.")
+			present(alert, animated: true)
+			return
+		}
 		password = textFields[1].text!
 		
 		loginDelegate.proposedUser = YpbUser.user(id: nil, email: email!,
-						    firstName: textFields[2].text!,
-						    lastName: textFields[3].text ?? "")
+																firstName: textFields[3].text!,
+																lastName: textFields[4].text ?? "")
 		let cred = SyncCredentials.usernamePassword(username: email!, password: password!, register: true)
 		loginDelegate.realmCredLogin(cred: cred)
-                spinner.stopAnimating()
+//		spinner.stopAnimating()
 	}
 	
 	fileprivate func checkForEmptyFields () -> Bool {
@@ -55,7 +62,7 @@ class RegisterTableViewController: UITableViewController {
 					return false
 				}
 				fallthrough
-			case 1,2:
+			case 1,2,3:
 				if field.text == nil || field.text!.isEmpty {
 					return false
 				}

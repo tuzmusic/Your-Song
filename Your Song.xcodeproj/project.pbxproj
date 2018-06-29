@@ -903,6 +903,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 99DCWP49D6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -910,8 +911,9 @@
 				);
 				INFOPLIST_FILE = "Your Song/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "TuzMusic.Your-Song";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tuzmusic.yoursong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Your Song/Your Song-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -924,6 +926,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 99DCWP49D6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -931,8 +934,9 @@
 				);
 				INFOPLIST_FILE = "Your Song/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "TuzMusic.Your-Song";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tuzmusic.yoursong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Your Song/Your Song-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
