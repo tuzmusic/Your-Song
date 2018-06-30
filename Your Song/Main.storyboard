@@ -474,6 +474,7 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="registerButton" destination="f23-Hc-nMd" id="m72-w8-Mkg"/>
                         <outletCollection property="textFields" destination="yH6-cg-luo" collectionClass="NSMutableArray" id="SpK-Of-wmQ"/>
                         <outletCollection property="textFields" destination="TSC-Yf-h3f" collectionClass="NSMutableArray" id="I49-K0-odH"/>
                         <outletCollection property="textFields" destination="BYy-zn-4GB" collectionClass="NSMutableArray" id="os3-2j-ca8"/>
@@ -606,7 +607,9 @@
                     <navigationItem key="navigationItem" title="Your Song" id="NOJ-JV-Ah6"/>
                     <connections>
                         <outlet property="emailField" destination="DHI-X3-PEn" id="NM6-SF-rPB"/>
+                        <outlet property="loginButton" destination="vE3-iL-pss" id="NwN-cA-iPd"/>
                         <outlet property="passwordField" destination="2c3-uR-oLh" id="buh-Ce-K56"/>
+                        <outlet property="registerButton" destination="PeQ-SA-98h" id="Iv5-9d-BfX"/>
                         <segue destination="mOZ-7c-S7O" kind="show" identifier="Login to New Request Segue" id="KJF-dN-y5i"/>
                     </connections>
                 </tableViewController>
@@ -618,6 +621,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="9J9-M7-52C"/>
         <segue reference="CY9-hT-jlO"/>
-        <segue reference="uhq-hp-Zz8"/>
+        <segue reference="KJF-dN-y5i"/>
     </inferredMetricsTieBreakers>
 </document>

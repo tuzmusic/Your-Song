@@ -11,12 +11,14 @@ import Realm
 import RealmSwift
 
 class RegisterTableViewController: UITableViewController {
-
+	
 	// TO-DO: Spinner
 	
 	var loginDelegate: SignInTableViewController!
-    var spinner = UIActivityIndicatorView()
+	var spinner = UIActivityIndicatorView()
 	var email, password, firstName, lastName: String?
+	
+	@IBOutlet weak var registerButton: UIButton!
 	
 	@IBOutlet var textFields: [UITextField]! {
 		didSet {
@@ -30,15 +32,14 @@ class RegisterTableViewController: UITableViewController {
 	}
 	
 	@IBAction func registerButtonTapped(_ sender: Any) {
-		guard checkForEmptyFields() else {
+		guard allFieldsValid() else {
 			let alert = UIAlertController.basic(title: "Whoops!", message: "Please enter a valid email address, password, and first name.")
 			present(alert, animated: true)
 			return
 		}
-		
-//		spinner = view.addNewSpinner()
+
+		registerButton.isEnabled = false
 		email = textFields[0].text!
-		
 		guard textFields[1].text! == textFields[2].text! else {
 			let alert = UIAlertController.basic(title: "Whoops!", message: "Password and Confirm Password fields don't match.")
 			present(alert, animated: true)
@@ -51,10 +52,9 @@ class RegisterTableViewController: UITableViewController {
 																lastName: textFields[4].text ?? "")
 		let cred = SyncCredentials.usernamePassword(username: email!, password: password!, register: true)
 		loginDelegate.realmCredLogin(cred: cred)
-//		spinner.stopAnimating()
 	}
 	
-	fileprivate func checkForEmptyFields () -> Bool {
+	fileprivate func allFieldsValid () -> Bool {
 		for (index, field) in textFields.enumerated() {
 			switch index {
 			case 0:

@@ -24,6 +24,15 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	@IBOutlet weak var emailField: UITextField!
 	@IBOutlet weak var passwordField: UITextField!
 
+	@IBOutlet weak var loginButton: UIButton?
+	@IBOutlet weak var registerButton: UIButton?
+	var registerDelegate: RegisterTableViewController?
+	
+	fileprivate func buttons(_ enabled: Bool) {
+		loginButton?.isEnabled = enabled
+		registerButton?.isEnabled = enabled
+	}
+	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		emailField.text = ""
@@ -46,11 +55,11 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			realm = nil
 		}
 	}
-		
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		spinner.stopAnimating()
 		if let vc = segue.destination as? RegisterTableViewController {	// prepare for Register segue
+			self.registerDelegate = vc
 			vc.email = emailField.text
 			vc.password = passwordField.text
 			vc.loginDelegate = self
@@ -63,15 +72,16 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	// MARK: Realm-cred sign-in
 	
 	@IBAction func loginButtonTapped(_ sender: UIButton) {
-		for view in [emailField, passwordField] {
-			view?	.resignFirstResponder()
-		}
+		for view in [emailField, passwordField] { view?.resignFirstResponder() }
+		buttons(false)
+		
 		if SyncUser.current == nil {
 			let email = emailField.text!
 			let password = passwordField.text!
 			
 			guard !email.isEmpty && !password.isEmpty else {
-				present(UIAlertController.basic(title: nil, message: "Please enter your email address and password."), animated: true)
+				let completion: (UIAlertAction) -> Void = { [weak self] _ in self?.buttons(true) }
+				_ = alert(title: nil, message: "Please enter your email address and password.", completion: completion )
 				return
 			}
 			
@@ -90,8 +100,12 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			if let syncUser = user {    // can't check YpbUser yet because we're not in the realm, where YpbUsers are
 				self?.openRealmWithUser(user: syncUser); pr("SyncUser now logged in: \(syncUser.identity!)")
 			} else if let error = error {
-				self?.present(UIAlertController.basic(title: "Login failed", message: error.localizedDescription), animated: true); pr("SyncUser.login Error: \(error)")
-				self?.spinner.stopAnimating()
+				let completion: (UIAlertAction) -> Void = { [weak self] _ in
+					pr("SyncUser.login Error: \(error)")
+					self?.spinner.stopAnimating()
+					self?.buttons(true)
+				}
+				_ = self?.alert(title: "Login failed", message: error.localizedDescription, completion: completion)
 			}
 		}
 	}
