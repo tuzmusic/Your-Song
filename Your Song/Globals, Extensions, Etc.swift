@@ -123,9 +123,11 @@ extension String {
 }
 
 extension UIViewController {
-	func alert(title: String?, message: String?, completion: ((UIAlertAction) -> Void)? = nil, shouldPresent: Bool = true) -> UIAlertController {
+	func alert(title: String?, message: String?, completion: (() -> ())? = nil, shouldPresent: Bool = true) -> UIAlertController {
 		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-		let ok = UIAlertAction(title: "OK", style: .default, handler: completion)
+		let ok = UIAlertAction(title: "OK", style: .default) { _ in
+			if let completion = completion { completion() }
+		}
 		alert.addAction(ok)
 		if shouldPresent { present(alert, animated: true, completion: nil) }
 		return alert
