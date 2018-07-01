@@ -80,10 +80,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			let password = passwordField.text!
 			
 			guard !email.isEmpty && !password.isEmpty else {
-//				let completion: (UIAlertAction) -> Void = { [weak self] _ in self?.buttons(true) }
-				_ = alert(title: nil, message: "Please enter your email address and password.", completion: {
-					self.buttons(true)					
-				} )
+				_ = alert(title: nil, message: "Please enter your email address and password.") { self.buttons(true) }
 				return
 			}
 			
@@ -102,16 +99,12 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			if let syncUser = user {    // can't check YpbUser yet because we're not in the realm, where YpbUsers are
 				self?.openRealmWithUser(user: syncUser); pr("SyncUser now logged in: \(syncUser.identity!)")
 			} else if let error = error {
-//				let completion: (UIAlertAction) -> Void = { [weak self] _ in
-//					pr("SyncUser.login Error: \(error)")
-//					self?.spinner.stopAnimating()
-//					self?.buttons(true)
-//				}
-				_ = self?.alert(title: "Login failed", message: error.localizedDescription, completion: {
+				_ = self?.alert(title: "Login failed", message: error.localizedDescription) {
 					pr("SyncUser.login Error: \(error)")
 					self?.spinner.stopAnimating()
 					self?.buttons(true)
-				})
+					self?.registerDelegate?.registerButton.isEnabled = true
+				}
 			}
 		}
 	}
