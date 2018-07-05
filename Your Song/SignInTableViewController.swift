@@ -23,7 +23,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	
 	@IBOutlet weak var emailField: UITextField!
 	@IBOutlet weak var passwordField: UITextField!
-
+	
 	@IBOutlet weak var loginButton: UIButton?
 	@IBOutlet weak var registerButton: UIButton?
 	var registerDelegate: RegisterTableViewController?
@@ -65,7 +65,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			vc.loginDelegate = self
 		} else if let vc = segue.destination as? CreateRequestTableViewController { // prepare for CreateRequest segue
 			usersToken?.invalidate()
-            vc.realm = self.realm
+			vc.realm = self.realm
 		}
 	}
 	
@@ -85,7 +85,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 			}
 			
 			proposedUser.email = email // to see if we have a user with this EMAIL ADDRESS
-			let cred = SyncCredentials.usernamePassword(username: email, password: password)
+			let cred = SyncCredentials.usernamePassword(username: email, password: password, register: false)
 			realmCredLogin(cred: cred)
 		}
 	}
@@ -109,11 +109,11 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		}
 	}
 	
-	fileprivate func openRealmWithUser(user: SyncUser) {
+	func openRealmWithUser(user: SyncUser) {
 		DispatchQueue.main.async { [weak self] in
 			let config = user.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: false, enableSSLValidation: true, urlPrefix: nil)
 			self?.realm = try! Realm(configuration: config)
-            self?.setupRealm()
+			self?.setupRealm()
 		}
 	}
 	
@@ -122,9 +122,9 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		
 		let _ = realm.objects(Song.self).subscribe()	// should ultimately be moved to the prepare(for:) method of CreateRequestVC
 		let _ = realm.objects(YpbUser.self).subscribe()
-       
+		
 		usersToken = realm.objects(YpbUser.self).filter("email = %@", proposedUser.email).observe { [weak self] changes in
-            self?.findYpbUser(in: realm)
+			self?.findYpbUser(in: realm)
 		}
 	}
 	
@@ -159,7 +159,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		let newYpbUser = YpbUser.user(id: SyncUser.current!.identity, email: info.email,
 												firstName: info.firstName, lastName: info.lastName)
 		try! realm.write {
-            print("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
+			print("YpbUser created: \(newYpbUser.firstName) \(newYpbUser.lastName) (\(newYpbUser.email)). Set as YpbUser.current.")
 			realm.add(newYpbUser)
 			YpbUser.current = newYpbUser
 			performSegue(withIdentifier: Storyboard.LoginToNewRequestSegue, sender: nil)
@@ -179,7 +179,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 extension YpbUser {
 	class func existingUser (for proposedUser: YpbUser, in realm: Realm) -> YpbUser? {
 		let users = realm.objects(YpbUser.self)
-
+		
 		if let emailUser = users.filter("email = %@", proposedUser.email).first {
 			return emailUser
 		} else if let idUser = users.filter("id = %@", proposedUser.id).first {

@@ -33,16 +33,14 @@ class RegisterTableViewController: UITableViewController {
 	
 	@IBAction func registerButtonTapped(_ sender: Any) {
 		guard allFieldsValid() else {
-			let alert = UIAlertController.basic(title: "Whoops!", message: "Please enter a valid email address, password, and first name.")
-			present(alert, animated: true)
+			_ = alert(title: "Whoops!", message: "Please enter a valid email address, password, and first name.")
 			return
 		}
 
 		registerButton.isEnabled = false
 		email = textFields[0].text!
 		guard textFields[1].text! == textFields[2].text! else {
-			let alert = UIAlertController.basic(title: "Whoops!", message: "Password and Confirm Password fields don't match.")
-			present(alert, animated: true)
+			_ = alert(title: "Whoops!", message: "Password and Confirm Password fields don't match.")
 			return
 		}
 		password = textFields[1].text!
@@ -51,7 +49,21 @@ class RegisterTableViewController: UITableViewController {
 																firstName: textFields[3].text!,
 																lastName: textFields[4].text ?? "")
 		let cred = SyncCredentials.usernamePassword(username: email!, password: password!, register: true)
-		loginDelegate.realmCredLogin(cred: cred)
+		
+		SyncUser.logIn(with: cred, server: RealmConstants.authURL) { [weak self] (user, error) in
+			if let syncUser = user {    // can't check YpbUser yet because we're not in the realm, where YpbUsers are
+				self?.loginDelegate.openRealmWithUser(user: syncUser); pr("SyncUser now logged in: \(syncUser.identity!)")
+			} else if let error = error {
+				_ = self?.alert(title: "Uh-oh.",
+									 message: error.localizedDescription == "The provided credentials are invalid or the user does not exist." ? "This email is already registered." : error.localizedDescription)
+				{
+					pr("SyncUser.login Error: \(error)")
+					self?.spinner.stopAnimating()
+					self?.registerButton.isEnabled = true
+				}
+			}
+		}
+//		loginDelegate.realmCredLogin(cred: cred)
 	}
 	
 	fileprivate func allFieldsValid () -> Bool {
