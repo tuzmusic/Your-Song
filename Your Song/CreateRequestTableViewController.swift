@@ -11,64 +11,63 @@ import Realm
 import RealmSwift
 
 extension CreateRequestTableViewController {
-    
-    func deleteYpbUsers (in realm: Realm) {
-        
-        let emailsToSkip = ["tuzmusic@gmail.com", "jonathan@yourpianobar.com"]
-        let users = realm.objects(YpbUser.self)
-        realm.beginWrite()
-        for user in users {
-            if emailsToSkip.index(of: user.email) == nil {
-                realm.delete(user)
-            }
-        }
-        try! realm.commitWrite()
-    }
-    
-    func grantPermissions() {
-        
-        let permission = SyncPermission(realmPath: RealmConstants.realmURL.path,
-                                        username: "tuzmusic@gmail.com",
-                                        accessLevel: .write)
-        
-        SyncUser.current?.apply(permission) { (error) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-        
-    }
-    
-    func realmCleanupUtils() {
-        let config = SyncUser.current!.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: true, enableSSLValidation: true, urlPrefix: nil)
-        let fullRealm = try! Realm(configuration: config)
-        
-        
-        //grantPermissions()
-        deleteYpbUsers(in: fullRealm)
-    }
-    
+	
+	func deleteYpbUsers (in realm: Realm) {
+		
+		let emailsToSkip = ["tuzmusic@gmail.com", "jonathan@yourpianobar.com"]
+		let users = realm.objects(YpbUser.self)
+		realm.beginWrite()
+		for user in users {
+			if emailsToSkip.index(of: user.email) == nil {
+				realm.delete(user)
+			}
+		}
+		try! realm.commitWrite()
+	}
+	
+	func grantPermissions() {
+		
+		let permission = SyncPermission(realmPath: RealmConstants.realmURL.path,
+												  username: "tuzmusic@gmail.com",
+												  accessLevel: .write)
+		
+		SyncUser.current?.apply(permission) { (error) in
+			if let error = error {
+				print(error.localizedDescription)
+			}
+		}
+		
+	}
+	
+	func realmCleanupUtils() {
+		let config = SyncUser.current!.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: true, enableSSLValidation: true, urlPrefix: nil)
+		let fullRealm = try! Realm(configuration: config)
+		
+		
+		//grantPermissions()
+		deleteYpbUsers(in: fullRealm)
+	}
+	
 }
 
 class CreateRequestTableViewController: UITableViewController, UINavigationBarDelegate {
 	
 	var realm: Realm!	// passed from sign-in VC
-	var request: Request!	// TO-DO: I think this can be a local variable within submitRequest. Does that matter?
+	var request: Request!	// TO-DO: I think this can be a local variable within submitRequest() instead of an instance variable. Does that matter?
 	
-	let thanksString = "Thanks for your request! Keep your ears peeled and get ready to sing along!"
+	let thanksString = "Thanks for your request! Get ready to sing along!"
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-        //realmCleanupUtils()
 		resetRequest()
 		navigationItem.hidesBackButton = true
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(confirmLogout))
+		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(confirmLogout))
 	}
-    
+	
 	@objc func confirmLogout() {
 		let alert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?",  preferredStyle: .alert)
 		
-		let yesButton = UIAlertAction(title: "Log out", style: .destructive) { (_) in
+		let yesButton = UIAlertAction(title: "Log Out", style: .destructive) { (_) in
 			if let loginVC = self.navigationController?.viewControllers.first as? SignInTableViewController {
 				self.navigationController?.popToRootViewController(animated: true)
 				loginVC.emailField.becomeFirstResponder()
@@ -80,7 +79,7 @@ class CreateRequestTableViewController: UITableViewController, UINavigationBarDe
 		alert.addAction(yesButton)
 		alert.addAction(noButton)
 		present(alert, animated: true, completion: nil)
-
+		
 	}
 	
 	@IBOutlet weak var nameTextField: UITextField! {
@@ -95,15 +94,15 @@ class CreateRequestTableViewController: UITableViewController, UINavigationBarDe
 	
 	@IBAction func submitRequest(_ sender: UIButton) {
 		let name = nameTextField.text!
-        let song = songTextField.text!
+		let song = songTextField.text!
 		
-        guard !name.isEmpty && !song.isEmpty else {
-			self.present(UIAlertController.basic(title: "Whoops!", message: "Please enter your name and a song."), animated: true)
+		guard !name.isEmpty && !song.isEmpty else {
+			_ = alert(title: "Whoops!", message: "Please enter your name and a song.")
 			return
 		}
-        
-        let spinner = view.addNewSpinner()
-
+		
+		let spinner = view.addNewSpinner()
+		
 		request.user = YpbUser.current
 		request.userString = name
 		request.songString = song
@@ -112,24 +111,22 @@ class CreateRequestTableViewController: UITableViewController, UINavigationBarDe
 		
 		do {
 			try realm.write {
-                let oldCount = realm.objects(Request.self).count
+				let oldCount = realm.objects(Request.self).count
 				realm.create(Request.self, value: request, update: false)
-                let newCount = realm.objects(Request.self).count
-                if newCount > oldCount {
-							let alert = UIAlertController(title: "Success", message: thanksString, preferredStyle: .alert)
-						alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self](_) in
-							self?.resetRequest()
-							spinner.stopAnimating()
-						}))
-						present(alert, animated: true)
-						
-                    //present(UIAlertController.basic(title: "Success!", message: thanksString), animated: true)
-                } else {
-                    present(UIAlertController.basic(title: "Hmm...", message: "Same number of requests in realm as before"), animated: true)
-                }
+				let newCount = realm.objects(Request.self).count
+				if newCount > oldCount {
+					let alert = UIAlertController(title: "Success", message: thanksString, preferredStyle: .alert)
+					alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self](_) in
+						self?.resetRequest()
+						spinner.stopAnimating()
+					}))
+					present(alert, animated: true)
+				} else {
+					_ = alert(title: "Hmm...", message: "Same number of requests in realm as before")
+				}
 			}
 		} catch {
-            present(UIAlertController.basic(title: "Uh oh", message: "\(error.localizedDescription)"), animated: true); pr(error)
+			_ = alert(title: "Uh-oh.", message: "\(error.localizedDescription)"); pr(error)
 		}
 	}
 	
@@ -138,6 +135,7 @@ class CreateRequestTableViewController: UITableViewController, UINavigationBarDe
 		nameTextField.text = YpbUser.current?.fullName ?? ""
 		songTextField.text = ""
 		notesTextView.text = ""
+		songTextField.becomeFirstResponder()
 	}
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

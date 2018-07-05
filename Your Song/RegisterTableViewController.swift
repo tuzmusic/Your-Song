@@ -63,7 +63,6 @@ class RegisterTableViewController: UITableViewController {
 				}
 			}
 		}
-//		loginDelegate.realmCredLogin(cred: cred)
 	}
 	
 	fileprivate func allFieldsValid () -> Bool {

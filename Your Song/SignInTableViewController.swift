@@ -42,7 +42,18 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 	var spinner = UIActivityIndicatorView()
 	var proposedUser = YpbUser()
 	
-	var realm: Realm?
+	var realm: Realm? {
+		didSet {
+			guard let realm = realm else { return }
+			
+			let _ = realm.objects(Song.self).subscribe()	// should ultimately be moved to the prepare(for:) method of CreateRequestVC
+			let _ = realm.objects(YpbUser.self).subscribe()
+			
+			usersToken = realm.objects(YpbUser.self).filter("email = %@", proposedUser.email).observe { [weak self] changes in
+				self?.findYpbUser(in: realm)
+			}
+		}
+	}
 	var usersToken: NotificationToken?
 	
 	override func viewDidLoad() {
@@ -113,7 +124,7 @@ class SignInTableViewController: UITableViewController, GIDSignInUIDelegate, Rea
 		DispatchQueue.main.async { [weak self] in
 			let config = user.configuration(realmURL: RealmConstants.realmURL, fullSynchronization: false, enableSSLValidation: true, urlPrefix: nil)
 			self?.realm = try! Realm(configuration: config)
-			self?.setupRealm()
+//			self?.setupRealm()
 		}
 	}
 	

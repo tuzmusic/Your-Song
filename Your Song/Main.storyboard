@@ -604,7 +604,9 @@
                             <outlet property="delegate" destination="OUq-h2-fFb" id="mOH-M3-Tnp"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Your Song" id="NOJ-JV-Ah6"/>
+                    <navigationItem key="navigationItem" title="Your Piano Bar" id="NOJ-JV-Ah6">
+                        <barButtonItem key="backBarButtonItem" title="Login" id="UOv-eC-PHr"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="emailField" destination="DHI-X3-PEn" id="NM6-SF-rPB"/>
                         <outlet property="loginButton" destination="vE3-iL-pss" id="NwN-cA-iPd"/>
