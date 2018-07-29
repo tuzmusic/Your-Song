@@ -14,22 +14,30 @@ class BrowserTableViewController: UITableViewController {
 	
 	var results: Results<BrowserObject>!
 	
-	var requestFormDelegate: CreateRequestTableViewController?		// NOT FOR GENERAL CONSUMPTION (of this class)
-	
-	var extraSection: Int {
-		return predicate.subpredicates.isEmpty ? 1 : 0
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(search))]
 	}
 	
-	var extraRows = [String]()
-
+	var requestFormDelegate: CreateRequestTableViewController?		// NOT FOR GENERAL CONSUMPTION (of this class)
+	
 	var realm: Realm! { didSet { self.refreshSearchResults() } }
+
+	// MARK: List display info
+	
+	var extraRows = [String]()
+	var extraSection: Int {
+		return predicate.subpredicates.count == 1 ? 1 : 0
+	}
 	var type: BrowserObject.Type! { didSet { self.refreshSearchResults() } }
 	var sortPath: String = "sortName" { didSet { self.refreshSearchResults() } }
 	var sortAscending: Bool = true { didSet { self.refreshSearchResults() } }
 
+	// MARK: Search functionality (model-based)
 	var basePredicate: NSPredicate? { didSet { self.refreshSearchResults() } }
 	var searchString: String? { didSet { self.refreshSearchResults() } }
 	var predicate = NSCompoundPredicate() { didSet { tableView.reloadData() } }
+	var testPred: (format: String, args: String)?
 	
 	@objc func refreshSearchResults() {
 		/* RSVC version
@@ -80,18 +88,9 @@ class BrowserTableViewController: UITableViewController {
 		different searching options for developer (see RSVC searchPredicate(text:)
 		*/
 	}
+
 	
-	func diagnostics(indexPath: IndexPath) {
-		print("indexPath: \(indexPath.section), adjPath: \(adjPath(for: indexPath))")
-		print("rows in '\(activeKeys[indexPath.section])': \(tableView.numberOfRows(inSection: indexPath.section))")
-		print("songs starting with '\(activeKeys[indexPath.section])': \(results.filter(NSPredicate(format: "sortName BEGINSWITH %@", activeKeys[indexPath.section])).count)")
-	}
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(search))]
-	}
-	var testPred: (format: String, args: String)?
+	// MARK: Searching (view-based)
 	@objc func search() {
 		let alert = UIAlertController(title: "Search", message: nil, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -199,6 +198,7 @@ class BrowserTableViewController: UITableViewController {
 	
 	var activeKeys = [String]()
 	var numberKeyCount = 0
+	var minimumNumberOfKeysWorthShowing = 6
 	
 	func getActiveKeys() -> [String] {
 		
@@ -227,7 +227,10 @@ class BrowserTableViewController: UITableViewController {
 		return activeKeys
 	}
 	override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-		return activeKeys
+		if activeKeys.count >= minimumNumberOfKeysWorthShowing {
+			return activeKeys
+		}
+		return nil
 	}
 	override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
 		return activeKeys.index(of: title)! + extraSection

@@ -32,15 +32,21 @@ class RegisterTableViewController: UITableViewController {
 	}
 	
 	@IBAction func registerButtonTapped(_ sender: Any) {
+		registerButton.isEnabled = false
+
 		guard allFieldsValid() else {
-			_ = alert(title: "Whoops!", message: "Please enter a valid email address, password, and first name.")
+//			_ = alert(title: "Whoops!", message: "Please enter a valid email address, password, and first name.")
+			_ = alert(title: "Whoops!", message: "Please enter a valid email address, password, and first name.", shouldPresent: true) {
+				[weak self] in self?.registerButton.isEnabled = true
+			}
 			return
 		}
 
-		registerButton.isEnabled = false
 		email = textFields[0].text!
 		guard textFields[1].text! == textFields[2].text! else {
-			_ = alert(title: "Whoops!", message: "Password and Confirm Password fields don't match.")
+			_ = alert(title: "Whoops!", message: "Password and Confirm Password fields don't match.", shouldPresent: true) {
+				[weak self] in self?.registerButton.isEnabled = true
+			}
 			return
 		}
 		password = textFields[1].text!

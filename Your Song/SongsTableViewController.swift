@@ -17,6 +17,7 @@ class SongsTableViewController: BrowserTableViewController {
 		self.type = Song.self
 		self.extraRows = ["Browse by Decade", "Browse by Artist"]
 		self.testPred = ("artist.name = %@", "Billy Joel")
+		self.basePredicate = NSPredicate(format: "decade.name != %@", "Standards")
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {   // a place for breakpoints and diagnostics

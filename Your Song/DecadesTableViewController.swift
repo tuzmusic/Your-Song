@@ -17,6 +17,7 @@ class DecadesTableViewController: BrowserTableViewController {
 		self.type = Decade.self
 		self.extraRows = ["All Songs", "All Artists"]
 		self.testPred = ("name CONTAINS %@", "0s")
+		self.basePredicate = NSPredicate(format: "name != %@", "Standards")		
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {   // a place for breakpoints and diagnostics
