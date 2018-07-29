@@ -62,6 +62,7 @@ class CreateRequestTableViewController: UITableViewController, UINavigationBarDe
 		resetRequest()
 		navigationItem.hidesBackButton = true
 		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(confirmLogout))
+		
 	}
 	
 	@objc func confirmLogout() {

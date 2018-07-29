@@ -92,7 +92,8 @@ class BrowserTableViewController: UITableViewController {
 	
 	// MARK: Searching (view-based)
 	@objc func search() {
-		let alert = UIAlertController(title: "Search", message: nil, preferredStyle: .alert)
+		let title = type.className()
+		let alert = UIAlertController(title: "Search \(title)s", message: nil, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 		alert.addTextField(configurationHandler: nil)
 		
